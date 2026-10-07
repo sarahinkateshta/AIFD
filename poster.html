@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Afisha Poster Generator</title>
+  <title>Afisha Generator — Ultimate Interactive Edition</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,14 +33,14 @@
     }
 
     aside {
-      width: 380px;
-      min-width: 380px;
+      width: 400px;
+      min-width: 400px;
       background: var(--panel-bg);
       border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      padding: 22px;
-      gap: 15px;
+      padding: 20px;
+      gap: 12px;
       overflow-y: auto;
       z-index: 10;
     }
@@ -51,36 +51,65 @@
       letter-spacing: -0.01em;
       text-transform: uppercase;
       color: #fff;
+      margin-bottom: 5px;
     }
 
-    .desc {
+    /* Accordion Dropdowns */
+    details {
+      background: #1a1a22;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 14px;
+      transition: background 0.2s;
+    }
+
+    details[open] {
+      background: #1e1e28;
+      border-color: #3b3b4f;
+    }
+
+    summary {
       font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-      margin-top: -8px;
-    }
-
-    .section-title {
-      font-size: 0.72rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
+      color: var(--text-main);
+      cursor: pointer;
+      outline: none;
+      user-select: none;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: "+";
+      font-size: 1rem;
       color: var(--text-muted);
-      margin-bottom: 2px;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 4px;
+    }
+    details[open] summary::after { content: "-"; }
+
+    .accordion-content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-color);
     }
 
     .control-group {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
     }
 
     .control-label {
       display: flex;
       justify-content: space-between;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 500;
     }
 
@@ -110,6 +139,19 @@
 
     input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
+    input[type="text"] {
+      width: 100%;
+      background: #111116;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: #fff;
+      font-size: 0.8rem;
+      font-family: monospace;
+      outline: none;
+    }
+    input[type="text"]:focus { border-color: var(--accent); }
+
     .color-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -126,8 +168,8 @@
     input[type="color"] {
       -webkit-appearance: none;
       border: 1px solid var(--border-color);
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 6px;
       cursor: pointer;
       background: none;
@@ -152,7 +194,7 @@
 
     .toggle-switch input { opacity: 0; width: 0; height: 0; }
 
-    .slider {
+    .slider-toggle {
       position: absolute;
       cursor: pointer;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -161,7 +203,7 @@
       border-radius: 20px;
     }
 
-    .slider:before {
+    .slider-toggle:before {
       position: absolute;
       content: "";
       height: 14px;
@@ -173,19 +215,36 @@
       border-radius: 50%;
     }
 
-    input:checked + .slider { background-color: var(--accent); }
-    input:checked + .slider:before { transform: translateX(18px); }
+    input:checked + .slider-toggle { background-color: var(--accent); }
+    input:checked + .slider-toggle:before { transform: translateX(18px); }
+
+    .btn-shuffle {
+      background: linear-gradient(135deg, #7f5af0, #2cb67d);
+      border: none;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: filter 0.2s, transform 0.1s;
+      width: 100%;
+      font-size: 0.85rem;
+    }
+    .btn-shuffle:hover { filter: brightness(1.15); }
+    .btn-shuffle:active { transform: scale(0.98); }
 
     .actions {
       display: flex;
       gap: 10px;
       margin-top: auto;
-      padding-top: 14px;
+      padding-top: 10px;
     }
 
     button {
       flex: 1;
-      padding: 10px 14px;
+      padding: 10px 12px;
       font-size: 0.8rem;
       font-weight: 600;
       border: 1px solid var(--border-color);
@@ -238,123 +297,186 @@
 
   <aside>
     <div>
-      <h1>Afisha Poster Generator</h1>
+      <h1>Afisha Generator</h1>
     </div>
 
-    <div class="section-title">Shape Proportions & Sizing</div>
+    <button class="btn-shuffle" onclick="randomizePoster()">🎲 Shuffle Wild Poster</button>
 
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-shape-width">Shape Width Expansion</label>
-        <span id="val-shape-width">1.22</span>
+    <!-- ACCORDION 1: TEXT & CONTENT EDITOR -->
+    <details open>
+      <summary>🔤 Text & Content Editor</summary>
+      <div class="accordion-content">
+        <div class="control-group">
+          <label class="control-label"><span>Header Line 1</span></label>
+          <input type="text" id="txt-line1" value="AFISHA PICNIC" oninput="renderPoster()">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Header Line 2</span></label>
+          <input type="text" id="txt-line2" value="AFTERPARTY" oninput="renderPoster()">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Event Date / Time</span></label>
+          <input type="text" id="txt-line3" value="25.07 23:00" oninput="renderPoster()">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Headliner 1</span></label>
+          <input type="text" id="txt-line4" value="STRELKA" oninput="renderPoster()">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Headliner 2</span></label>
+          <input type="text" id="txt-line5" value="MUJUICE DJ-SET" oninput="renderPoster()">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Headliner 3</span></label>
+          <input type="text" id="txt-line6" value="HOT CHIP DJ-SET" oninput="renderPoster()">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Headliner 4</span></label>
+          <input type="text" id="txt-line7" value="TOM FURSE" oninput="renderPoster()">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Headliner 5</span></label>
+          <input type="text" id="txt-line8" value="THE HORRORS" oninput="renderPoster()">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Headliner 6</span></label>
+          <input type="text" id="txt-line9" value="PAHATAM DJ-SET" oninput="renderPoster()">
+        </div>
       </div>
-      <input type="range" id="param-shape-width" min="1.0" max="1.6" step="0.02" value="1.22">
-    </div>
+    </details>
 
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-shape-height">Shape Overall Scale</label>
-        <span id="val-shape-height">1.12</span>
+    <!-- ACCORDION 2: WAVE & MOTION CONTROLS -->
+    <details>
+      <summary>🌊 Wave & Motion Controls</summary>
+      <div class="accordion-content">
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-amp">Wave Baseline Amplitude</label>
+            <span id="val-amp">38</span>
+          </div>
+          <input type="range" id="param-amp" min="10" max="70" value="38">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-freq">Wave Frequency</label>
+            <span id="val-freq">1.25</span>
+          </div>
+          <input type="range" id="param-freq" min="0.8" max="2.0" step="0.02" value="1.25">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-cascade">Vertical Snake Cascade Factor</label>
+            <span id="val-cascade">0.35</span>
+          </div>
+          <input type="range" id="param-cascade" min="0" max="0.80" step="0.02" value="0.35">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-phase">Wave Phase Shift</label>
+            <span id="val-phase">3.14</span>
+          </div>
+          <input type="range" id="param-phase" min="0" max="6.28" step="0.02" value="3.14">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-row-spacing">Inter-Row Vertical Pitch</label>
+            <span id="val-row-spacing">0.85</span>
+          </div>
+          <input type="range" id="param-row-spacing" min="0.70" max="1.10" step="0.01" value="0.85">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-min-gap">Minimum Character Separation Gap</label>
+            <span id="val-min-gap">2px</span>
+          </div>
+          <input type="range" id="param-min-gap" min="-2" max="8" step="1" value="2">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-tallness">Vertical Text Height (Scale Y)</label>
+            <span id="val-tallness">1.15</span>
+          </div>
+          <input type="range" id="param-tallness" min="0.85" max="1.40" step="0.02" value="1.15">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-margin">Perimeter Boundary Inset</label>
+            <span id="val-margin">12px</span>
+          </div>
+          <input type="range" id="param-margin" min="5" max="40" value="12">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-rotation">Overall Poster Tilt</label>
+            <span id="val-rotation">0.0°</span>
+          </div>
+          <input type="range" id="param-rotation" min="-10" max="10" step="0.5" value="0.0">
+        </div>
+
+        <div class="toggle-row">
+          <span>Invert Letters (Flip 180°)</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="param-invert" onchange="renderPoster()">
+            <span class="slider-toggle"></span>
+          </label>
+        </div>
       </div>
-      <input type="range" id="param-shape-height" min="0.9" max="1.4" step="0.02" value="1.12">
-    </div>
+    </details>
 
-    <div class="section-title">Spacing & Clearance Constraints</div>
+    <!-- ACCORDION 3: SHAPES & ILLUMINATION -->
+    <details>
+      <summary>✨ Shapes & Neon Glow</summary>
+      <div class="accordion-content">
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-shape-width">Shape Width Expansion</label>
+            <span id="val-shape-width">1.20</span>
+          </div>
+          <input type="range" id="param-shape-width" min="1.0" max="1.6" step="0.02" value="1.20">
+        </div>
 
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-row-spacing">Inter-Row Vertical Pitch</label>
-        <span id="val-row-spacing">1.02</span>
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-shape-height">Shape Overall Scale</label>
+            <span id="val-shape-height">1.08</span>
+          </div>
+          <input type="range" id="param-shape-height" min="0.9" max="1.4" step="0.02" value="1.08">
+        </div>
+
+        <div class="toggle-row">
+          <span>✨ Shape Neon Illumination (Glow)</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="param-glow" onchange="renderPoster()">
+            <span class="slider-toggle"></span>
+          </label>
+        </div>
       </div>
-      <input type="range" id="param-row-spacing" min="0.90" max="1.25" step="0.01" value="1.02">
-    </div>
+    </details>
 
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-min-gap">Minimum Character Separation Gap</label>
-        <span id="val-min-gap">4px</span>
+    <!-- ACCORDION 4: COLOR PALETTE -->
+    <details>
+      <summary>🎨 Color Palette</summary>
+      <div class="accordion-content">
+        <div class="color-grid">
+          <div class="color-field">
+            <input type="color" id="param-bg" value="#050505">
+            <label for="param-bg">Background</label>
+          </div>
+          <div class="color-field">
+            <input type="color" id="param-ink" value="#D6D8D9">
+            <label for="param-ink">Ink/Text</label>
+          </div>
+        </div>
       </div>
-      <input type="range" id="param-min-gap" min="1" max="12" step="1" value="4">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-tallness">Vertical Text Height (Scale Y)</label>
-        <span id="val-tallness">1.12</span>
-      </div>
-      <input type="range" id="param-tallness" min="0.85" max="1.40" step="0.02" value="1.12">
-    </div>
-
-    <div class="section-title">Optical Wave Surface</div>
-
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-center-warp">Center Lens Bulge / Pinch</label>
-        <span id="val-center-warp">0.30</span>
-      </div>
-      <input type="range" id="param-center-warp" min="0" max="0.70" step="0.02" value="0.30">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-amp">Wave Baseline Amplitude</label>
-        <span id="val-amp">32</span>
-      </div>
-      <input type="range" id="param-amp" min="10" max="60" value="32">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-freq">Wave Frequency</label>
-        <span id="val-freq">1.15</span>
-      </div>
-      <input type="range" id="param-freq" min="0.8" max="1.8" step="0.02" value="1.15">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-phase">Wave Phase Shift</label>
-        <span id="val-phase">3.75</span>
-      </div>
-      <input type="range" id="param-phase" min="0" max="6.28" step="0.02" value="3.75">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-margin">Perimeter Boundary Inset</label>
-        <span id="val-margin">38px</span>
-      </div>
-      <input type="range" id="param-margin" min="20" max="60" value="38">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-rotation">Overall Poster Tilt</label>
-        <span id="val-rotation">-2.0°</span>
-      </div>
-      <input type="range" id="param-rotation" min="-10" max="10" step="0.5" value="-2.0">
-    </div>
-
-    <div class="toggle-row">
-      <span>Invert Letters (Flip 180°)</span>
-      <label class="toggle-switch">
-        <input type="checkbox" id="param-invert">
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <div class="section-title">Color Palette</div>
-
-    <div class="color-grid">
-      <div class="color-field">
-        <input type="color" id="param-bg" value="#050505">
-        <label for="param-bg">Background</label>
-      </div>
-      <div class="color-field">
-        <input type="color" id="param-ink" value="#D6D8D9">
-        <label for="param-ink">Ink/Text</label>
-      </div>
-    </div>
+    </details>
 
     <div class="actions">
       <button onclick="exportSVG()" title="Export scalable vector SVG">Export SVG</button>
@@ -369,11 +491,21 @@
           <clipPath id="poster-boundary-clip">
             <rect x="0" y="0" width="768" height="1086"/>
           </clipPath>
+          <!-- Neon Glow Filter Definition -->
+          <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur1"/>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur2"/>
+            <feMerge>
+              <feMergeNode in="blur2"/>
+              <feMergeNode in="blur1"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
           <style>
             @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&family=Sora:wght@700;800&display=swap');
             .t-sora { font-family: 'Sora', sans-serif; font-weight: 800; text-anchor: middle; dominant-baseline: central; }
             .t-mono { font-family: 'JetBrains Mono', monospace; font-weight: 800; text-anchor: middle; dominant-baseline: central; }
-            .t-meta { font-family: 'Sora', sans-serif; font-weight: 600; font-size: 7.5px; letter-spacing: 0.12em; }
+            .t-meta { font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 7.5px; letter-spacing: 0.12em; }
           </style>
         </defs>
         <rect id="svg-bg" width="768" height="1086" fill="#050505"/>
@@ -385,120 +517,6 @@
   </main>
 
   <script>
-    const ROWS_CONFIG = [
-      {
-        baseY: 92,
-        fontSize: 64,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "AFISHA" },
-          { type: 'top_reaching_spark', count: 2, scale: 0.95 },
-          { type: 'word', text: "PICNIC" }
-        ]
-      },
-      {
-        baseY: 180,
-        fontSize: 60,
-        fontType: 'sora',
-        clusters: [
-          { type: 'pills', count: 3, w: 24, h: 44 },
-          { type: 'word', text: "AFTERPARTY" },
-          { type: 'disc', r: 25 }
-        ]
-      },
-      {
-        baseY: 268,
-        fontSize: 58,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "25.07" },
-          { type: 'moons', count: 2, dir: 1, r: 23 },
-          { type: 'word', text: "23:00" },
-          { type: 'cyrillic_badge', str: "«ПИКНИК", str2: "«АФИШИ»" }
-        ]
-      },
-      {
-        baseY: 356,
-        fontSize: 60,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "STRELKA" },
-          { type: 'spark', count: 5, scale: 0.90 }
-        ]
-      },
-      {
-        baseY: 446,
-        fontSize: 60,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "MUJUICE" },
-          { type: 'disc', r: 18 },
-          { type: 'word', text: "DJ-SET" }
-        ]
-      },
-      {
-        baseY: 536,
-        fontSize: 60,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "HOT" },
-          { type: 'word', text: "CHIP" },
-          { type: 'disc', r: 18 },
-          { type: 'word', text: "DJ-SET" }
-        ]
-      },
-      {
-        baseY: 626,
-        fontSize: 58,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "TOM" },
-          { type: 'word', text: "FURSE" },
-          { type: 'disc_sequence', count: 5, r: 16 }
-        ]
-      },
-      {
-        baseY: 716,
-        fontSize: 58,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "THE" },
-          { type: 'word', text: "HORRORS" },
-          { type: 'moons', count: 3, dir: 1, r: 23 }
-        ]
-      },
-      {
-        baseY: 808,
-        fontSize: 58,
-        fontType: 'sora',
-        clusters: [
-          { type: 'moons', count: 5, dir: 1, r: 22 },
-          { type: 'word', text: "DJ-SET" },
-          { type: 'moons', count: 4, dir: 1, r: 22 }
-        ]
-      },
-      {
-        baseY: 902,
-        fontSize: 62,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "PAHATAM" },
-          { type: 'spark', count: 5, scale: 0.92 }
-        ]
-      },
-      {
-        baseY: 996,
-        fontSize: 60,
-        fontType: 'sora',
-        clusters: [
-          { type: 'disc', r: 15 },
-          { type: 'pills', count: 2, w: 20, h: 40 },
-          { type: 'word', text: "DJ-SET" },
-          { type: 'pills', count: 6, w: 24, h: 46 }
-        ]
-      }
-    ];
-
     function getParams() {
       return {
         shapeWidth: parseFloat(document.getElementById('param-shape-width').value),
@@ -506,47 +524,70 @@
         rowSpacing: parseFloat(document.getElementById('param-row-spacing').value),
         minGap: parseFloat(document.getElementById('param-min-gap').value),
         tallness: parseFloat(document.getElementById('param-tallness').value),
-        centerWarp: parseFloat(document.getElementById('param-center-warp').value),
+        cascade: parseFloat(document.getElementById('param-cascade').value),
         amp: parseFloat(document.getElementById('param-amp').value),
         freq: parseFloat(document.getElementById('param-freq').value),
         phase: parseFloat(document.getElementById('param-phase').value),
         margin: parseFloat(document.getElementById('param-margin').value),
         rotation: parseFloat(document.getElementById('param-rotation').value),
         invert: document.getElementById('param-invert').checked,
+        glow: document.getElementById('param-glow').checked,
         bg: document.getElementById('param-bg').value,
-        ink: document.getElementById('param-ink').value
+        ink: document.getElementById('param-ink').value,
+        // Text inputs
+        line1: document.getElementById('txt-line1').value,
+        line2: document.getElementById('txt-line2').value,
+        line3: document.getElementById('txt-line3').value,
+        line4: document.getElementById('txt-line4').value,
+        line5: document.getElementById('txt-line5').value,
+        line6: document.getElementById('txt-line6').value,
+        line7: document.getElementById('txt-line7').value,
+        line8: document.getElementById('txt-line8').value,
+        line9: document.getElementById('txt-line9').value
       };
     }
 
-    function evalMeshWarp(x, rowBaseY, W, H, rowIndex, p) {
+    function randomizePoster() {
+      document.getElementById('param-amp').value = (Math.random() * 45 + 20).toFixed(1);
+      document.getElementById('param-freq').value = (Math.random() * 1.2 + 0.8).toFixed(2);
+      document.getElementById('param-row-spacing').value = (Math.random() * 0.3 + 0.7).toFixed(2);
+      document.getElementById('param-min-gap').value = Math.floor(Math.random() * 8) - 1;
+      document.getElementById('param-tallness').value = (Math.random() * 0.4 + 0.95).toFixed(2);
+      document.getElementById('param-rotation').value = (Math.random() * 8 - 4).toFixed(1);
+      document.getElementById('param-shape-width').value = (Math.random() * 0.5 + 1.0).toFixed(2);
+      document.getElementById('param-cascade').value = (Math.random() * 0.6).toFixed(2);
+      renderPoster();
+    }
+
+    function evalMeshWarp(x, W, H, rowIndex, totalRows, p) {
       const u = x / W;
-      const baseSpacing = 94 * p.rowSpacing;
-      const calculatedRowY = 55 + (rowIndex * baseSpacing);
-      
-      const angle = (2 * Math.PI * p.freq * u) + p.phase;
-      const waveY = p.amp * Math.sin(angle);
 
-      const cx = W * 0.44;
-      const cy = H * 0.50;
-      const dx = x - cx;
-      const dy = calculatedRowY - cy;
-      const dist = Math.hypot(dx, dy);
-      
-      const maxRadius = 360;
-      const normDist = Math.min(1.0, dist / maxRadius);
-      const lensInfluence = Math.cos(normDist * Math.PI * 0.5);
+      const minRowY = 60;
+      const maxRowY = 1020;
+      const calculatedRowY = minRowY + ((rowIndex / (totalRows - 1)) * (maxRowY - minRowY) * p.rowSpacing);
 
-      const stretchX = 1.0 + (p.centerWarp * 0.50 * Math.max(0, lensInfluence));
-      const stretchY = 1.0 + (p.centerWarp * 0.40 * Math.max(0, lensInfluence));
-      const radialPushY = dy * (p.centerWarp * 0.18 * lensInfluence);
-      const shearAngle = Math.atan2(dy, dx) * (p.centerWarp * 0.12 * lensInfluence) * (180 / Math.PI);
+      const rowTaper = Math.sin((rowIndex / (totalRows - 1)) * Math.PI);
+      const effectiveAmp = p.amp * (0.35 + (0.65 * rowTaper));
+
+      const rowPhaseOffset = p.phase + (rowIndex * p.cascade);
+      const primaryAngle = (2 * Math.PI * p.freq * u) + rowPhaseOffset;
+      const secondaryAngle = (4 * Math.PI * u) - (rowIndex * 0.25);
+
+      const waveY = (effectiveAmp * Math.sin(primaryAngle)) + ((effectiveAmp * 0.3) * Math.cos(secondaryAngle));
+
+      const dWaveY = (2 * Math.PI * p.freq * effectiveAmp * Math.cos(primaryAngle)) - (4 * Math.PI * (effectiveAmp * 0.3) * Math.sin(secondaryAngle));
+      const shearAngle = Math.atan(dWaveY / W) * (180 / Math.PI);
+
+      const sineVal = Math.sin(primaryAngle);
+      const stretchX = p.shapeWidth * (1.0 - (0.12 * sineVal));
+      const stretchY = p.tallness * (1.0 + (0.25 * sineVal));
 
       return {
-        y: calculatedRowY + waveY + radialPushY,
+        y: calculatedRowY + waveY,
         rotDeg: shearAngle,
         stretchX,
         stretchY,
-        foreshorten: 1.0 + (0.12 * Math.sin(angle))
+        foreshorten: 1.0 + (0.08 * sineVal)
       };
     }
 
@@ -581,7 +622,7 @@
       document.getElementById('val-row-spacing').innerText = p.rowSpacing.toFixed(2);
       document.getElementById('val-min-gap').innerText = p.minGap + 'px';
       document.getElementById('val-tallness').innerText = p.tallness.toFixed(2);
-      document.getElementById('val-center-warp').innerText = p.centerWarp.toFixed(2);
+      document.getElementById('val-cascade').innerText = p.cascade.toFixed(2);
       document.getElementById('val-amp').innerText = p.amp;
       document.getElementById('val-freq').innerText = p.freq.toFixed(2);
       document.getElementById('val-phase').innerText = p.phase.toFixed(2);
@@ -593,6 +634,96 @@
       root.setAttribute('transform', `rotate(${p.rotation} ${W/2} ${H/2})`);
       root.innerHTML = '';
 
+      const ROWS_CONFIG = [
+        {
+          fontSize: 60,
+          clusters: [
+            { type: 'word', text: p.line1.split(' ')[0] || "AFISHA" },
+            { type: 'top_reaching_spark', count: 2, scale: 0.95 },
+            { type: 'word', text: p.line1.split(' ').slice(1).join(' ') || "PICNIC" }
+          ]
+        },
+        {
+          fontSize: 56,
+          clusters: [
+            { type: 'pills', count: 3, w: 22, h: 42 },
+            { type: 'word', text: p.line2 },
+            { type: 'disc', r: 23 }
+          ]
+        },
+        {
+          fontSize: 54,
+          clusters: [
+            { type: 'word', text: p.line3.split(' ')[0] || "25.07" },
+            { type: 'moons', count: 2, dir: 1, r: 21 },
+            { type: 'word', text: p.line3.split(' ').slice(1).join(' ') || "23:00" },
+            { type: 'cyrillic_badge', str: "«ПИКНИК", str2: "«АФИШИ»" }
+          ]
+        },
+        {
+          fontSize: 56,
+          clusters: [
+            { type: 'word', text: p.line4 },
+            { type: 'spark', count: 5, scale: 0.90 }
+          ]
+        },
+        {
+          fontSize: 56,
+          clusters: [
+            { type: 'word', text: p.line5.replace(/\s+DJ-SET$/i, '') },
+            { type: 'disc', r: 17 },
+            { type: 'word', text: "DJ-SET" }
+          ]
+        },
+        {
+          fontSize: 56,
+          clusters: [
+            { type: 'word', text: p.line6.replace(/\s+DJ-SET$/i, '') },
+            { type: 'disc', r: 17 },
+            { type: 'word', text: "DJ-SET" }
+          ]
+        },
+        {
+          fontSize: 54,
+          clusters: [
+            { type: 'word', text: p.line7 },
+            { type: 'disc_sequence', count: 5, r: 15 }
+          ]
+        },
+        {
+          fontSize: 54,
+          clusters: [
+            { type: 'word', text: p.line8 },
+            { type: 'moons', count: 3, dir: 1, r: 21 }
+          ]
+        },
+        {
+          fontSize: 54,
+          clusters: [
+            { type: 'moons', count: 5, dir: 1, r: 20 },
+            { type: 'word', text: "DJ-SET" },
+            { type: 'moons', count: 4, dir: 1, r: 20 }
+          ]
+        },
+        {
+          fontSize: 58,
+          clusters: [
+            { type: 'word', text: p.line9.replace(/\s+DJ-SET$/i, '') },
+            { type: 'spark', count: 5, scale: 0.92 }
+          ]
+        },
+        {
+          fontSize: 56,
+          clusters: [
+            { type: 'disc', r: 14 },
+            { type: 'pills', count: 2, w: 18, h: 38 },
+            { type: 'word', text: "DJ-SET" },
+            { type: 'pills', count: 6, w: 22, h: 44 }
+          ]
+        }
+      ];
+
+      const totalRows = ROWS_CONFIG.length;
       const leftBoundary = p.margin;
       const rightBoundary = W - p.margin;
       const targetLineWidth = rightBoundary - leftBoundary;
@@ -607,10 +738,8 @@
               elements.push({
                 kind: 'char',
                 char: c,
-                fontType: row.fontType,
                 size: row.fontSize,
                 baseW: getCharWidth(c, row.fontSize),
-                isShape: false,
                 clusterEnd: cIdx === chars.length - 1
               });
             });
@@ -620,7 +749,6 @@
                 kind: 'spark',
                 scale: cluster.scale * p.shapeHeight,
                 baseW: 38 * cluster.scale * p.shapeWidth,
-                isShape: true,
                 clusterEnd: i === cluster.count - 1
               });
             }
@@ -630,7 +758,6 @@
                 kind: 'top_reaching_spark',
                 scale: cluster.scale * p.shapeHeight,
                 baseW: 42 * cluster.scale * p.shapeWidth,
-                isShape: true,
                 clusterEnd: i === cluster.count - 1
               });
             }
@@ -641,7 +768,6 @@
                 w: cluster.w * p.shapeWidth,
                 h: cluster.h * p.shapeHeight,
                 baseW: cluster.w * p.shapeWidth,
-                isShape: true,
                 clusterEnd: i === cluster.count - 1
               });
             }
@@ -650,7 +776,6 @@
               kind: 'disc',
               r: cluster.r * p.shapeHeight,
               baseW: cluster.r * 1.8 * p.shapeWidth,
-              isShape: true,
               clusterEnd: true
             });
           } else if (cluster.type === 'disc_sequence') {
@@ -659,7 +784,6 @@
                 kind: 'disc',
                 r: cluster.r * p.shapeHeight,
                 baseW: cluster.r * 1.8 * p.shapeWidth,
-                isShape: true,
                 clusterEnd: i === cluster.count - 1
               });
             }
@@ -670,7 +794,6 @@
                 dir: cluster.dir,
                 r: cluster.r * p.shapeHeight,
                 baseW: cluster.r * 1.4 * p.shapeWidth,
-                isShape: true,
                 clusterEnd: i === cluster.count - 1
               });
             }
@@ -680,7 +803,6 @@
               str: cluster.str,
               str2: cluster.str2,
               baseW: 70,
-              isShape: false,
               clusterEnd: true
             });
           }
@@ -689,29 +811,30 @@
         const N = elements.length;
         if (N === 0) return;
 
-        // Subtle, balanced shape sizing: slightly wider and bigger without being drastic
         let naturalContentWidth = 0;
+        let totalGapsWidth = 0;
         elements.forEach((el, i) => {
           naturalContentWidth += el.baseW;
           if (i < N - 1) {
-            naturalContentWidth += el.clusterEnd ? (p.minGap * 2) : p.minGap;
+            totalGapsWidth += el.clusterEnd ? (p.minGap * 2) : p.minGap;
           }
         });
 
-        const scaleFactor = targetLineWidth / (naturalContentWidth || 1);
+        const totalNaturalWidth = naturalContentWidth + totalGapsWidth;
+        const scaleFactor = targetLineWidth / (totalNaturalWidth || 1);
         let curX = leftBoundary;
 
         elements.forEach((elem) => {
           const w = elem.baseW * scaleFactor;
           const xCenter = curX + (w / 2);
 
-          const { y: warpedY, rotDeg, stretchX, stretchY, foreshorten } = evalMeshWarp(xCenter, row.baseY, W, H, rowIndex, p);
+          const { y: warpedY, rotDeg, stretchX, stretchY, foreshorten } = evalMeshWarp(xCenter, W, H, rowIndex, totalRows, p);
 
           let y = warpedY;
           if (rowIndex === 0) {
             y = Math.max(y, p.margin + (row.fontSize * 0.38));
-          } else if (rowIndex === ROWS_CONFIG.length - 1) {
-            y = Math.min(y, 1032 - (row.fontSize * 0.38));
+          } else if (rowIndex === totalRows - 1) {
+            y = Math.min(y, 1076 - (row.fontSize * 0.38));
           }
 
           const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
@@ -720,16 +843,20 @@
           if (rotDeg !== 0) tMatrix += ` rotate(${rotDeg.toFixed(2)})`;
 
           let scaleX = (p.invert ? -1 : 1) * stretchX;
-          let scaleY = (p.invert ? -1 : 1) * p.tallness * stretchY * foreshorten;
+          let scaleY = (p.invert ? -1 : 1) * stretchY * foreshorten;
           tMatrix += ` scale(${scaleX.toFixed(3)}, ${scaleY.toFixed(3)})`;
 
           g.setAttribute('transform', tMatrix);
 
+          if (p.glow && elem.kind !== 'char' && elem.kind !== 'cyrillic_badge') {
+            g.setAttribute('filter', 'url(#neon-glow)');
+          }
+
           if (elem.kind === 'char') {
             const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
             txt.setAttribute('fill', p.ink);
-            txt.setAttribute('class', elem.fontType === 'mono' ? 't-mono' : 't-sora');
-            txt.setAttribute('font-size', elem.size);
+            txt.setAttribute('class', 't-mono');
+            txt.setAttribute('font-size', row.fontSize);
             txt.textContent = elem.char;
             g.appendChild(txt);
           } else if (elem.kind === 'spark') {
@@ -771,18 +898,18 @@
           } else if (elem.kind === 'cyrillic_badge') {
             const t1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
             t1.setAttribute('fill', p.ink);
-            t1.setAttribute('class', 't-mono');
+            t1.setAttribute('class', 't-sora');
             t1.setAttribute('font-size', '16');
             t1.setAttribute('y', '-10');
             t1.textContent = elem.str;
-            
+
             const t2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
             t2.setAttribute('fill', p.ink);
-            t2.setAttribute('class', 't-mono');
+            t2.setAttribute('class', 't-sora');
             t2.setAttribute('font-size', '16');
             t2.setAttribute('y', '12');
             t2.textContent = elem.str2;
-            
+
             g.appendChild(t1);
             g.appendChild(t2);
           }
@@ -794,19 +921,18 @@
         });
       });
 
-      // Flat Anchored Footer Tier 3 Metadata
-      const footerY = 1068;
+      const footerY = 1076;
       const footerG = document.createElementNS("http://www.w3.org/2000/svg", "g");
       footerG.setAttribute('fill', p.ink);
       footerG.setAttribute('class', 't-meta');
 
       const urlText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      urlText.setAttribute('x', Math.max(22, p.margin));
+      urlText.setAttribute('x', Math.max(15, p.margin));
       urlText.setAttribute('y', footerY);
       urlText.textContent = "WWW.STRELKA.COM";
 
       const addrText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      addrText.setAttribute('x', W - Math.max(22, p.margin));
+      addrText.setAttribute('x', W - Math.max(15, p.margin));
       addrText.setAttribute('y', footerY);
       addrText.setAttribute('text-anchor', 'end');
       addrText.textContent = "14, BLDG. 5A, BERSENEVSKAYA EMBANKMENT";
