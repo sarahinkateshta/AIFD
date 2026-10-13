@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afisha Poster Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Sora:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #000000;
+            --card-bg: #0a0a0a;
+            --text-primary: #D6D6D6;
+            --text-secondary: #888888;
+            --accent-color: #D6D6D6;
+            --accent-hover: #ffffff;
+            --border-color: #222222;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Sora', 'JetBrains Mono', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 3rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 1.75rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            background-color: var(--accent-color);
+            color: #000000;
+            padding: 0.85rem 1rem;
+            border-radius: 2px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.85rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--text-primary);
+            color: #000000;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: auto;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Afisha Poster Generator</h1>
+            <p>Generator Outputs &amp; Specifications</p>
+        </header>
+
+        <main class="grid">
+            <!-- Generator Poster 1 -->
+            <div class="card">
+                <div class="card-title">Generator Poster 1</div>
+                <a href="generator1.png" target="_blank" class="btn">Open Poster 1</a>
+            </div>
+
+            <!-- Generator Poster 2 -->
+            <div class="card">
+                <div class="card-title">Generator Poster 2</div>
+                <a href="generator2.png" target="_blank" class="btn">Open Poster 2</a>
+            </div>
+
+            <!-- Generator Poster 3 -->
+            <div class="card">
+                <div class="card-title">Generator Poster 3</div>
+                <a href="generator3.png" target="_blank" class="btn">Open Poster 3</a>
+            </div>
+
+            <!-- Generator Poster 4 -->
+            <div class="card">
+                <div class="card-title">Generator Poster 4</div>
+                <a href="generator4.png" target="_blank" class="btn">Open Poster 4</a>
+            </div>
+
+            <!-- Generator Poster 5 -->
+            <div class="card">
+                <div class="card-title">Generator Poster 5</div>
+                <a href="generator5.png" target="_blank" class="btn">Open Poster 5</a>
+            </div>
+
+            <!-- skills.md -->
+            <div class="card">
+                <div class="card-title">Skills</div>
+                <a href="skills.md" target="_blank" class="btn btn-secondary">skills.md</a>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Afisha Kinetic Design Engine</p>
+    </footer>
+
+</body>
+</htpng
