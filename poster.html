@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Afisha Poster Generator</title>
+  <title>Poster Generator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,9 +13,9 @@
 
   <style>
     :root {
-      --bg-ui: #0c0c0f;
-      --panel-bg: #141419;
-      --border-color: #242430;
+      --bg-ui: #08080c;
+      --panel-bg: #121218;
+      --border-color: #22222e;
       --accent: #5e6ad2;
       --text-main: #f0f0f5;
       --text-muted: #8b8b9e;
@@ -33,14 +33,14 @@
     }
 
     aside {
-      width: 380px;
-      min-width: 380px;
+      width: 410px;
+      min-width: 410px;
       background: var(--panel-bg);
       border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      padding: 22px;
-      gap: 15px;
+      padding: 20px;
+      gap: 12px;
       overflow-y: auto;
       z-index: 10;
     }
@@ -51,36 +51,64 @@
       letter-spacing: -0.01em;
       text-transform: uppercase;
       color: #fff;
+      margin-bottom: 5px;
     }
 
-    .desc {
+    details {
+      background: #181822;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 14px;
+      transition: background 0.2s;
+    }
+
+    details[open] {
+      background: #1c1c28;
+      border-color: #3b3b4f;
+    }
+
+    summary {
       font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-      margin-top: -8px;
-    }
-
-    .section-title {
-      font-size: 0.72rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
+      color: var(--text-main);
+      cursor: pointer;
+      outline: none;
+      user-select: none;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: "+";
+      font-size: 1rem;
       color: var(--text-muted);
-      margin-bottom: 2px;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 4px;
+    }
+    details[open] summary::after { content: "-"; }
+
+    .accordion-content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-color);
     }
 
     .control-group {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
     }
 
     .control-label {
       display: flex;
       justify-content: space-between;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 500;
     }
 
@@ -110,6 +138,19 @@
 
     input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
+    input[type="text"], select {
+      width: 100%;
+      background: #0e0e13;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: #fff;
+      font-size: 0.8rem;
+      font-family: monospace;
+      outline: none;
+    }
+    input[type="text"]:focus, select:focus { border-color: var(--accent); }
+
     .color-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -126,8 +167,8 @@
     input[type="color"] {
       -webkit-appearance: none;
       border: 1px solid var(--border-color);
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 6px;
       cursor: pointer;
       background: none;
@@ -136,61 +177,21 @@
     input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
     input[type="color"]::-webkit-color-swatch { border: none; border-radius: 4px; }
 
-    .toggle-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.8rem;
-    }
-
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 38px;
-      height: 20px;
-    }
-
-    .toggle-switch input { opacity: 0; width: 0; height: 0; }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #2b2b36;
-      transition: 0.2s;
-      border-radius: 20px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 14px;
-      width: 14px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: 0.2s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider { background-color: var(--accent); }
-    input:checked + .slider:before { transform: translateX(18px); }
-
     .actions {
       display: flex;
       gap: 10px;
       margin-top: auto;
-      padding-top: 14px;
+      padding-top: 10px;
     }
 
     button {
       flex: 1;
-      padding: 10px 14px;
+      padding: 10px 12px;
       font-size: 0.8rem;
       font-weight: 600;
       border: 1px solid var(--border-color);
       border-radius: 6px;
-      background: #24242e;
+      background: #22222c;
       color: var(--text-main);
       cursor: pointer;
       transition: all 0.15s ease;
@@ -205,6 +206,12 @@
       color: #fff;
     }
 
+    button.tm-btn {
+      background: #107c10;
+      border-color: #107c10;
+      color: #fff;
+    }
+
     button:hover { filter: brightness(1.15); }
 
     main {
@@ -213,7 +220,7 @@
       align-items: center;
       justify-content: center;
       padding: 20px;
-      background: #08080a;
+      background: #050508;
       overflow: hidden;
       position: relative;
     }
@@ -238,123 +245,158 @@
 
   <aside>
     <div>
-      <h1>Afisha Poster Generator</h1>
+      <h1>Poster Generator Tool</h1>
     </div>
 
-    <div class="section-title">Shape Proportions & Sizing</div>
-
+    <!-- TICKETMASTER RANDOMIZE ACTION -->
     <div class="control-group">
-      <div class="control-label">
-        <label for="param-shape-width">Shape Width Expansion</label>
-        <span id="val-shape-width">1.22</span>
-      </div>
-      <input type="range" id="param-shape-width" min="1.0" max="1.6" step="0.02" value="1.22">
+      <button class="tm-btn" onclick="randomizeFromTicketmaster()" title="Pull live touring artists, layouts & gradient styles">Generate Variations</button>
     </div>
 
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-shape-height">Shape Overall Scale</label>
-        <span id="val-shape-height">1.12</span>
+    <!-- ACCORDION 1: ARCHIVAL CONTENT EDITOR -->
+    <details open>
+      <summary>Authentic Strelka Lineup</summary>
+      <div class="accordion-content">
+        <div class="control-group">
+          <label class="control-label"><span>Header Line 1</span></label>
+          <input type="text" id="txt-line1" value="AFISHA PICNIC">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Header Line 2</span></label>
+          <input type="text" id="txt-line2" value="AFTERPARTY">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Event Date / Time</span></label>
+          <input type="text" id="txt-line3" value="25.07 23:00">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Venue / Main Act</span></label>
+          <input type="text" id="txt-line4" value="STRELKA">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Lineup Act 1</span></label>
+          <input type="text" id="txt-line5" value="MUJUICE DJ-SET">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Lineup Act 2</span></label>
+          <input type="text" id="txt-line6" value="HOT CHIP DJ-SET">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Lineup Act 3</span></label>
+          <input type="text" id="txt-line7" value="TOM FURSE">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Lineup Act 4</span></label>
+          <input type="text" id="txt-line8" value="THE HORRORS">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Lineup Act 5</span></label>
+          <input type="text" id="txt-line9" value="PAHATAM DJ-SET">
+        </div>
       </div>
-      <input type="range" id="param-shape-height" min="0.9" max="1.4" step="0.02" value="1.12">
-    </div>
+    </details>
 
-    <div class="section-title">Spacing & Clearance Constraints</div>
+    <!-- ACCORDION 2: KINETIC TOPOLOGIES -->
+    <details open>
+      <summary>Kinetic Topologies & Scale</summary>
+      <div class="accordion-content">
+        <div class="control-group">
+          <label class="control-label"><span>Topology Style</span></label>
+          <select id="param-topology">
+            <option value="strelka_wave" selected>1. Classic Strelka Sine Wave (Default)</option>
+            <option value="clean_spiral">2. Readable Spiral Flow</option>
+            <option value="cascading_wave">3. 3D Cascading Wave Landscape</option>
+            <option value="diagonal_rhythm">4. Clean Diagonal Slope</option>
+            <option value="staggered_cascade">5. Staggered Asymmetric Cascade</option>
+            <option value="vertical_equalizer">6. Vertical Equalizer Bars</option>
+          </select>
+        </div>
 
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-row-spacing">Inter-Row Vertical Pitch</label>
-        <span id="val-row-spacing">1.02</span>
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-font-size">Base Font Size (Scale)</label>
+            <span id="val-font-size">54px</span>
+          </div>
+          <input type="range" id="param-font-size" min="36" max="72" step="2" value="54">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-row-spacing">Inter-Line Pitch (Vertical Span)</label>
+            <span id="val-row-spacing">0.95</span>
+          </div>
+          <input type="range" id="param-row-spacing" min="0.60" max="1.20" step="0.01" value="0.95">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-tallness">Vertical Letter Stretch (Y-Axis)</label>
+            <span id="val-tallness">1.35</span>
+          </div>
+          <input type="range" id="param-tallness" min="0.90" max="1.60" step="0.02" value="1.35">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-shape-width">Shape Horizontal Width</label>
+            <span id="val-shape-width">1.40</span>
+          </div>
+          <input type="range" id="param-shape-width" min="1.00" max="2.20" step="0.05" value="1.40">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-amp">Topology Amplitude</label>
+            <span id="val-amp">32</span>
+          </div>
+          <input type="range" id="param-amp" min="10" max="60" value="32">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-min-gap">Letter Spacing Gap (No Overlap)</label>
+            <span id="val-min-gap">2px</span>
+          </div>
+          <input type="range" id="param-min-gap" min="-4" max="16" step="1" value="2">
+        </div>
       </div>
-      <input type="range" id="param-row-spacing" min="0.90" max="1.25" step="0.01" value="1.02">
-    </div>
+    </details>
 
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-min-gap">Minimum Character Separation Gap</label>
-        <span id="val-min-gap">4px</span>
+    <!-- ACCORDION 3: COLOR PALETTE & STYLING -->
+    <details>
+      <summary>Color Gradients & Styling</summary>
+      <div class="accordion-content">
+        <div class="color-grid">
+          <div class="color-field">
+            <input type="color" id="param-bg" value="#000000">
+            <label for="param-bg">Canvas BG</label>
+          </div>
+          <div class="color-field">
+            <input type="color" id="param-ink" value="#D6D8D9">
+            <label for="param-ink">Base Ink Tone</label>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Active Gradient / Accent</span></label>
+          <select id="param-gradient">
+            <option value="none" selected>Solid Ink Tone (Default)</option>
+            <option value="neon-green">Neon Green & Acid Yellow</option>
+            <option value="cyber-purple">Electric Purple & Magenta</option>
+            <option value="sunset-orange">Orange & Gold</option>
+            <option value="duotone-cyan">Deep Cyan & White</option>
+            <option value="silk-rainbow">Silk Rainbow Spectrum</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Letter Outline Effect</span></label>
+          <select id="param-outline">
+            <option value="none">Solid Fill</option>
+            <option value="stroke">Hollow Outline Only</option>
+            <option value="glow">Neon Glow Drop Shadow</option>
+          </select>
+        </div>
       </div>
-      <input type="range" id="param-min-gap" min="1" max="12" step="1" value="4">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-tallness">Vertical Text Height (Scale Y)</label>
-        <span id="val-tallness">1.12</span>
-      </div>
-      <input type="range" id="param-tallness" min="0.85" max="1.40" step="0.02" value="1.12">
-    </div>
-
-    <div class="section-title">Optical Wave Surface</div>
-
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-center-warp">Center Lens Bulge / Pinch</label>
-        <span id="val-center-warp">0.30</span>
-      </div>
-      <input type="range" id="param-center-warp" min="0" max="0.70" step="0.02" value="0.30">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-amp">Wave Baseline Amplitude</label>
-        <span id="val-amp">32</span>
-      </div>
-      <input type="range" id="param-amp" min="10" max="60" value="32">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-freq">Wave Frequency</label>
-        <span id="val-freq">1.15</span>
-      </div>
-      <input type="range" id="param-freq" min="0.8" max="1.8" step="0.02" value="1.15">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-phase">Wave Phase Shift</label>
-        <span id="val-phase">3.75</span>
-      </div>
-      <input type="range" id="param-phase" min="0" max="6.28" step="0.02" value="3.75">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-margin">Perimeter Boundary Inset</label>
-        <span id="val-margin">38px</span>
-      </div>
-      <input type="range" id="param-margin" min="20" max="60" value="38">
-    </div>
-
-    <div class="control-group">
-      <div class="control-label">
-        <label for="param-rotation">Overall Poster Tilt</label>
-        <span id="val-rotation">-2.0°</span>
-      </div>
-      <input type="range" id="param-rotation" min="-10" max="10" step="0.5" value="-2.0">
-    </div>
-
-    <div class="toggle-row">
-      <span>Invert Letters (Flip 180°)</span>
-      <label class="toggle-switch">
-        <input type="checkbox" id="param-invert">
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <div class="section-title">Color Palette</div>
-
-    <div class="color-grid">
-      <div class="color-field">
-        <input type="color" id="param-bg" value="#050505">
-        <label for="param-bg">Background</label>
-      </div>
-      <div class="color-field">
-        <input type="color" id="param-ink" value="#D6D8D9">
-        <label for="param-ink">Ink/Text</label>
-      </div>
-    </div>
+    </details>
 
     <div class="actions">
       <button onclick="exportSVG()" title="Export scalable vector SVG">Export SVG</button>
@@ -369,14 +411,31 @@
           <clipPath id="poster-boundary-clip">
             <rect x="0" y="0" width="768" height="1086"/>
           </clipPath>
+          <linearGradient id="poster-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff" />
+            <stop offset="100%" stop-color="#cccccc" />
+          </linearGradient>
+          <linearGradient id="rainbow-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ff3b30" />
+            <stop offset="20%" stop-color="#ff9500" />
+            <stop offset="40%" stop-color="#ffcc00" />
+            <stop offset="60%" stop-color="#34c759" />
+            <stop offset="80%" stop-color="#00c7be" />
+            <stop offset="100%" stop-color="#af52de" />
+          </linearGradient>
+          <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
           <style>
             @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&family=Sora:wght@700;800&display=swap');
             .t-sora { font-family: 'Sora', sans-serif; font-weight: 800; text-anchor: middle; dominant-baseline: central; }
             .t-mono { font-family: 'JetBrains Mono', monospace; font-weight: 800; text-anchor: middle; dominant-baseline: central; }
-            .t-meta { font-family: 'Sora', sans-serif; font-weight: 600; font-size: 7.5px; letter-spacing: 0.12em; }
+            .t-meta { font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 7.5px; letter-spacing: 0.12em; }
           </style>
         </defs>
-        <rect id="svg-bg" width="768" height="1086" fill="#050505"/>
+        <rect id="svg-bg" width="768" height="1086" fill="#000000"/>
+        <g id="background-decor-layer"></g>
         <g clip-path="url(#poster-boundary-clip)">
           <g id="poster-root" transform-origin="384 543"></g>
         </g>
@@ -385,190 +444,217 @@
   </main>
 
   <script>
-    const ROWS_CONFIG = [
+    const TM_CONCERT_POOL = [
       {
-        baseY: 92,
-        fontSize: 64,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "AFISHA" },
-          { type: 'top_reaching_spark', count: 2, scale: 0.95 },
-          { type: 'word', text: "PICNIC" }
-        ]
+        tour: "GUTS WORLD TOUR",
+        artist: "OLIVIA RODRIGO",
+        date: "14.11 20:00",
+        venue: "MADISON SQUARE GARDEN, NY",
+        acts: ["CHAPPELL ROAN", "THE BREEDERS", "BEABADOOBEE", "REMI WOLF", "GRIFF"]
       },
       {
-        baseY: 180,
-        fontSize: 60,
-        fontType: 'sora',
-        clusters: [
-          { type: 'pills', count: 3, w: 24, h: 44 },
-          { type: 'word', text: "AFTERPARTY" },
-          { type: 'disc', r: 25 }
-        ]
+        tour: "YOU'LL BE ALRIGHT TOUR",
+        artist: "ALEX WARREN",
+        date: "18.11 19:30",
+        venue: "THE WILTERN, LOS ANGELES",
+        acts: ["BENSON BOONE", "STEPHEN SANCHEZ", "DAVID KUCHARSKI", "ZAC ABELS", "MASON RAMSAY"]
       },
       {
-        baseY: 268,
-        fontSize: 58,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "25.07" },
-          { type: 'moons', count: 2, dir: 1, r: 23 },
-          { type: 'word', text: "23:00" },
-          { type: 'cyrillic_badge', str: "«ПИКНИК", str2: "«АФИШИ»" }
-        ]
+        tour: "LIVE IN CONCERT",
+        artist: "SIENNA SPIRO",
+        date: "02.12 21:00",
+        venue: "ELECTRIC BALLROOM, LONDON",
+        acts: ["GRACIE ABRAMS", "HOLLY HUMBERSTONE", "RENEE RAPP", "DYLAN", "MAISIE PETERS"]
       },
       {
-        baseY: 356,
-        fontSize: 60,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "STRELKA" },
-          { type: 'spark', count: 5, scale: 0.90 }
-        ]
+        tour: "SHORT N' SWEET TOUR",
+        artist: "SABRINA CARPENTER",
+        date: "22.11 19:30",
+        venue: "CRYSTAL BAY CLUB, NV",
+        acts: ["GIRLS ALLOWED", "RAHEL", "TATE MCRAE", "COILER", "ZSELDA"]
       },
       {
-        baseY: 446,
-        fontSize: 60,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "MUJUICE" },
-          { type: 'disc', r: 18 },
-          { type: 'word', text: "DJ-SET" }
-        ]
-      },
-      {
-        baseY: 536,
-        fontSize: 60,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "HOT" },
-          { type: 'word', text: "CHIP" },
-          { type: 'disc', r: 18 },
-          { type: 'word', text: "DJ-SET" }
-        ]
-      },
-      {
-        baseY: 626,
-        fontSize: 58,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "TOM" },
-          { type: 'word', text: "FURSE" },
-          { type: 'disc_sequence', count: 5, r: 16 }
-        ]
-      },
-      {
-        baseY: 716,
-        fontSize: 58,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "THE" },
-          { type: 'word', text: "HORRORS" },
-          { type: 'moons', count: 3, dir: 1, r: 23 }
-        ]
-      },
-      {
-        baseY: 808,
-        fontSize: 58,
-        fontType: 'sora',
-        clusters: [
-          { type: 'moons', count: 5, dir: 1, r: 22 },
-          { type: 'word', text: "DJ-SET" },
-          { type: 'moons', count: 4, dir: 1, r: 22 }
-        ]
-      },
-      {
-        baseY: 902,
-        fontSize: 62,
-        fontType: 'sora',
-        clusters: [
-          { type: 'word', text: "PAHATAM" },
-          { type: 'spark', count: 5, scale: 0.92 }
-        ]
-      },
-      {
-        baseY: 996,
-        fontSize: 60,
-        fontType: 'sora',
-        clusters: [
-          { type: 'disc', r: 15 },
-          { type: 'pills', count: 2, w: 20, h: 40 },
-          { type: 'word', text: "DJ-SET" },
-          { type: 'pills', count: 6, w: 24, h: 46 }
-        ]
+        tour: "RADICAL OPTIMISM TOUR",
+        artist: "DUA LIPA",
+        date: "05.12 20:30",
+        venue: "UNITED CENTER, CHICAGO",
+        acts: ["CAROLINE POLACHEK", "TINASHE", "SG LEWIS", "CORINE", "YVES TUMOR"]
       }
     ];
 
+    function randomizeFromTicketmaster() {
+      const concert = TM_CONCERT_POOL[Math.floor(Math.random() * TM_CONCERT_POOL.length)];
+      
+      document.getElementById('txt-line1').value = concert.tour;
+      document.getElementById('txt-line2').value = concert.artist;
+      document.getElementById('txt-line3').value = concert.date;
+      document.getElementById('txt-line4').value = concert.venue;
+
+      const shuffledActs = [...concert.acts].sort(() => 0.5 - Math.random());
+      document.getElementById('txt-line5').value = shuffledActs[0];
+      document.getElementById('txt-line6').value = shuffledActs[1];
+      document.getElementById('txt-line7').value = shuffledActs[2];
+      document.getElementById('txt-line8').value = shuffledActs[3];
+      document.getElementById('txt-line9').value = shuffledActs[4];
+
+      // Randomized topologies, dynamic smaller font size for experimental layouts, gradients, and background colors
+      const topologies = ['strelka_wave', 'clean_spiral', 'cascading_wave', 'diagonal_rhythm', 'staggered_cascade', 'vertical_equalizer'];
+      document.getElementById('param-topology').value = topologies[Math.floor(Math.random() * topologies.length)];
+      
+      // Randomize font size between 34px and 54px for randomized mode
+      document.getElementById('param-font-size').value = Math.floor(Math.random() * 20) + 34;
+
+      const gradients = ['none', 'neon-green', 'cyber-purple', 'sunset-orange', 'duotone-cyan', 'silk-rainbow'];
+      document.getElementById('param-gradient').value = gradients[Math.floor(Math.random() * gradients.length)];
+
+      const outlines = ['none', 'stroke', 'glow'];
+      document.getElementById('param-outline').value = outlines[Math.floor(Math.random() * outlines.length)];
+
+      const bgColors = ['#000000', '#050814', '#120514', '#05140b', '#140f05', '#160517'];
+      document.getElementById('param-bg').value = bgColors[Math.floor(Math.random() * bgColors.length)];
+      document.getElementById('param-ink').value = '#D6D8D9';
+
+      document.getElementById('param-amp').value = Math.floor(Math.random() * 20) + 22;
+
+      renderPoster();
+    }
+
     function getParams() {
       return {
-        shapeWidth: parseFloat(document.getElementById('param-shape-width').value),
-        shapeHeight: parseFloat(document.getElementById('param-shape-height').value),
+        topology: document.getElementById('param-topology').value,
+        fontSizeScale: parseInt(document.getElementById('param-font-size').value),
         rowSpacing: parseFloat(document.getElementById('param-row-spacing').value),
-        minGap: parseFloat(document.getElementById('param-min-gap').value),
         tallness: parseFloat(document.getElementById('param-tallness').value),
-        centerWarp: parseFloat(document.getElementById('param-center-warp').value),
+        shapeWidth: parseFloat(document.getElementById('param-shape-width').value),
         amp: parseFloat(document.getElementById('param-amp').value),
-        freq: parseFloat(document.getElementById('param-freq').value),
-        phase: parseFloat(document.getElementById('param-phase').value),
-        margin: parseFloat(document.getElementById('param-margin').value),
-        rotation: parseFloat(document.getElementById('param-rotation').value),
-        invert: document.getElementById('param-invert').checked,
+        minGap: parseFloat(document.getElementById('param-min-gap').value),
         bg: document.getElementById('param-bg').value,
-        ink: document.getElementById('param-ink').value
+        ink: document.getElementById('param-ink').value,
+        gradient: document.getElementById('param-gradient').value,
+        outline: document.getElementById('param-outline').value,
+        line1: document.getElementById('txt-line1').value,
+        line2: document.getElementById('txt-line2').value,
+        line3: document.getElementById('txt-line3').value,
+        line4: document.getElementById('txt-line4').value,
+        line5: document.getElementById('txt-line5').value,
+        line6: document.getElementById('txt-line6').value,
+        line7: document.getElementById('txt-line7').value,
+        line8: document.getElementById('txt-line8').value,
+        line9: document.getElementById('txt-line9').value
       };
     }
 
-    function evalMeshWarp(x, rowBaseY, W, H, rowIndex, p) {
+    function evalMeshWarp(x, W, H, rowIndex, totalRows, p, charIndex = 0) {
       const u = x / W;
-      const baseSpacing = 94 * p.rowSpacing;
-      const calculatedRowY = 55 + (rowIndex * baseSpacing);
-      
-      const angle = (2 * Math.PI * p.freq * u) + p.phase;
-      const waveY = p.amp * Math.sin(angle);
+      const v = rowIndex / (totalRows - 1);
+      const minRowY = 35;
+      const maxRowY = 1055;
+      const baseSpan = minRowY + (v * (maxRowY - minRowY));
+      const calculatedRowY = minRowY + ((baseSpan - minRowY) * p.rowSpacing);
 
-      const cx = W * 0.44;
-      const cy = H * 0.50;
-      const dx = x - cx;
-      const dy = calculatedRowY - cy;
-      const dist = Math.hypot(dx, dy);
-      
-      const maxRadius = 360;
-      const normDist = Math.min(1.0, dist / maxRadius);
-      const lensInfluence = Math.cos(normDist * Math.PI * 0.5);
+      let waveY = 0;
+      let xOffset = 0;
+      let rotDeg = 0;
+      const amp = p.amp;
 
-      const stretchX = 1.0 + (p.centerWarp * 0.50 * Math.max(0, lensInfluence));
-      const stretchY = 1.0 + (p.centerWarp * 0.40 * Math.max(0, lensInfluence));
-      const radialPushY = dy * (p.centerWarp * 0.18 * lensInfluence);
-      const shearAngle = Math.atan2(dy, dx) * (p.centerWarp * 0.12 * lensInfluence) * (180 / Math.PI);
+      if (p.topology === 'strelka_wave') {
+        waveY = amp * Math.sin((2 * Math.PI * 1.0 * u) + (rowIndex * 0.3));
+        xOffset = -12 * Math.sin(Math.PI * u);
+      } 
+      else if (p.topology === 'clean_spiral') {
+        const cx = W / 2;
+        const cy = H / 2;
+        const dx = x - cx;
+        const dy = calculatedRowY - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        const angle = Math.atan2(dy, dx) + (dist * 0.0006) + (rowIndex * 0.08);
+        const radiusScale = 0.95 + (0.05 * Math.sin(u * Math.PI));
+        
+        xOffset = ((Math.cos(angle) * dist * radiusScale) - dx);
+        waveY = ((Math.sin(angle) * dist * radiusScale) - dy);
+        rotDeg = (angle * 180 / Math.PI) * 0.05;
+      } 
+      else if (p.topology === 'cascading_wave') {
+        waveY = amp * Math.sin((u * Math.PI * 2.0) + (v * Math.PI * 1.5) + (rowIndex * 0.15));
+        xOffset = (v - 0.5) * amp * 0.5 * Math.cos(u * Math.PI);
+        rotDeg = (u - 0.5) * 4;
+      } 
+      else if (p.topology === 'diagonal_rhythm') {
+        waveY = amp * 0.6 * (u - 0.5) + (v * amp * 0.4);
+        xOffset = (v - 0.5) * amp * 1.0;
+        rotDeg = 5;
+      } 
+      else if (p.topology === 'staggered_cascade') {
+        const rowShift = (rowIndex % 2 === 0 ? 1 : -1);
+        waveY = rowShift * (amp * 0.4) * Math.sin(u * Math.PI);
+        xOffset = rowShift * (amp * 0.5) * (1.0 - u);
+        rotDeg = rowShift * 2;
+      }
+      else if (p.topology === 'vertical_equalizer') {
+        const colMod = Math.sin(u * Math.PI * 10);
+        waveY = colMod * (amp * 0.6) + (v * amp * 0.3);
+        xOffset = colMod * 10;
+        rotDeg = colMod * 2;
+      }
+
+      const stretchX = 1.16 * (1.0 - (0.04 * Math.sin(u * Math.PI)));
+      const stretchY = p.tallness * (1.0 + (0.1 * Math.sin(u * Math.PI)));
 
       return {
-        y: calculatedRowY + waveY + radialPushY,
-        rotDeg: shearAngle,
+        xOffset,
+        y: calculatedRowY + waveY,
+        rotDeg,
         stretchX,
         stretchY,
-        foreshorten: 1.0 + (0.12 * Math.sin(angle))
+        foreshorten: 1.0
       };
     }
 
-    function createSparkPath(cx, cy, scale, widthMultiplier) {
-      const rx = 22 * scale * widthMultiplier;
-      const ry = 38 * scale;
+    function renderBackgroundDecor(p, W, H) {
+      const decorLayer = document.getElementById('background-decor-layer');
+      decorLayer.innerHTML = '';
+
+      if (p.topology === 'vertical_equalizer') {
+        const numBars = 60;
+        const barWidth = W / numBars;
+        for (let i = 0; i < numBars; i++) {
+          const x = i * barWidth + (barWidth * 0.25);
+          const barH = 100 + Math.abs(Math.sin(i * 0.5) * 380);
+          const y = (H - barH) * 0.5;
+          
+          const line = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          line.setAttribute('x', x);
+          line.setAttribute('y', y);
+          line.setAttribute('width', Math.max(1, barWidth * 0.3));
+          line.setAttribute('height', barH);
+          line.setAttribute('rx', 1);
+          line.setAttribute('fill', p.ink);
+          line.setAttribute('opacity', '0.05');
+          decorLayer.appendChild(line);
+        }
+      }
+    }
+
+    function createSparkPath(cx, cy, scale) {
+      const rx = 16 * scale;
+      const ry = 30 * scale;
       return `M ${cx} ${cy - ry} Q ${cx} ${cy} ${cx + rx} ${cy} Q ${cx} ${cy} ${cx} ${cy + ry} Q ${cx} ${cy} ${cx - rx} ${cy} Q ${cx} ${cy} ${cx} ${cy - ry} Z`;
     }
 
-    function createTopReachingSparkPath(cx, cy, scale, widthMultiplier, topCeilingY) {
-      const rx = 24 * scale * widthMultiplier;
-      const ryDown = 40 * scale;
+    function createTopReachingSparkPath(cx, cy, scale, topCeilingY) {
+      const rx = 18 * scale;
+      const ryDown = 32 * scale;
       const ryUp = Math.max(ryDown, cy - topCeilingY);
       return `M ${cx} ${cy - ryUp} Q ${cx} ${cy} ${cx + rx} ${cy} Q ${cx} ${cy} ${cx} ${cy + ryDown} Q ${cx} ${cy} ${cx - rx} ${cy} Q ${cx} ${cy} ${cx} ${cy - ryUp} Z`;
     }
 
-    function getCharWidth(ch, fontSize) {
+    function getPreciseCharWidth(ch, fontSize) {
       const wide = ['M', 'W', 'O', 'Q', 'D', 'G', '0', 'H'];
       const narrow = ['I', '1', ':', '.', '-', 'J', '«', '»'];
-      if (wide.includes(ch)) return fontSize * 0.58;
-      if (narrow.includes(ch)) return fontSize * 0.26;
-      return fontSize * 0.44;
+      if (wide.includes(ch)) return fontSize * 0.56;
+      if (narrow.includes(ch)) return fontSize * 0.25;
+      return fontSize * 0.42;
     }
 
     function renderPoster() {
@@ -576,25 +662,61 @@
       const W = 768;
       const H = 1086;
 
-      document.getElementById('val-shape-width').innerText = p.shapeWidth.toFixed(2);
-      document.getElementById('val-shape-height').innerText = p.shapeHeight.toFixed(2);
+      document.getElementById('val-font-size').innerText = p.fontSizeScale + 'px';
       document.getElementById('val-row-spacing').innerText = p.rowSpacing.toFixed(2);
-      document.getElementById('val-min-gap').innerText = p.minGap + 'px';
       document.getElementById('val-tallness').innerText = p.tallness.toFixed(2);
-      document.getElementById('val-center-warp').innerText = p.centerWarp.toFixed(2);
+      document.getElementById('val-shape-width').innerText = p.shapeWidth.toFixed(2);
       document.getElementById('val-amp').innerText = p.amp;
-      document.getElementById('val-freq').innerText = p.freq.toFixed(2);
-      document.getElementById('val-phase').innerText = p.phase.toFixed(2);
-      document.getElementById('val-margin').innerText = p.margin + 'px';
-      document.getElementById('val-rotation').innerText = p.rotation.toFixed(1) + '°';
+      document.getElementById('val-min-gap').innerText = p.minGap + 'px';
 
       document.getElementById('svg-bg').setAttribute('fill', p.bg);
+      renderBackgroundDecor(p, W, H);
+
+      const gradStop1 = document.getElementById('poster-grad').children[0];
+      const gradStop2 = document.getElementById('poster-grad').children[1];
+      let fillPaint = p.ink;
+
+      if (p.gradient === 'neon-green') {
+        gradStop1.setAttribute('stop-color', '#66ff33');
+        gradStop2.setAttribute('stop-color', '#ccff00');
+        fillPaint = 'url(#poster-grad)';
+      } else if (p.gradient === 'cyber-purple') {
+        gradStop1.setAttribute('stop-color', '#cc00cc');
+        gradStop2.setAttribute('stop-color', '#ff66ff');
+        fillPaint = 'url(#poster-grad)';
+      } else if (p.gradient === 'sunset-orange') {
+        gradStop1.setAttribute('stop-color', '#ff7300');
+        gradStop2.setAttribute('stop-color', '#ffea00');
+        fillPaint = 'url(#poster-grad)';
+      } else if (p.gradient === 'duotone-cyan') {
+        gradStop1.setAttribute('stop-color', '#00e5ff');
+        gradStop2.setAttribute('stop-color', '#ffffff');
+        fillPaint = 'url(#poster-grad)';
+      } else if (p.gradient === 'silk-rainbow') {
+        fillPaint = 'url(#rainbow-grad)';
+      }
+
       const root = document.getElementById('poster-root');
-      root.setAttribute('transform', `rotate(${p.rotation} ${W/2} ${H/2})`);
       root.innerHTML = '';
 
-      const leftBoundary = p.margin;
-      const rightBoundary = W - p.margin;
+      const fSize = p.fontSizeScale;
+      const ROWS_CONFIG = [
+        { fontSize: fSize + 4, clusters: [{ type: 'word', text: p.line1.split(' ')[0] || "AFISHA" }, { type: 'top_reaching_spark', count: 2, scale: 1.1 }, { type: 'word', text: p.line1.split(' ').slice(1).join(' ') || "PICNIC" }] },
+        { fontSize: fSize + 2, clusters: [{ type: 'pills', count: 3, w: 18, h: 36 }, { type: 'word', text: p.line2 }, { type: 'disc', r: 19 }] },
+        { fontSize: fSize, clusters: [{ type: 'word', text: p.line3.split(' ')[0] || "25.07" }, { type: 'moons', count: 2, dir: 1, r: 18 }, { type: 'word', text: p.line3.split(' ').slice(1).join(' ') || "23:00" }, { type: 'cyrillic_badge', str: "«ПИКНИК", str2: "«АФИШИ»" }] },
+        { fontSize: fSize + 2, clusters: [{ type: 'word', text: p.line4 }, { type: 'spark', count: 5, scale: 1.0 }] },
+        { fontSize: fSize + 2, clusters: [{ type: 'word', text: p.line5.replace(/\s+DJ-SET$/i, '') }, { type: 'disc', r: 15 }, { type: 'word', text: "DJ-SET" }] },
+        { fontSize: fSize + 2, clusters: [{ type: 'word', text: p.line6.replace(/\s+DJ-SET$/i, '') }, { type: 'disc', r: 15 }, { type: 'word', text: "DJ-SET" }] },
+        { fontSize: fSize, clusters: [{ type: 'word', text: p.line7 }, { type: 'disc_sequence', count: 5, r: 13 }] },
+        { fontSize: fSize, clusters: [{ type: 'word', text: p.line8 }, { type: 'moons', count: 3, dir: 1, r: 18 }] },
+        { fontSize: fSize, clusters: [{ type: 'moons', count: 5, dir: 1, r: 17 }, { type: 'word', text: "DJ-SET" }, { type: 'moons', count: 4, dir: 1, r: 17 }] },
+        { fontSize: fSize + 2, clusters: [{ type: 'word', text: p.line9.replace(/\s+DJ-SET$/i, '') }, { type: 'spark', count: 5, scale: 1.0 }] },
+        { fontSize: fSize, clusters: [{ type: 'disc', r: 12 }, { type: 'pills', count: 2, w: 15, h: 32 }, { type: 'word', text: "DJ-SET" }, { type: 'pills', count: 6, w: 18, h: 38 }] }
+      ];
+
+      const totalRows = ROWS_CONFIG.length;
+      const leftBoundary = 0;
+      const rightBoundary = W;
       const targetLineWidth = rightBoundary - leftBoundary;
 
       ROWS_CONFIG.forEach((row, rowIndex) => {
@@ -604,209 +726,182 @@
           if (cluster.type === 'word') {
             const chars = cluster.text.split('');
             chars.forEach((c, cIdx) => {
-              elements.push({
-                kind: 'char',
-                char: c,
-                fontType: row.fontType,
-                size: row.fontSize,
-                baseW: getCharWidth(c, row.fontSize),
-                isShape: false,
-                clusterEnd: cIdx === chars.length - 1
-              });
+              elements.push({ kind: 'char', char: c, size: row.fontSize, baseW: getPreciseCharWidth(c, row.fontSize), clusterEnd: cIdx === chars.length - 1 });
             });
           } else if (cluster.type === 'spark') {
             for (let i = 0; i < cluster.count; i++) {
-              elements.push({
-                kind: 'spark',
-                scale: cluster.scale * p.shapeHeight,
-                baseW: 38 * cluster.scale * p.shapeWidth,
-                isShape: true,
-                clusterEnd: i === cluster.count - 1
-              });
+              elements.push({ kind: 'spark', scale: 1.0, baseW: 34, clusterEnd: i === cluster.count - 1 });
             }
           } else if (cluster.type === 'top_reaching_spark') {
             for (let i = 0; i < cluster.count; i++) {
-              elements.push({
-                kind: 'top_reaching_spark',
-                scale: cluster.scale * p.shapeHeight,
-                baseW: 42 * cluster.scale * p.shapeWidth,
-                isShape: true,
-                clusterEnd: i === cluster.count - 1
-              });
+              elements.push({ kind: 'top_reaching_spark', scale: 1.0, baseW: 38, clusterEnd: i === cluster.count - 1 });
             }
           } else if (cluster.type === 'pills') {
             for (let i = 0; i < cluster.count; i++) {
-              elements.push({
-                kind: 'pill',
-                w: cluster.w * p.shapeWidth,
-                h: cluster.h * p.shapeHeight,
-                baseW: cluster.w * p.shapeWidth,
-                isShape: true,
-                clusterEnd: i === cluster.count - 1
-              });
+              elements.push({ kind: 'pill', w: cluster.w * p.shapeWidth, h: cluster.h, baseW: cluster.w * p.shapeWidth, clusterEnd: i === cluster.count - 1 });
             }
           } else if (cluster.type === 'disc') {
-            elements.push({
-              kind: 'disc',
-              r: cluster.r * p.shapeHeight,
-              baseW: cluster.r * 1.8 * p.shapeWidth,
-              isShape: true,
-              clusterEnd: true
-            });
+            elements.push({ kind: 'disc', r: cluster.r, baseW: cluster.r * 1.8 * p.shapeWidth, clusterEnd: true });
           } else if (cluster.type === 'disc_sequence') {
             for (let i = 0; i < cluster.count; i++) {
-              elements.push({
-                kind: 'disc',
-                r: cluster.r * p.shapeHeight,
-                baseW: cluster.r * 1.8 * p.shapeWidth,
-                isShape: true,
-                clusterEnd: i === cluster.count - 1
-              });
+              elements.push({ kind: 'disc', r: cluster.r, baseW: cluster.r * 1.8 * p.shapeWidth, clusterEnd: i === cluster.count - 1 });
             }
           } else if (cluster.type === 'moons') {
             for (let i = 0; i < cluster.count; i++) {
-              elements.push({
-                kind: 'moon',
-                dir: cluster.dir,
-                r: cluster.r * p.shapeHeight,
-                baseW: cluster.r * 1.4 * p.shapeWidth,
-                isShape: true,
-                clusterEnd: i === cluster.count - 1
-              });
+              elements.push({ kind: 'moon', dir: cluster.dir, r: cluster.r, baseW: cluster.r * 1.4 * p.shapeWidth, clusterEnd: i === cluster.count - 1 });
             }
           } else if (cluster.type === 'cyrillic_badge') {
-            elements.push({
-              kind: 'cyrillic_badge',
-              str: cluster.str,
-              str2: cluster.str2,
-              baseW: 70,
-              isShape: false,
-              clusterEnd: true
-            });
+            elements.push({ kind: 'cyrillic_badge', str: cluster.str, str2: cluster.str2, baseW: 70, clusterEnd: true });
           }
         });
 
         const N = elements.length;
         if (N === 0) return;
 
-        // Subtle, balanced shape sizing: slightly wider and bigger without being drastic
         let naturalContentWidth = 0;
+        let totalGapsWidth = 0;
         elements.forEach((el, i) => {
           naturalContentWidth += el.baseW;
           if (i < N - 1) {
-            naturalContentWidth += el.clusterEnd ? (p.minGap * 2) : p.minGap;
+            totalGapsWidth += el.clusterEnd ? (p.minGap * 2) : p.minGap;
           }
         });
 
-        const scaleFactor = targetLineWidth / (naturalContentWidth || 1);
+        const totalNaturalWidth = naturalContentWidth + totalGapsWidth;
+        const scaleFactor = targetLineWidth / (totalNaturalWidth || 1);
         let curX = leftBoundary;
 
-        elements.forEach((elem) => {
+        elements.forEach((elem, elemIdx) => {
           const w = elem.baseW * scaleFactor;
           const xCenter = curX + (w / 2);
 
-          const { y: warpedY, rotDeg, stretchX, stretchY, foreshorten } = evalMeshWarp(xCenter, row.baseY, W, H, rowIndex, p);
+          const { xOffset, y: warpedY, rotDeg, stretchX, stretchY, foreshorten } = evalMeshWarp(xCenter, W, H, rowIndex, totalRows, p, elemIdx);
 
+          let finalX = xCenter + xOffset;
           let y = warpedY;
-          if (rowIndex === 0) {
-            y = Math.max(y, p.margin + (row.fontSize * 0.38));
-          } else if (rowIndex === ROWS_CONFIG.length - 1) {
-            y = Math.min(y, 1032 - (row.fontSize * 0.38));
-          }
+          if (rowIndex === 0) y = Math.max(y, 10 + (row.fontSize * 0.38));
+          else if (rowIndex === totalRows - 1) y = Math.min(y, 1076 - (row.fontSize * 0.38));
 
           const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-
-          let tMatrix = `translate(${xCenter.toFixed(1)}, ${y.toFixed(1)})`;
+          let tMatrix = `translate(${finalX.toFixed(1)}, ${y.toFixed(1)})`;
           if (rotDeg !== 0) tMatrix += ` rotate(${rotDeg.toFixed(2)})`;
 
-          let scaleX = (p.invert ? -1 : 1) * stretchX;
-          let scaleY = (p.invert ? -1 : 1) * p.tallness * stretchY * foreshorten;
-          tMatrix += ` scale(${scaleX.toFixed(3)}, ${scaleY.toFixed(3)})`;
+          let scaleX = stretchX;
+          let scaleY = stretchY * foreshorten;
 
+          if (elem.kind !== 'char' && elem.kind !== 'cyrillic_badge') {
+            scaleX *= p.shapeWidth;
+          }
+
+          tMatrix += ` scale(${scaleX.toFixed(3)}, ${scaleY.toFixed(3)})`;
           g.setAttribute('transform', tMatrix);
+
+          let elFill = fillPaint;
+          let elStroke = 'none';
+          let elStrokeWidth = '0';
+          let elFilter = 'none';
+
+          if (p.outline === 'stroke') {
+            elFill = 'none';
+            elStroke = fillPaint;
+            elStrokeWidth = '2px';
+          } else if (p.outline === 'glow') {
+            elFilter = 'url(#neon-glow)';
+          }
 
           if (elem.kind === 'char') {
             const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            txt.setAttribute('fill', p.ink);
-            txt.setAttribute('class', elem.fontType === 'mono' ? 't-mono' : 't-sora');
-            txt.setAttribute('font-size', elem.size);
+            txt.setAttribute('fill', elFill);
+            txt.setAttribute('stroke', elStroke);
+            txt.setAttribute('stroke-width', elStrokeWidth);
+            txt.setAttribute('filter', elFilter);
+            txt.setAttribute('class', 't-mono');
+            txt.setAttribute('font-size', row.fontSize);
             txt.textContent = elem.char;
             g.appendChild(txt);
           } else if (elem.kind === 'spark') {
             const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            path.setAttribute('d', createSparkPath(0, 0, elem.scale, p.shapeWidth));
-            path.setAttribute('fill', p.ink);
+            path.setAttribute('d', createSparkPath(0, 0, 1.0));
+            path.setAttribute('fill', elFill);
+            path.setAttribute('stroke', elStroke);
+            path.setAttribute('stroke-width', elStrokeWidth);
+            path.setAttribute('filter', elFilter);
             g.appendChild(path);
           } else if (elem.kind === 'top_reaching_spark') {
             const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            path.setAttribute('d', createTopReachingSparkPath(0, 0, elem.scale, p.shapeWidth, 2));
-            path.setAttribute('fill', p.ink);
+            path.setAttribute('d', createTopReachingSparkPath(0, 0, 1.0, 2));
+            path.setAttribute('fill', elFill);
+            path.setAttribute('stroke', elStroke);
+            path.setAttribute('stroke-width', elStrokeWidth);
+            path.setAttribute('filter', elFilter);
             g.appendChild(path);
           } else if (elem.kind === 'pill') {
             const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-            const pw = elem.w;
-            rect.setAttribute('x', -pw / 2);
+            const baseWUnscaled = (elem.w / p.shapeWidth);
+            rect.setAttribute('x', -baseWUnscaled / 2);
             rect.setAttribute('y', -elem.h / 2);
-            rect.setAttribute('width', pw);
+            rect.setAttribute('width', baseWUnscaled);
             rect.setAttribute('height', elem.h);
-            rect.setAttribute('rx', Math.min(pw / 2, 14));
-            rect.setAttribute('fill', p.ink);
+            rect.setAttribute('rx', Math.min(baseWUnscaled / 2, 12));
+            rect.setAttribute('fill', elFill);
+            rect.setAttribute('stroke', elStroke);
+            rect.setAttribute('stroke-width', elStrokeWidth);
+            rect.setAttribute('filter', elFilter);
             g.appendChild(rect);
           } else if (elem.kind === 'disc') {
             const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-            circle.setAttribute('cx', 0);
-            circle.setAttribute('cy', 0);
             circle.setAttribute('r', elem.r);
-            circle.setAttribute('fill', p.ink);
+            circle.setAttribute('fill', elFill);
+            circle.setAttribute('stroke', elStroke);
+            circle.setAttribute('stroke-width', elStrokeWidth);
+            circle.setAttribute('filter', elFilter);
             g.appendChild(circle);
           } else if (elem.kind === 'moon') {
             const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            const r = elem.r;
-            const d = elem.dir > 0 
-              ? `M 0 ${-r} A ${r} ${r} 0 0 1 0 ${r} Z` 
-              : `M 0 ${-r} A ${r} ${r} 0 0 0 0 ${r} Z`;
+            const d = elem.dir > 0 ? `M 0 ${-elem.r} A ${elem.r} ${elem.r} 0 0 1 0 ${elem.r} Z` : `M 0 ${-elem.r} A ${elem.r} ${elem.r} 0 0 0 0 ${elem.r} Z`;
             path.setAttribute('d', d);
-            path.setAttribute('fill', p.ink);
+            path.setAttribute('fill', elFill);
+            path.setAttribute('stroke', elStroke);
+            path.setAttribute('stroke-width', elStrokeWidth);
+            path.setAttribute('filter', elFilter);
             g.appendChild(path);
           } else if (elem.kind === 'cyrillic_badge') {
             const t1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            t1.setAttribute('fill', p.ink);
-            t1.setAttribute('class', 't-mono');
-            t1.setAttribute('font-size', '16');
-            t1.setAttribute('y', '-10');
+            t1.setAttribute('fill', elFill);
+            t1.setAttribute('class', 't-sora');
+            t1.setAttribute('font-size', '14');
+            t1.setAttribute('y', '-8');
             t1.textContent = elem.str;
-            
+
             const t2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            t2.setAttribute('fill', p.ink);
-            t2.setAttribute('class', 't-mono');
-            t2.setAttribute('font-size', '16');
-            t2.setAttribute('y', '12');
+            t2.setAttribute('fill', elFill);
+            t2.setAttribute('class', 't-sora');
+            t2.setAttribute('font-size', '14');
+            t2.setAttribute('y', '10');
             t2.textContent = elem.str2;
-            
+
             g.appendChild(t1);
             g.appendChild(t2);
           }
 
           root.appendChild(g);
-
           const gap = elem.clusterEnd ? (p.minGap * 2 * scaleFactor) : (p.minGap * scaleFactor);
           curX += w + gap;
         });
       });
 
-      // Flat Anchored Footer Tier 3 Metadata
-      const footerY = 1068;
+      const footerY = 1076;
       const footerG = document.createElementNS("http://www.w3.org/2000/svg", "g");
       footerG.setAttribute('fill', p.ink);
       footerG.setAttribute('class', 't-meta');
 
       const urlText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      urlText.setAttribute('x', Math.max(22, p.margin));
+      urlText.setAttribute('x', 10);
       urlText.setAttribute('y', footerY);
       urlText.textContent = "WWW.STRELKA.COM";
 
       const addrText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      addrText.setAttribute('x', W - Math.max(22, p.margin));
+      addrText.setAttribute('x', W - 10);
       addrText.setAttribute('y', footerY);
       addrText.setAttribute('text-anchor', 'end');
       addrText.textContent = "14, BLDG. 5A, BERSENEVSKAYA EMBANKMENT";
@@ -820,16 +915,14 @@
       const svg = document.getElementById('poster-svg');
       const serializer = new XMLSerializer();
       let source = serializer.serializeToString(svg);
-
       if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
-        source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+        source = source.parse ? source : source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
       }
-
       const blob = new Blob([source], { type: "image/svg+xml;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `afisha-kinetic-poster-${Date.now()}.svg`;
+      a.download = `afisha-poster-${Date.now()}.svg`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -838,12 +931,7 @@
 
     function exportPDF() {
       const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: [297, 420]
-      });
-
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [297, 420] });
       const svgElement = document.getElementById('poster-svg');
       const serializer = new XMLSerializer();
       const svgString = serializer.serializeToString(svgElement);
@@ -860,13 +948,13 @@
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         const imgData = canvas.toDataURL('image/png');
         pdf.addImage(imgData, 'PNG', 0, 0, 297, 420);
-        pdf.save(`afisha-kinetic-poster-${Date.now()}.pdf`);
+        pdf.save(`afisha-poster-${Date.now()}.pdf`);
         URLObj.revokeObjectURL(blobURL);
       };
       img.src = blobURL;
     }
 
-    const inputs = document.querySelectorAll('input');
+    const inputs = document.querySelectorAll('input, select');
     inputs.forEach(input => input.addEventListener('input', renderPoster));
 
     window.addEventListener('load', renderPoster);
