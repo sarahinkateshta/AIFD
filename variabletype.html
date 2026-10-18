@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Cycling Weather Kinetic Poster Generator - Tilt Warp Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&family=Sora:wght@700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    @font-face {
+      font-family: 'Tilt Warp';
+      src: url('TiltWarp-Regular-VariableFont_XROT,YROT.ttf') format('truetype');
+      font-weight: 400 900;
+      font-display: swap;
+    }
+
+    :root {
+      --bg-ui: #08080c;
+      --panel-bg: #121218;
+      --border-color: #22222e;
+      --accent: #5e6ad2;
+      --text-main: #f0f0f5;
+      --text-muted: #8b8b9e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-ui);
+      color: var(--text-main);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    aside {
+      width: 410px;
+      min-width: 410px;
+      background: var(--panel-bg);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 12px;
+      overflow-y: auto;
+      z-index: 10;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+
+    details {
+      background: #181822;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 14px;
+      transition: background 0.2s;
+    }
+
+    details[open] {
+      background: #1c1c28;
+      border-color: #3b3b4f;
+    }
+
+    summary {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-main);
+      cursor: pointer;
+      outline: none;
+      user-select: none;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: "+";
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+    details[open] summary::after { content: "-"; }
+
+    .accordion-content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .control-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: 500;
+    }
+
+    .control-label span {
+      color: var(--text-muted);
+      font-feature-settings: "tnum";
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      background: #2b2b36;
+      border-radius: 2px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--text-main);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+    input[type="text"], select {
+      width: 100%;
+      background: #0e0e13;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: #fff;
+      font-size: 0.8rem;
+      font-family: monospace;
+      outline: none;
+    }
+    input[type="text"]:focus, select:focus { border-color: var(--accent); }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .color-field {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+
+    input[type="color"] {
+      -webkit-appearance: none;
+      border: 1px solid var(--border-color);
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      cursor: pointer;
+      background: none;
+    }
+
+    input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+    input[type="color"]::-webkit-color-swatch { border: none; border-radius: 4px; }
+
+    .color-key-box {
+      background: #14141d;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .key-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .key-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: auto;
+      padding-top: 10px;
+    }
+
+    button {
+      flex: 1;
+      padding: 10px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: #22222c;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    button.weather-btn {
+      background: #0078d4;
+      border-color: #0078d4;
+      color: #fff;
+    }
+
+    button:hover { filter: brightness(1.15); }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      background: rgba(0, 120, 212, 0.15);
+      border: 1px solid rgba(0, 120, 212, 0.4);
+      color: #38bdf8;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: #38bdf8;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #050508;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .poster-container {
+      height: 97%;
+      aspect-ratio: 1 / 1.414;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.08);
+      display: flex;
+      background: #000;
+      position: relative;
+    }
+
+    #poster-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <aside>
+    <div>
+      <h1>Live Cycling Weather Tool</h1>
+      <div class="live-badge">
+        <div class="live-dot"></div>
+        <span id="connection-status">Cycling Solar Destinations...</span>
+      </div>
+    </div>
+
+    <!-- MANUAL CYCLE ACTION -->
+    <div class="control-group">
+      <button class="weather-btn" onclick="fetchCyclingWeather()" title="Manually cycle to next global destination">Cycle Next Destination</button>
+    </div>
+
+    <!-- ACCORDION 1: TILT WARP VARIABLE FONT AXES -->
+    <details open>
+      <summary>Variable Axes</summary>
+      <div class="accordion-content">
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-xrot">Rotation in X</label>
+            <span id="val-xrot">0</span>
+          </div>
+          <input type="range" id="param-xrot" min="-45" max="45" step="1" value="0">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-yrot">Rotation in Y</label>
+            <span id="val-yrot">0</span>
+          </div>
+          <input type="range" id="param-yrot" min="-45" max="45" step="1" value="0">
+        </div>
+      </div>
+    </details>
+
+    <!-- ACCORDION 2: ATMOSPHERIC METADATA -->
+    <details>
+      <summary>Atmospheric Data Fields</summary>
+      <div class="accordion-content">
+        <div class="control-group">
+          <label class="control-label"><span>Header Line 1 (Location)</span></label>
+          <input type="text" id="txt-line1" value="NEW YORK CITY">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Header Line 2 (Solar Phase)</span></label>
+          <input type="text" id="txt-line2" value="ATMOSPHERE DYNAMICS">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Event Date / UTC Time</span></label>
+          <input type="text" id="txt-line3" value="LIVE STREAM">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Temperature Metric (Emphasized Wave)</span></label>
+          <input type="text" id="txt-line4" value="TEMP: 21°C">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Wind Velocity (Emphasized Wave)</span></label>
+          <input type="text" id="txt-line5" value="WIND: 14 KM/H">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Precipitation Level (Emphasized Wave)</span></label>
+          <input type="text" id="txt-line6" value="PRECIP: 0.0 MM">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Barometric Index 1</span></label>
+          <input type="text" id="txt-line7" value="BAROMETRIC FLUX">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Barometric Index 2</span></label>
+          <input type="text" id="txt-line8" value="KINETIC WAVE FIELD">
+        </div>
+        <div class="control-group">
+          <label class="control-label"><span>Status Feed</span></label>
+          <input type="text" id="txt-line9" value="ACTIVE SENSOR">
+        </div>
+      </div>
+    </details>
+
+    <!-- ACCORDION 3: KINETIC TOPOLOGIES -->
+    <details open>
+      <summary>Kinetic Topologies & Scaling</summary>
+      <div class="accordion-content">
+        <div class="control-group">
+          <label class="control-label"><span>Topology Style</span></label>
+          <select id="param-topology">
+            <option value="strelka_wave" selected>1. Numeric-Driven Wave Modulation</option>
+            <option value="clean_spiral">2. Atmospheric Spiral Flow</option>
+            <option value="cascading_wave">3. 3D Cascading Storm Landscape</option>
+            <option value="diagonal_rhythm">4. Clean Straight Diagonal Slope</option>
+            <option value="staggered_cascade">5. Staggered Asymmetric Cascade</option>
+            <option value="vertical_equalizer">6. Vertical Barometric Equalizer</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-font-size">Base Font Size (Scale)</label>
+            <span id="val-font-size">46px</span>
+          </div>
+          <input type="range" id="param-font-size" min="24" max="64" step="2" value="46">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-row-spacing">Inter-Line Pitch (Vertical Span)</label>
+            <span id="val-row-spacing">0.95</span>
+          </div>
+          <input type="range" id="param-row-spacing" min="0.60" max="1.20" step="0.01" value="0.95">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-tallness">Vertical Letter Stretch (Y-Axis)</label>
+            <span id="val-tallness">1.20</span>
+          </div>
+          <input type="range" id="param-tallness" min="0.90" max="1.60" step="0.02" value="1.20">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-shape-width">Shape Horizontal Width</label>
+            <span id="val-shape-width">1.20</span>
+          </div>
+          <input type="range" id="param-shape-width" min="1.00" max="2.20" step="0.05" value="1.20">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-amp">Base Wave Amplitude</label>
+            <span id="val-amp">25</span>
+          </div>
+          <input type="range" id="param-amp" min="0" max="60" value="25">
+        </div>
+
+        <div class="control-group">
+          <div class="control-label">
+            <label for="param-min-gap">Letter Spacing Gap</label>
+            <span id="val-min-gap">3px</span>
+          </div>
+          <input type="range" id="param-min-gap" min="-4" max="16" step="1" value="3">
+        </div>
+      </div>
+    </details>
+
+    <!-- ACCORDION 4: COLOR PALETTE & STYLING -->
+    <details>
+      <summary>Color Gradients & Styling</summary>
+      <div class="accordion-content">
+        <div class="color-grid">
+          <div class="color-field">
+            <input type="color" id="param-bg" value="#f2f5fa">
+            <label for="param-bg">Canvas BG</label>
+          </div>
+          <div class="color-field">
+            <input type="color" id="param-ink" value="#1e293b">
+            <label for="param-ink">Base Ink Tone</label>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label"><span>Active Color Key Legend</span></label>
+          <div class="color-key-box" id="color-key-legend">
+            <div class="key-item"><div class="key-dot" style="background:#0284c7;"></div><span>Precipitation / Rain State</span></div>
+            <div class="key-item"><div class="key-dot" style="background:#d97706;"></div><span>Warm / High Temp State</span></div>
+            <div class="key-item"><div class="key-dot" style="background:#38bdf8;"></div><span>Night Atmosphere State</span></div>
+            <div class="key-item"><div class="key-dot" style="background:#1e293b;"></div><span>Daylight / Crisp Contrast State</span></div>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label class="control-label"><span>Letter Outline Effect</span></label>
+          <select id="param-outline">
+            <option value="none" selected>Solid Fill</option>
+            <option value="stroke">Hollow Outline Only</option>
+            <option value="glow">Neon Glow Drop Shadow</option>
+          </select>
+        </div>
+      </div>
+    </details>
+
+    <div class="actions">
+      <button onclick="exportSVG()" title="Export scalable vector SVG">Export SVG</button>
+      <button class="primary" onclick="exportPDF()" title="Export vector PDF">Export PDF</button>
+    </div>
+  </aside>
+
+  <main>
+    <div class="poster-container">
+      <svg id="poster-svg" viewBox="0 0 768 1086" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="poster-boundary-clip">
+            <rect x="0" y="0" width="768" height="1086"/>
+          </clipPath>
+          <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+          <style>
+            @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&family=Sora:wght@700;800&display=swap');
+            
+            .t-sora { font-family: 'Sora', sans-serif; font-weight: 800; text-anchor: middle; dominant-baseline: central; }
+            .t-mono { font-family: 'JetBrains Mono', monospace; font-weight: 800; text-anchor: middle; dominant-baseline: central; }
+            .t-meta { font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: 7.5px; letter-spacing: 0.12em; }
+          </style>
+        </defs>
+        <rect id="svg-bg" width="768" height="1086" fill="#f2f5fa"/>
+        <g id="background-decor-layer"></g>
+        <g clip-path="url(#poster-boundary-clip)">
+          <g id="poster-root" transform-origin="384 543"></g>
+        </g>
+      </svg>
+    </div>
+  </main>
+
+  <script>
+    const WEATHER_STATIONS = [
+      { name: "NEW YORK CITY", lat: 40.74, lon: -73.98 },
+      { name: "REYKJAVIK", lat: 64.14, lon: -21.94 },
+      { name: "TOKYO", lat: 35.68, lon: 139.65 },
+      { name: "LONDON", lat: 51.50, lon: -0.12 },
+      { name: "SYDNEY", lat: -33.86, lon: 151.20 },
+      { name: "PARIS", lat: 48.85, lon: 2.35 },
+      { name: "CAIRO", lat: 30.04, lon: 31.23 },
+      { name: "BUENOS AIRES", lat: -34.60, lon: -58.38 },
+      { name: "SINGAPORE", lat: 1.35, lon: 103.82 },
+      { name: "BERLIN", lat: 52.52, lon: 13.40 },
+      { name: "TORONTO", lat: 43.65, lon: -79.38 },
+      { name: "SÃO PAULO", lat: -23.55, lon: -46.63 },
+      { name: "OSLO", lat: 59.91, lon: 10.75 },
+      { name: "CAPE TOWN", lat: -33.92, lon: 18.42 },
+      { name: "SEOUL", lat: 37.56, lon: 126.97 },
+      { name: "RIO DE JANEIRO", lat: -22.90, lon: -43.17 },
+      { name: "MEXICO CITY", lat: 19.43, lon: -99.13 },
+      { name: "MUMBAI", lat: 19.07, lon: 72.87 },
+      { name: "BANGKOK", lat: 13.75, lon: 100.50 },
+      { name: "DUBAI", lat: 25.20, lon: 55.27 },
+      { name: "VANCOUVER", lat: 49.28, lon: -123.12 },
+      { name: "AUCKLAND", lat: -36.84, lon: 174.76 },
+      { name: "ANCHORAGE", lat: 61.21, lon: -149.90 },
+      { name: "SANTIAGO", lat: -33.44, lon: -70.66 },
+      { name: "NAIROBI", lat: -1.29, lon: 36.82 },
+      { name: "ZURICH", lat: 47.37, lon: 8.54 }
+    ];
+
+    let currentStationIndex = 0;
+    let liveCycleInterval = null;
+    let currentWindSpeed = 10; 
+    let currentPrecipitation = 0.0;
+    let currentTemperature = 20.0;
+    let activeLat = 40.74;
+    let activeLon = -73.98;
+    let activeSolarPhase = "SOLAR NOON DAYLIGHT";
+
+    async function fetchCyclingWeather() {
+      const statusEl = document.getElementById('connection-status');
+      const station = WEATHER_STATIONS[currentStationIndex];
+      activeLat = station.lat;
+      activeLon = station.lon;
+      statusEl.innerText = `Syncing: ${station.name}...`;
+      
+      try {
+        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${station.lat}&longitude=${station.lon}&current=temperature_2m,wind_speed_10m,precipitation,weather_code&daily=sunrise,sunset&timezone=auto`);
+        const data = await response.json();
+        
+        if (data && data.current) {
+          currentTemperature = data.current.temperature_2m;
+          currentWindSpeed = data.current.wind_speed_10m;
+          currentPrecipitation = data.current.precipitation;
+
+          let mappedXRot = Math.round((currentWindSpeed / 10) * 45);
+          mappedXRot = Math.max(-45, Math.min(45, mappedXRot));
+
+          let mappedYRot = Math.round((currentTemperature / 10) * 45);
+          mappedYRot = Math.max(-45, Math.min(45, mappedYRot));
+
+          document.getElementById('param-xrot').value = mappedXRot;
+          document.getElementById('param-yrot').value = mappedYRot;
+
+          activeSolarPhase = "SOLAR NOON DAYLIGHT";
+          let bgHex = "#f2f5fa";
+
+          if (data.daily && data.daily.sunrise && data.daily.sunset) {
+            const now = new Date();
+            const sunrise = new Date(data.daily.sunrise[0]);
+            const sunset = new Date(data.daily.sunset[0]);
+
+            const hourDiffFromSunrise = (now - sunrise) / (1000 * 60 * 60);
+            const hourDiffFromSunset = (now - sunset) / (1000 * 60 * 60);
+
+            if (hourDiffFromSunrise >= -1 && hourDiffFromSunrise <= 1.5) {
+              activeSolarPhase = "DAWN GOLDEN HOUR";
+              bgHex = "#fdf8f0";
+            } else if (hourDiffFromSunset >= -1.5 && hourDiffFromSunset <= 1) {
+              activeSolarPhase = "DUSK VIOLET GLOW";
+              bgHex = "#f8f5fc";
+            } else if (now < sunrise || now > sunset) {
+              activeSolarPhase = "NIGHT ATMOSPHERE";
+              bgHex = "#04060f";
+            } else {
+              activeSolarPhase = "SOLAR NOON DAYLIGHT";
+              bgHex = "#f2f5fa";
+            }
+          }
+
+          document.getElementById('param-bg').value = bgHex;
+          document.getElementById('txt-line1').value = station.name;
+          document.getElementById('txt-line2').value = activeSolarPhase;
+          document.getElementById('txt-line3').value = new Date().toISOString().replace('T', ' ').substring(0, 16) + " UTC";
+          document.getElementById('txt-line4').value = `TEMP: ${currentTemperature}°C`;
+          document.getElementById('txt-line5').value = `WIND: ${currentWindSpeed} KM/H`;
+          document.getElementById('txt-line6').value = `PRECIP: ${currentPrecipitation} MM`;
+          document.getElementById('txt-line7').value = `LAT: ${station.lat}° · LON: ${station.lon}°`;
+          document.getElementById('txt-line8').value = "REALISTIC EARTH GLOBE";
+          document.getElementById('txt-line9').value = "LIVE TILT WARP STREAM";
+
+          statusEl.innerText = `Active: ${station.name} (${activeSolarPhase})`;
+          renderPoster();
+
+          currentStationIndex = (currentStationIndex + 1) % WEATHER_STATIONS.length;
+        }
+      } catch (error) {
+        console.error("Failed to cycle weather data:", error);
+        statusEl.innerText = "Cycle Error (Retrying...)";
+      }
+    }
+
+    function startLiveCycling() {
+      if (liveCycleInterval) clearInterval(liveCycleInterval);
+      fetchCyclingWeather();
+      liveCycleInterval = setInterval(fetchCyclingWeather, 15000);
+    }
+
+    function renderBackgroundDecor(p, W, H) {
+      const decorLayer = document.getElementById('background-decor-layer');
+      decorLayer.innerHTML = '';
+
+      const cx = W / 2;
+      const cy = H / 2;
+      const radius = 250;
+
+      const isLightBg = isColorLight(p.bg);
+
+      const globeGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+      const globeCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      globeCircle.setAttribute('cx', cx);
+      globeCircle.setAttribute('cy', cy);
+      globeCircle.setAttribute('r', radius);
+      globeCircle.setAttribute('fill', isLightBg ? '#e2ecfd' : '#0e172a');
+      globeCircle.setAttribute('stroke', isLightBg ? '#1e293b' : '#38bdf8');
+      globeCircle.setAttribute('stroke-width', isLightBg ? '3.5' : '2.5');
+      globeCircle.setAttribute('opacity', isLightBg ? '0.45' : '0.65');
+      globeGroup.appendChild(globeCircle);
+
+      [-0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75].forEach(latOffset => {
+        const ry = radius * 0.3;
+        const ellipse = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+        ellipse.setAttribute('cx', cx);
+        ellipse.setAttribute('cy', cy + (latOffset * radius));
+        ellipse.setAttribute('rx', Math.sqrt(1 - latOffset*latOffset) * radius);
+        ellipse.setAttribute('ry', ry * 0.6);
+        ellipse.setAttribute('fill', 'none');
+        ellipse.setAttribute('stroke', isLightBg ? '#1e293b' : '#38bdf8');
+        ellipse.setAttribute('stroke-width', isLightBg ? '1.8' : '1.2');
+        ellipse.setAttribute('opacity', isLightBg ? '0.35' : '0.5');
+        globeGroup.appendChild(ellipse);
+      });
+
+      [-0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75].forEach(lonOffset => {
+        const rx = radius * 0.3;
+        const ellipse = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+        ellipse.setAttribute('cx', cx + (lonOffset * radius));
+        ellipse.setAttribute('cy', cy);
+        ellipse.setAttribute('rx', rx * 0.6);
+        ellipse.setAttribute('ry', radius);
+        ellipse.setAttribute('fill', 'none');
+        ellipse.setAttribute('stroke', isLightBg ? '#1e293b' : '#38bdf8');
+        ellipse.setAttribute('stroke-width', isLightBg ? '1.8' : '1.2');
+        ellipse.setAttribute('opacity', isLightBg ? '0.35' : '0.5');
+        globeGroup.appendChild(ellipse);
+      });
+
+      const xPin = cx + (activeLon / 180) * (radius * 0.9);
+      const yPin = cy - (activeLat / 90) * (radius * 0.85);
+
+      const pinGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      pinGroup.setAttribute('transform', `translate(${xPin}, ${yPin})`);
+
+      const pulseRing = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      pulseRing.setAttribute('r', '18');
+      pulseRing.setAttribute('fill', 'none');
+      pulseRing.setAttribute('stroke', '#ff3366');
+      pulseRing.setAttribute('stroke-width', '2.5');
+      pulseRing.setAttribute('opacity', '0.9');
+      pinGroup.appendChild(pulseRing);
+
+      const centerDot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      centerDot.setAttribute('r', '6');
+      centerDot.setAttribute('fill', '#ff3366');
+      pinGroup.appendChild(centerDot);
+
+      globeGroup.appendChild(pinGroup);
+      decorLayer.appendChild(globeGroup);
+    }
+
+    function isColorLight(hexColor) {
+      const c = hexColor.replace('#', '');
+      const rgb = parseInt(c, 16);
+      const r = (rgb >> 16) & 0xff;
+      const g = (rgb >>  8) & 0xff;
+      const b = (rgb >>  0) & 0xff;
+      const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+      return luma > 140;
+    }
+
+    function getParams() {
+      const xrot = document.getElementById('param-xrot').value;
+      const yrot = document.getElementById('param-yrot').value;
+
+      document.getElementById('val-xrot').innerText = xrot;
+      document.getElementById('val-yrot').innerText = yrot;
+
+      return {
+        xrot: xrot,
+        yrot: yrot,
+        topology: document.getElementById('param-topology').value,
+        fontSizeScale: parseInt(document.getElementById('param-font-size').value),
+        rowSpacing: parseFloat(document.getElementById('param-row-spacing').value),
+        tallness: parseFloat(document.getElementById('param-tallness').value),
+        shapeWidth: parseFloat(document.getElementById('param-shape-width').value),
+        amp: parseFloat(document.getElementById('param-amp').value),
+        minGap: parseFloat(document.getElementById('param-min-gap').value),
+        bg: document.getElementById('param-bg').value,
+        ink: document.getElementById('param-ink').value,
+        outline: document.getElementById('param-outline').value,
+        line1: document.getElementById('txt-line1').value,
+        line2: document.getElementById('txt-line2').value,
+        line3: document.getElementById('txt-line3').value,
+        line4: document.getElementById('txt-line4').value,
+        line5: document.getElementById('txt-line5').value,
+        line6: document.getElementById('txt-line6').value,
+        line7: document.getElementById('txt-line7').value,
+        line8: document.getElementById('txt-line8').value,
+        line9: document.getElementById('txt-line9').value
+      };
+    }
+
+    function evalMeshWarp(x, W, H, rowIndex, totalRows, p, rowText) {
+      const u = x / W;
+      const v = rowIndex / (totalRows - 1);
+      const minRowY = 35;
+      const maxRowY = 1055;
+      const baseSpan = minRowY + (v * (maxRowY - minRowY));
+      
+      const xPosShift = (parseFloat(p.xrot) / 45) * 40; 
+      const yPosShift = (parseFloat(p.yrot) / 45) * 30;
+
+      const calculatedRowY = minRowY + ((baseSpan - minRowY) * p.rowSpacing) + yPosShift;
+
+      let waveY = 0;
+      let rotDeg = 0;
+
+      const hasNumbers = /\d/.test(rowText);
+
+      if (hasNumbers) {
+        let numericDriver = 1.3;
+        if (rowText.includes('TEMP')) numericDriver = Math.abs(currentTemperature) / 8;
+        else if (rowText.includes('WIND')) numericDriver = currentWindSpeed / 8;
+        else if (rowText.includes('PRECIP')) numericDriver = Math.max(1.3, currentPrecipitation * 4);
+
+        const lineAmp = (p.amp * 1.5) * numericDriver * 0.7;
+        waveY = lineAmp * Math.sin((2 * Math.PI * 1.6 * u) + (rowIndex * 0.5));
+        rotDeg = Math.sin(u * Math.PI) * (numericDriver * 2.8);
+      }
+
+      return {
+        xOffset: xPosShift,
+        y: calculatedRowY + waveY,
+        rotDeg,
+        stretchX: 1.08,
+        stretchY: p.tallness,
+        foreshorten: 1.0
+      };
+    }
+
+    function createSparkPath(cx, cy, scale) {
+      const rx = 16 * scale;
+      const ry = 28 * scale;
+      return `M ${cx} ${cy - ry} Q ${cx} ${cy} ${cx + rx} ${cy} Q ${cx} ${cy} ${cx} ${cy + ry} Q ${cx} ${cy} ${cx - rx} ${cy} Q ${cx} ${cy} ${cx} ${cy - ry} Z`;
+    }
+
+    function createTopReachingSparkPath(cx, cy, scale, topCeilingY) {
+      const rx = 16 * scale;
+      const ryDown = 28 * scale;
+      const ryUp = Math.max(ryDown, cy - topCeilingY);
+      return `M ${cx} ${cy - ryUp} Q ${cx} ${cy} ${cx + rx} ${cy} Q ${cx} ${cy} ${cx} ${cy + ryDown} Q ${cx} ${cy} ${cx - rx} ${cy} Q ${cx} ${cy} ${cx} ${cy - ryUp} Z`;
+    }
+
+    function createWaterDropletPath(r) {
+      return `M 0 ${-r * 1.3} C ${r * 0.9} ${-r * 0.2} ${r * 0.9} ${r * 0.8} 0 ${r * 1.1} C ${-r * 0.9} ${r * 0.8} ${-r * 0.9} ${-r * 0.2} 0 ${-r * 1.3} Z`;
+    }
+
+    function getPreciseCharWidth(ch, fontSize) {
+      const wide = ['M', 'W', 'O', 'Q', 'D', 'G', '0', 'H'];
+      const narrow = ['I', '1', ':', '-', 'J', '«', '»'];
+      if (wide.includes(ch)) return fontSize * 0.58;
+      if (narrow.includes(ch)) return fontSize * 0.26;
+      return fontSize * 0.44;
+    }
+
+    function renderPoster() {
+      const p = getParams();
+      const W = 768;
+      const H = 1086;
+
+      document.getElementById('val-font-size').innerText = p.fontSizeScale + 'px';
+      document.getElementById('val-row-spacing').innerText = p.rowSpacing.toFixed(2);
+      document.getElementById('val-tallness').innerText = p.tallness.toFixed(2);
+      document.getElementById('val-shape-width').innerText = p.shapeWidth.toFixed(2);
+      document.getElementById('val-amp').innerText = p.amp;
+      document.getElementById('val-min-gap').innerText = p.minGap + 'px';
+
+      document.getElementById('svg-bg').setAttribute('fill', p.bg);
+      renderBackgroundDecor(p, W, H);
+
+      const root = document.getElementById('poster-root');
+      root.innerHTML = '';
+
+      const fSize = p.fontSizeScale;
+      const ROWS_CONFIG = [
+        { fontSize: fSize + 4, text: p.line1, clusters: [{ type: 'word', text: p.line1.split(' ')[0] || "WEATHER" }, { type: 'top_reaching_spark', count: 2, scale: 1.0 }, { type: 'word', text: p.line1.split(' ').slice(1).join(' ') || "STREAM" }] },
+        { fontSize: fSize + 2, text: p.line2, clusters: [{ type: 'droplets', count: 3, r: 16 }, { type: 'word', text: p.line2 }, { type: 'disc', r: 14 }] },
+        { fontSize: fSize, text: p.line3, clusters: [{ type: 'word', text: p.line3.split(' ')[0] || "LIVE" }, { type: 'moons', count: 2, dir: 1, r: 14 }, { type: 'word', text: p.line3.split(' ').slice(1).join(' ') || "METRICS" }, { type: 'cyrillic_badge', str: "«МЕТЕО", str2: "«ПОТОК»" }] },
+        { fontSize: fSize + 2, text: p.line4, clusters: [{ type: 'word', text: p.line4 }, { type: 'spark', count: 4, scale: 0.9 }] },
+        { fontSize: fSize + 2, text: p.line5, clusters: [{ type: 'word', text: p.line5 }, { type: 'disc', r: 12 }, { type: 'word', text: "WIND" }] },
+        { fontSize: fSize + 2, text: p.line6, clusters: [{ type: 'word', text: p.line6 }, { type: 'droplets', count: 2, r: 14 }, { type: 'word', text: "RAIN" }] },
+        { fontSize: fSize, text: p.line7, clusters: [{ type: 'word', text: p.line7 }, { type: 'disc_sequence', count: 4, r: 10 }] },
+        { fontSize: fSize, text: p.line8, clusters: [{ type: 'word', text: p.line8 }, { type: 'moons', count: 3, dir: 1, r: 14 }] },
+        { fontSize: fSize, text: p.line9, clusters: [{ type: 'moons', count: 4, dir: 1, r: 13 }, { type: 'word', text: p.line9 }, { type: 'moons', count: 3, dir: 1, r: 13 }] }
+      ];
+
+      const totalRows = ROWS_CONFIG.length;
+      const leftBoundary = 0;
+      const rightBoundary = W;
+      const targetLineWidth = rightBoundary - leftBoundary;
+
+      ROWS_CONFIG.forEach((row, rowIndex) => {
+        let elements = [];
+
+        let lineFillColor = "#1e293b";
+        if (activeSolarPhase.includes('NIGHT')) {
+          const nightColors = ["#38bdf8", "#818cf8", "#c084fc", "#34d399", "#f43f5e", "#38bdf8", "#fbbf24", "#c084fc", "#34d399"];
+          lineFillColor = nightColors[rowIndex % nightColors.length];
+        } else if (currentPrecipitation > 0) {
+          const rainColors = ["#0284c7", "#0369a1", "#0284c7", "#0ea5e9", "#0369a1", "#0284c7", "#0ea5e9", "#0284c7", "#0369a1"];
+          lineFillColor = rainColors[rowIndex % rainColors.length];
+        } else if (currentTemperature > 22) {
+          const warmColors = ["#d97706", "#b45309", "#d97706", "#ea580c", "#b45309", "#d97706", "#ea580c", "#d97706", "#b45309"];
+          lineFillColor = warmColors[rowIndex % warmColors.length];
+        } else {
+          const dayColors = ["#1e293b", "#0f172a", "#334155", "#0284c7", "#1e293b", "#0f172a", "#0284c7", "#334155", "#1e293b"];
+          lineFillColor = dayColors[rowIndex % dayColors.length];
+        }
+
+        row.clusters.forEach(cluster => {
+          if (cluster.type === 'word') {
+            const chars = cluster.text.split('');
+            chars.forEach((c, cIdx) => {
+              elements.push({ kind: 'char', char: c, size: row.fontSize, baseW: getPreciseCharWidth(c, row.fontSize), clusterEnd: cIdx === chars.length - 1 });
+            });
+          } else if (cluster.type === 'spark') {
+            for (let i = 0; i < cluster.count; i++) {
+              elements.push({ kind: 'spark', scale: 0.9, baseW: 28, clusterEnd: i === cluster.count - 1 });
+            }
+          } else if (cluster.type === 'top_reaching_spark') {
+            for (let i = 0; i < cluster.count; i++) {
+              elements.push({ kind: 'top_reaching_spark', scale: 0.9, baseW: 30, clusterEnd: i === cluster.count - 1 });
+            }
+          } else if (cluster.type === 'droplets') {
+            for (let i = 0; i < cluster.count; i++) {
+              elements.push({ kind: 'water_droplet', r: cluster.r, baseW: cluster.r * 1.6 * p.shapeWidth, clusterEnd: i === cluster.count - 1 });
+            }
+          } else if (cluster.type === 'disc') {
+            elements.push({ kind: 'disc', r: cluster.r, baseW: cluster.r * 1.8 * p.shapeWidth, clusterEnd: true });
+          } else if (cluster.type === 'disc_sequence') {
+            for (let i = 0; i < cluster.count; i++) {
+              elements.push({ kind: 'disc', r: cluster.r, baseW: cluster.r * 1.8 * p.shapeWidth, clusterEnd: i === cluster.count - 1 });
+            }
+          } else if (cluster.type === 'moons') {
+            for (let i = 0; i < cluster.count; i++) {
+              elements.push({ kind: 'moon', dir: cluster.dir, r: cluster.r, baseW: cluster.r * 1.4 * p.shapeWidth, clusterEnd: i === cluster.count - 1 });
+            }
+          } else if (cluster.type === 'cyrillic_badge') {
+            elements.push({ kind: 'cyrillic_badge', str: cluster.str, str2: cluster.str2, baseW: 60, clusterEnd: true });
+          }
+        });
+
+        const N = elements.length;
+        if (N === 0) return;
+
+        let naturalContentWidth = 0;
+        let totalGapsWidth = 0;
+        elements.forEach((el, i) => {
+          naturalContentWidth += el.baseW;
+          if (i < N - 1) {
+            totalGapsWidth += el.clusterEnd ? (p.minGap * 2) : p.minGap;
+          }
+        });
+
+        const totalNaturalWidth = naturalContentWidth + totalGapsWidth;
+        const scaleFactor = targetLineWidth / (totalNaturalWidth || 1);
+        let curX = leftBoundary;
+
+        elements.forEach((elem, elemIdx) => {
+          const w = elem.baseW * scaleFactor;
+          const xCenter = curX + (w / 2);
+
+          const { xOffset, y: warpedY, rotDeg, stretchX, stretchY, foreshorten } = evalMeshWarp(xCenter, W, H, rowIndex, totalRows, p, row.text);
+
+          let finalX = xCenter + xOffset;
+          let y = warpedY;
+          if (rowIndex === 0) y = Math.max(y, 10 + (row.fontSize * 0.38));
+          else if (rowIndex === totalRows - 1) y = Math.min(y, 1076 - (row.fontSize * 0.38));
+
+          const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+          
+          // Apply 3D perspective skew/rotation mapping from sliders
+          const xRotDeg = (parseFloat(p.xrot) / 45) * 25; 
+          const yRotDeg = (parseFloat(p.yrot) / 45) * 25;
+
+          let tMatrix = `translate(${finalX.toFixed(1)}, ${y.toFixed(1)})`;
+          if (rotDeg !== 0) tMatrix += ` rotate(${rotDeg.toFixed(2)})`;
+          tMatrix += ` skewX(${xRotDeg.toFixed(1)}) skewY(${yRotDeg.toFixed(1)})`;
+
+          let scaleX = stretchX;
+          let scaleY = stretchY * foreshorten;
+
+          if (elem.kind !== 'char' && elem.kind !== 'cyrillic_badge') {
+            scaleX *= p.shapeWidth;
+          }
+
+          tMatrix += ` scale(${scaleX.toFixed(3)}, ${scaleY.toFixed(3)})`;
+          g.setAttribute('transform', tMatrix);
+
+          let elFill = lineFillColor;
+          let elStroke = 'none';
+          let elStrokeWidth = '0';
+          let elFilter = 'none';
+
+          if (p.outline === 'stroke') {
+            elFill = 'none';
+            elStroke = lineFillColor;
+            elStrokeWidth = '2px';
+          } else if (p.outline === 'glow') {
+            elFilter = 'url(#neon-glow)';
+          }
+
+          if (elem.kind === 'char') {
+            const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            txt.setAttribute('fill', elFill);
+            txt.setAttribute('stroke', elStroke);
+            txt.setAttribute('stroke-width', elStrokeWidth);
+            txt.setAttribute('filter', elFilter);
+            txt.setAttribute('font-size', row.fontSize);
+            txt.setAttribute('style', `font-family: 'Tilt Warp', sans-serif; font-weight: 800; font-variation-settings: 'XROT' ${p.xrot}, 'YROT' ${p.yrot};`);
+            txt.textContent = elem.char;
+            g.appendChild(txt);
+          } else if (elem.kind === 'spark') {
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute('d', createSparkPath(0, 0, elem.scale));
+            path.setAttribute('fill', elFill);
+            path.setAttribute('stroke', elStroke);
+            path.setAttribute('stroke-width', elStrokeWidth);
+            path.setAttribute('filter', elFilter);
+            g.appendChild(path);
+          } else if (elem.kind === 'top_reaching_spark') {
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute('d', createTopReachingSparkPath(0, 0, elem.scale, 2));
+            path.setAttribute('fill', elFill);
+            path.setAttribute('stroke', elStroke);
+            path.setAttribute('stroke-width', elStrokeWidth);
+            path.setAttribute('filter', elFilter);
+            g.appendChild(path);
+          } else if (elem.kind === 'water_droplet') {
+            const dropletGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+            const r = elem.r;
+            const pathData = createWaterDropletPath(r);
+
+            const clipId = `droplet-clip-${rowIndex}-${elemIdx}-${Math.random().toString(36).substr(2, 5)}`;
+            const clipEl = document.createElementNS("http://www.w3.org/2000/svg", "clipPath");
+            clipEl.setAttribute('id', clipId);
+            const clipPathNode = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            clipPathNode.setAttribute('d', pathData);
+            clipEl.appendChild(clipPathNode);
+            dropletGroup.appendChild(clipEl);
+
+            const bgPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            bgPath.setAttribute('d', pathData);
+            bgPath.setAttribute('fill', 'none');
+            bgPath.setAttribute('stroke', elFill);
+            bgPath.setAttribute('stroke-width', '2.5');
+            dropletGroup.appendChild(bgPath);
+
+            const fillRatio = Math.min(1.0, Math.max(0.0, currentPrecipitation / 10.0));
+            const totalHeight = r * 2.4;
+            const fillHeight = totalHeight * fillRatio;
+            const startY = (r * 1.1) - fillHeight;
+
+            const fillRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            fillRect.setAttribute('x', -r * 1.2);
+            fillRect.setAttribute('y', startY);
+            fillRect.setAttribute('width', r * 2.4);
+            fillRect.setAttribute('height', fillHeight);
+            fillRect.setAttribute('fill', elFill);
+            fillRect.setAttribute('clip-path', `url(#${clipId})`);
+            dropletGroup.appendChild(fillRect);
+
+            g.appendChild(dropletGroup);
+          } else if (elem.kind === 'disc') {
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute('r', elem.r);
+            circle.setAttribute('fill', elFill);
+            circle.setAttribute('stroke', elStroke);
+            circle.setAttribute('stroke-width', elStrokeWidth);
+            circle.setAttribute('filter', elFilter);
+            g.appendChild(circle);
+          } else if (elem.kind === 'moon') {
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            const d = elem.dir > 0 ? `M 0 ${-elem.r} A ${elem.r} ${elem.r} 0 0 1 0 ${elem.r} Z` : `M 0 ${-elem.r} A ${elem.r} ${elem.r} 0 0 0 0 ${elem.r} Z`;
+            path.setAttribute('d', d);
+            path.setAttribute('fill', elFill);
+            path.setAttribute('stroke', elStroke);
+            path.setAttribute('stroke-width', elStrokeWidth);
+            path.setAttribute('filter', elFilter);
+            g.appendChild(path);
+          } else if (elem.kind === 'cyrillic_badge') {
+            const t1 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            t1.setAttribute('fill', elFill);
+            t1.setAttribute('class', 't-sora');
+            t1.setAttribute('font-size', '12');
+            t1.setAttribute('y', '-7');
+            t1.textContent = elem.str;
+
+            const t2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            t2.setAttribute('fill', elFill);
+            t2.setAttribute('class', 't-sora');
+            t2.setAttribute('font-size', '12');
+            t2.setAttribute('y', '9');
+            t2.textContent = elem.str2;
+
+            g.appendChild(t1);
+            g.appendChild(t2);
+          }
+
+          root.appendChild(g);
+          const gap = elem.clusterEnd ? (p.minGap * 2 * scaleFactor) : (p.minGap * scaleFactor);
+          curX += w + gap;
+        });
+      });
+
+      const footerY = 1076;
+      const footerG = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      footerG.setAttribute('fill', activeSolarPhase.includes('NIGHT') ? '#94a3b8' : '#475569');
+      footerG.setAttribute('class', 't-meta');
+
+      const urlText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      urlText.setAttribute('x', 10);
+      urlText.setAttribute('y', footerY);
+      urlText.textContent = "WWW.OPEN-METEO.STREAM";
+
+      const addrText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      addrText.setAttribute('x', W - 10);
+      addrText.setAttribute('y', footerY);
+      addrText.setAttribute('text-anchor', 'end');
+      addrText.textContent = "GLOBAL AUTOMATED WEATHER FEED";
+
+      footerG.appendChild(urlText);
+      footerG.appendChild(addrText);
+      root.appendChild(footerG);
+    }
+
+    function exportSVG() {
+      const svg = document.getElementById('poster-svg');
+      const serializer = new XMLSerializer();
+      let source = serializer.serializeToString(svg);
+      if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
+        source = source.parse ? source : source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+      }
+      const blob = new Blob([source], { type: "image/svg+xml;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `weather-poster-${Date.now()}.svg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function exportPDF() {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [297, 420] });
+      const svgElement = document.getElementById('poster-svg');
+      const serializer = new XMLSerializer();
+      const svgString = serializer.serializeToString(svgElement);
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+      const URLObj = window.URL || window.webkitURL || window;
+      const blobURL = URLObj.createObjectURL(svgBlob);
+
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 768 * 2;
+        canvas.height = 1086 * 2;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const imgData = canvas.toDataURL('image/png');
+        pdf.addImage(imgData, 'PNG', 0, 0, 297, 420);
+        pdf.save(`weather-poster-${Date.now()}.pdf`);
+        URLObj.revokeObjectURL(blobURL);
+      };
+      img.src = blobURL;
+    }
+
+    const inputs = document.querySelectorAll('input, select');
+    inputs.forEach(input => input.addEventListener('input', renderPoster));
+
+    window.addEventListener('load', () => {
+      startLiveCycling();
+    });
+  </script>
+</body>
+</html>
