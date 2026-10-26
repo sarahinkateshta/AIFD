@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Baruch Mission Patch Generator - v46</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Sora:wght@700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg-ui: #0c0c0f;
+      --panel-bg: #141419;
+      --border-color: #242430;
+      --accent: #002288;
+      --text-main: #f0f0f5;
+      --text-muted: #8b8b9e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-ui);
+      color: var(--text-main);
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    aside {
+      width: 380px;
+      min-width: 380px;
+      height: 100vh;
+      background: var(--panel-bg);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 14px;
+      overflow-y: auto;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 100;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .section-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-top: 4px;
+      margin-bottom: 2px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 4px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .control-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .control-label span {
+      color: var(--text-muted);
+      font-feature-settings: "tnum";
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      background: #2b2b36;
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--text-main);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .color-field {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+    }
+
+    input[type="color"] {
+      -webkit-appearance: none;
+      border: 1px solid var(--border-color);
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      background: none;
+    }
+
+    input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+    input[type="color"]::-webkit-color-swatch { border: none; border-radius: 4px; }
+
+    .mini-preview-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #08080a;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+    }
+
+    #mini-patch-container {
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.9);
+      border: 2px solid #c5a059;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      padding-bottom: 30px;
+    }
+
+    button {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: #24242e;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    button:hover { filter: brightness(1.15); }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #08080a;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .patch-container {
+      width: 420px;
+      height: 420px;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.08);
+      display: flex;
+      background: #000;
+      position: relative;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    #patch-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <aside>
+    <div>
+      <h1>Mission Patch Generator</h1>
+      <p class="desc" style="margin-top: 4px;">What message would Baruch send into space?</p>
+    </div>
+
+    <div class="section-title">Small-Scale Check (1″ Badge)</div>
+    <div class="mini-preview-box">
+      <div id="mini-patch-container"></div>
+    </div>
+
+    <div class="section-title">Patch Composition</div>
+
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-star-density">Star Field Density</label>
+        <span id="val-star-density">80</span>
+      </div>
+      <input type="range" id="param-star-density" min="20" max="150" value="80">
+    </div>
+
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-earth-scale">Earth Globe Scale</label>
+        <span id="val-earth-scale">1.00</span>
+      </div>
+      <input type="range" id="param-earth-scale" min="0.80" max="1.30" step="0.02" value="1.00">
+    </div>
+
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-text-slant">ARUCH Slant Angle</label>
+        <span id="val-text-slant">-6°</span>
+      </div>
+      <input type="range" id="param-text-slant" min="-20" max="10" step="1" value="-6">
+    </div>
+
+    <div class="section-title">Color Palette</div>
+
+    <div class="color-grid">
+      <div class="color-field">
+        <input type="color" id="param-dark-side" value="#050814">
+        <label for="param-dark-side">Sky Background</label>
+      </div>
+      <div class="color-field">
+        <input type="color" id="param-baruch-blue" value="#002288">
+        <label for="param-baruch-blue">Dark Blue "B"</label>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button onclick="exportSVG()" title="Export Vector SVG">Export SVG</button>
+      <button class="primary" onclick="exportPDF()" title="Export 3.5x3.5 Vector PDF">Export PDF (3.5″)</button>
+    </div>
+  </aside>
+
+  <main>
+    <div class="patch-container">
+      <svg id="patch-svg" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="patch-clip">
+            <circle cx="300" cy="300" r="290"/>
+          </clipPath>
+
+          <!-- Top Lobe White Backdrop Clip Path for ARUCH -->
+          <clipPath id="top-lobe-bg-clip">
+            <path d="M 175 35 
+                     L 275 35 
+                     C 450 35, 520 95, 520 195 
+                     C 520 255, 450 305, 350 310 
+                     L 275 310 
+                     L 175 310 
+                     Z"/>
+          </clipPath>
+
+          <!-- Arch Path -->
+          <path id="top-arch-path" d="M 180,130 Q 350,30 515,160" />
+
+          <style>
+            @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Sora:wght@700;800&display=swap');
+            .t-sora { font-family: 'Sora', sans-serif; font-weight: 800; text-anchor: middle; dominant-baseline: central; font-size: 72px; letter-spacing: 4px; }
+            .t-arch { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 10.5px; fill: #ffd700; letter-spacing: 2px; }
+            .star { fill: #ffffff; opacity: 0.95; }
+          </style>
+        </defs>
+
+        <!-- Outer Gold Border Ring Framing the Mission Patch -->
+        <circle cx="300" cy="300" r="294" fill="none" stroke="#c5a059" stroke-width="6"/>
+        <circle cx="300" cy="300" r="290" fill="#ffffff" stroke="#c5a059" stroke-width="2"/>
+
+        <!-- Main Graphic Content Group -->
+        <g id="patch-root" clip-path="url(#patch-clip)">
+          
+          <!-- Default Background: Full Starfield Sky across the entire patch circle -->
+          <rect id="sky-bg" x="0" y="0" width="600" height="600" fill="#050814"/>
+          <g id="star-field"></g>
+
+          <!-- Clean White Background strictly behind ARUCH in the top lobe -->
+          <g clip-path="url(#top-lobe-bg-clip)">
+            <rect x="0" y="0" width="600" height="600" fill="#ffffff"/>
+          </g>
+
+          <!-- Comet Arcing Up and Over the Top Outside of the "B" -->
+          <g id="comet-group">
+            <path id="comet-tail" d="M 70 430 Q 200 60 380 15" fill="none" stroke="url(#comet-grad)" stroke-width="12" stroke-linecap="round"/>
+            <circle cx="70" cy="430" r="10" fill="#ffffff"/>
+            <circle cx="70" cy="430" r="4.5" fill="#00ffff"/>
+          </g>
+          <defs>
+            <linearGradient id="comet-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+              <stop offset="60%" stop-color="#60a5fa" stop-opacity="0.6"/>
+              <stop id="comet-grad-end" offset="100%" stop-color="#002288" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Top Lobe Content: Stretched Sora ARUCH centered perfectly in the top lobe -->
+          <text id="aruch-text" x="345" y="180" class="t-sora" fill="#002288" transform="rotate(-6, 345, 180)">ARUCH</text>
+
+          <!-- Bottom Lobe Content: Bigger, Centered Earth Globe with NO Gold Ring Around It -->
+          <g id="earth-group" transform="translate(340, 435)">
+            <circle cx="0" cy="0" r="130" fill="#002b49"/>
+            <g id="earth-continents">
+              <path d="M -48 -60 Q -18 -75 20 -55 Q 55 -22 58 4 Q 65 30 32 55 Q 0 72 -30 55 Q -54 40 -64 8 Q -72 -26 -48 -60 Z" fill="#2d6a4f" opacity="0.9"/>
+              <path d="M -22 -24 Q 8 -34 35 -14 Q 46 14 20 28 Q -2 36 -22 12 Q -38 -2 -22 -24 Z" fill="#40916c"/>
+              <path d="M 24 24 Q 58 12 66 45 Q 52 68 28 56 Q 18 38 24 24 Z" fill="#40916c"/>
+            </g>
+          </g>
+
+          <!-- Dark Navy Fully Rounded-Bottom Bold Letter "B" Outline Structure -->
+          <path id="b-outline" d="M 175 35 
+                   L 275 35 
+                   C 450 35, 520 95, 520 195 
+                   C 520 255, 450 305, 350 310 
+                   C 460 325, 520 390, 520 470 
+                   C 520 565, 420 580, 300 580 
+                   C 180 580, 175 555, 175 555 
+                   Z" fill="none" stroke="#002288" stroke-width="32" stroke-linejoin="round" stroke-linecap="round"/>
+
+          <!-- Left Vertical Stem of "B" with fully rounded bottom-left corner -->
+          <rect id="b-stem" x="159" y="35" width="32" height="540" fill="#002288" rx="16"/>
+
+          <!-- Gold Arch Text shifted just a little to the left (46%) -->
+          <text class="t-arch">
+            <textPath href="#top-arch-path" startOffset="46%" text-anchor="middle">EXCELLENCE • COMMUNITY • LEADERSHIP</textPath>
+          </text>
+
+        </g>
+      </svg>
+    </div>
+  </main>
+
+  <script>
+    function pseudoRandom(seed) {
+      const x = Math.sin(seed++) * 10000;
+      return x - Math.floor(x);
+    }
+
+    function updatePatch() {
+      const starDensity = parseInt(document.getElementById('param-star-density').value);
+      const earthScale = parseFloat(document.getElementById('param-earth-scale').value);
+      const textSlant = parseInt(document.getElementById('param-text-slant').value);
+      const darkSideColor = document.getElementById('param-dark-side').value;
+      const baruchBlueColor = document.getElementById('param-baruch-blue').value;
+
+      document.getElementById('val-star-density').innerText = starDensity;
+      document.getElementById('val-earth-scale').innerText = earthScale.toFixed(2);
+      document.getElementById('val-text-slant').innerText = textSlant + '°';
+
+      // Update background sky color
+      document.getElementById('sky-bg').setAttribute('fill', darkSideColor);
+      
+      // Update Baruch Blue color across elements
+      const aruchTxt = document.getElementById('aruch-text');
+      aruchTxt.setAttribute('fill', baruchBlueColor);
+      aruchTxt.setAttribute('transform', `rotate(${textSlant}, 345, 180)`);
+
+      document.getElementById('b-outline').setAttribute('stroke', baruchBlueColor);
+      document.getElementById('b-stem').setAttribute('fill', baruchBlueColor);
+      document.getElementById('comet-grad-end').setAttribute('stop-color', baruchBlueColor);
+
+      // Update Earth scale
+      document.getElementById('earth-continents').setAttribute('transform', `scale(${earthScale})`);
+
+      // Re-generate stars based on density
+      const starField = document.getElementById('star-field');
+      starField.innerHTML = '';
+      let seed = 123;
+      for (let i = 0; i < starDensity; i++) {
+        const x = 30 + pseudoRandom(seed++) * 540;
+        const y = 30 + pseudoRandom(seed++) * 540;
+        const dx = x - 300;
+        const dy = y - 300;
+        if (Math.hypot(dx, dy) < 280) {
+          const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          circle.setAttribute('cx', x);
+          circle.setAttribute('cy', y);
+          circle.setAttribute('r', 1 + pseudoRandom(seed++) * 2.2);
+          circle.setAttribute('class', 'star');
+          starField.appendChild(circle);
+        }
+      }
+
+      // Sync the Small-Scale Preview Thumbnail (Strip IDs to prevent DOM conflicts)
+      const miniContainer = document.getElementById('mini-patch-container');
+      miniContainer.innerHTML = '';
+      const clone = document.getElementById('patch-svg').cloneNode(true);
+      clone.id = 'patch-svg-mini';
+      clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+      miniContainer.appendChild(clone);
+    }
+
+    function exportSVG() {
+      const svg = document.getElementById('patch-svg');
+      const serializer = new XMLSerializer();
+      let source = serializer.serializeToString(svg);
+
+      if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
+        source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+      }
+
+      const blob = new Blob([source], { type: "image/svg+xml;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `baruch-mission-patch-v46-${Date.now()}.svg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function exportPDF() {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: [88.9, 88.9]
+      });
+
+      const svgElement = document.getElementById('patch-svg');
+      const serializer = new XMLSerializer();
+      const svgString = serializer.serializeToString(svgElement);
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+      const URLObj = window.URL || window.webkitURL || window;
+      const blobURL = URLObj.createObjectURL(svgBlob);
+
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 600 * 2;
+        canvas.height = 600 * 2;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const imgData = canvas.toDataURL('image/png');
+        pdf.addImage(imgData, 'PNG', 0, 0, 88.9, 88.9);
+        pdf.save(`baruch-mission-patch-v46-${Date.now()}.pdf`);
+        URLObj.revokeObjectURL(blobURL);
+      };
+      img.src = blobURL;
+    }
+
+    document.querySelectorAll('input').forEach(input => input.addEventListener('input', updatePatch));
+    updatePatch();
+  </script>
+</body>
+</html>
