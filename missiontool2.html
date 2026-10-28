@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Baruch Mission Patch Generator - v121</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Sora:wght@700;800&display=swap" rel="stylesheet">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    /* CSS Variables for dark UI theme styling */
+    :root {
+      --bg-ui: #0c0c0f;
+      --panel-bg: #141419;
+      --border-color: #242430;
+      --accent: #002288;
+      --text-main: #f0f0f5;
+      --text-muted: #8b8b9e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-ui);
+      color: var(--text-main);
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Fixed left-hand control panel with custom scrollbar */
+    aside {
+      width: 420px;
+      min-width: 420px;
+      height: 100vh;
+      background: var(--panel-bg);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 12px;
+      overflow-y: auto;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 100;
+    }
+
+    aside::-webkit-scrollbar, .versions-panel::-webkit-scrollbar {
+      width: 6px;
+    }
+    aside::-webkit-scrollbar-thumb, .versions-panel::-webkit-scrollbar-thumb {
+      background: #2b2b36;
+      border-radius: 3px;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .section-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-top: 6px;
+      margin-bottom: 2px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .control-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: 500;
+    }
+
+    .control-label span {
+      color: var(--text-muted);
+      font-feature-settings: "tnum";
+    }
+
+    input[type="range"], input[type="text"] {
+      outline: none;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      background: #2b2b36;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--text-main);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 7px 10px;
+      background: #1c1c24;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      color: var(--text-main);
+      font-size: 0.78rem;
+      font-weight: 600;
+      transition: border-color 0.15s ease;
+    }
+    input[type="text"]:focus {
+      border-color: #3f3f52;
+    }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .color-field {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.76rem;
+    }
+
+    input[type="color"] {
+      -webkit-appearance: none;
+      border: 1px solid var(--border-color);
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      cursor: pointer;
+      background: none;
+    }
+
+    input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+    input[type="color"]::-webkit-color-swatch { border: none; border-radius: 4px; }
+
+    .mini-preview-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #08080a;
+      padding: 6px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+    }
+
+    #mini-patch-container {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.9);
+      border: 2px solid #c5a059;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      padding-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      flex: 1;
+      min-width: 110px;
+      padding: 10px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      background: #24242e;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    button:hover { filter: brightness(1.15); }
+
+    /* Main canvas display area */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #08080a;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .patch-container {
+      width: 420px;
+      height: 420px;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.08);
+      display: flex;
+      background: #000;
+      position: relative;
+      border-radius: 50%;
+      overflow: visible;
+    }
+
+    #patch-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
+
+    /* Right-hand panel layout */
+    .versions-panel {
+      width: 320px;
+      min-width: 320px;
+      height: 100vh;
+      background: var(--panel-bg);
+      border-left: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 12px;
+      overflow-y: auto;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+
+    .versions-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding-bottom: 20px;
+    }
+
+    .version-card {
+      background: #0c0c0f;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: border-color 0.15s ease;
+    }
+    .version-card:hover {
+      border-color: #3f3f52;
+    }
+
+    .version-thumbnail {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: #000;
+      border: 1.5px solid #c5a059;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .version-thumbnail svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .version-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* Modal overlay for clicking version thumbnails */
+    #modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    #modal-content {
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.95);
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+
+    #modal-preview-box {
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid #c5a059;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #modal-close-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #24242e;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    #modal-close-btn:hover {
+      filter: brightness(1.15);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Left-hand control panel with all adjustable parameters -->
+  <aside>
+    <div>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>Mission Patch Generator</h1>
+      </div>
+      <p class="desc" style="margin-top: 2px;">What message would Baruch send into space?</p>
+    </div>
+
+    <!-- GENERATE BUTTON DYNAMIC VARIATIONS -->
+    <button class="primary" onclick="generateRandomVariation()" style="width: 100%; margin-top: 4px;">Generate</button>
+
+    <div class="section-title">Small-Scale Check (1″ Badge)</div>
+    <div class="mini-preview-box">
+      <div id="mini-patch-container"></div>
+    </div>
+
+    <!-- GLOBAL COMPOSITION -->
+    <div class="section-title">Global Composition</div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-star-density">Star Field Density</label>
+        <span id="val-star-density">80</span>
+      </div>
+      <input type="range" id="param-star-density" min="20" max="150" value="80">
+    </div>
+
+    <!-- B OUTLINE & SPACE CONTROLS WITH INNER SHAPE SCALING -->
+    <div class="section-title">B Structure & Inner Scale</div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-b-scale">B Scale / Size</label>
+        <span id="val-b-scale">1.00</span>
+      </div>
+      <input type="range" id="param-b-scale" min="0.5" max="1.3" step="0.05" value="1.00">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-b-x">B Position X</label>
+        <span id="val-b-x">300</span>
+      </div>
+      <input type="range" id="param-b-x" min="150" max="450" step="2" value="300">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-b-y">B Position Y</label>
+        <span id="val-b-y">300</span>
+      </div>
+      <input type="range" id="param-b-y" min="150" max="450" step="2" value="300">
+    </div>
+
+    <!-- CUSTOM TEXT 1: ARUCH HEADING -->
+    <div class="section-title">3D Heading Custom Text</div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-aruch-text">Center Lobe Heading</label>
+      </div>
+      <input type="text" id="param-aruch-text" value="ARUCH" maxlength="8">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-aruch-depth">Extrusion Depth</label>
+        <span id="val-aruch-depth">6</span>
+      </div>
+      <input type="range" id="param-aruch-depth" min="1" max="14" step="1" value="6">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-aruch-scale">Scale / Size</label>
+        <span id="val-aruch-scale">0.90</span>
+      </div>
+      <input type="range" id="param-aruch-scale" min="0.6" max="1.2" step="0.05" value="0.90">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-aruch-x">Position X</label>
+        <span id="val-aruch-x">305</span>
+      </div>
+      <input type="range" id="param-aruch-x" min="250" max="360" step="2" value="305">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-aruch-y">Position Y</label>
+        <span id="val-aruch-y">195</span>
+      </div>
+      <input type="range" id="param-aruch-y" min="150" max="250" step="2" value="195">
+    </div>
+
+    <!-- SUNBURST RADIANCE CONTROLS -->
+    <div class="section-title">Sunburst Radiance Background</div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-rays-opacity">Ray Opacity</label>
+        <span id="val-rays-opacity">0.12</span>
+      </div>
+      <input type="range" id="param-rays-opacity" min="0.02" max="0.30" step="0.01" value="0.12">
+    </div>
+
+    <!-- INDIVIDUAL GOLD WORDS CONTROLS (360° Rotation & Wave per Line) -->
+    <div class="section-title">Gold Words Line 1 (Top-Left)</div>
+    <div class="control-group">
+      <input type="text" id="param-word-top-left" value="EXCELLENCE" maxlength="15">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-rot-tl">Line 1 Rotation</label>
+        <span id="val-rot-tl">0°</span>
+      </div>
+      <input type="range" id="param-rot-tl" min="-180" max="180" step="1" value="0">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-wave-tl">Line 1 Wave Amplitude</label>
+        <span id="val-wave-tl">0px</span>
+      </div>
+      <input type="range" id="param-wave-tl" min="0" max="30" step="1" value="0">
+    </div>
+
+    <div class="section-title" style="margin-top: 8px;">Gold Words Line 2 (Top-Right)</div>
+    <div class="control-group">
+      <input type="text" id="param-word-top-right" value="COMMUNITY" maxlength="15">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-rot-tr">Line 2 Rotation</label>
+        <span id="val-rot-tr">0°</span>
+      </div>
+      <input type="range" id="param-rot-tr" min="-180" max="180" step="1" value="0">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-wave-tr">Line 2 Wave Amplitude</label>
+        <span id="val-wave-tr">0px</span>
+      </div>
+      <input type="range" id="param-wave-tr" min="0" max="30" step="1" value="0">
+    </div>
+
+    <div class="section-title" style="margin-top: 8px;">Gold Words Line 3 (Bottom)</div>
+    <div class="control-group">
+      <input type="text" id="param-word-bottom" value="LEADERSHIP" maxlength="15">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-rot-bot">Line 3 Rotation</label>
+        <span id="val-rot-bot">0°</span>
+      </div>
+      <input type="range" id="param-rot-bot" min="-180" max="180" step="1" value="0">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-wave-bot">Line 3 Wave Amplitude</label>
+        <span id="val-wave-bot">0px</span>
+      </div>
+      <input type="range" id="param-wave-bot" min="0" max="30" step="1" value="0">
+    </div>
+
+    <!-- EARTH ELEMENT CONTROLS -->
+    <div class="section-title">Lower Lobe Earth Element</div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-earth-scale">Earth Scale / Size</label>
+        <span id="val-earth-scale">1.00</span>
+      </div>
+      <input type="range" id="param-earth-scale" min="0.50" max="1.10" step="0.02" value="1.00">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-earth-rot">Earth Rotation</label>
+        <span id="val-earth-rot">0°</span>
+      </div>
+      <input type="range" id="param-earth-rot" min="-180" max="180" step="5" value="0">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-earth-x">Earth Position X</label>
+        <span id="val-earth-x">315</span>
+      </div>
+      <input type="range" id="param-earth-x" min="250" max="380" step="2" value="315">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-earth-y">Earth Position Y</label>
+        <span id="val-earth-y">400</span>
+      </div>
+      <input type="range" id="param-earth-y" min="340" max="460" step="2" value="400">
+    </div>
+
+    <!-- COMET CONTROLS -->
+    <div class="section-title">Comet Element</div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-comet-scale">Comet Scale</label>
+        <span id="val-comet-scale">1.00</span>
+      </div>
+      <input type="range" id="param-comet-scale" min="0.5" max="1.5" step="0.05" value="1.00">
+    </div>
+    <div class="control-group">
+      <div class="control-label">
+        <label for="param-comet-rot">Comet Rotation</label>
+        <span id="val-comet-rot">0°</span>
+      </div>
+      <input type="range" id="param-comet-rot" min="-45" max="45" step="1" value="0">
+    </div>
+
+    <!-- COLOR PALETTE -->
+    <div class="section-title">Color Palette</div>
+    <div class="color-grid">
+      <div class="color-field">
+        <input type="color" id="param-dark-side" value="#050814">
+        <label for="param-dark-side">Sky BG</label>
+      </div>
+      <div class="color-field">
+        <input type="color" id="param-accent-color" value="#002288">
+        <label for="param-accent-color">Primary</label>
+      </div>
+      <div class="color-field">
+        <input type="color" id="param-gold-color" value="#c5a059">
+        <label for="param-gold-color">Gold Rim</label>
+      </div>
+      <div class="color-field">
+        <input type="color" id="param-word-color" value="#ffd700">
+        <label for="param-word-color">Words</label>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button onclick="exportSVG()" title="Export Vector SVG">Export SVG</button>
+      <button onclick="exportPNG()" title="Export High-Res PNG">Export PNG</button>
+      <button class="primary" onclick="exportPDF()" title="Export 3.5x3.5 Vector PDF">Export PDF (3.5″)</button>
+    </div>
+  </aside>
+
+  <!-- Main interactive SVG patch workspace -->
+  <main>
+    <div class="patch-container">
+      <svg id="patch-svg" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Full Clean Top Lobe White Backdrop Clip Path -->
+          <clipPath id="top-lobe-bg-clip">
+            <path d="M 210 90 
+                    L 290 90 
+                    C 400 90, 440 130, 440 195 
+                    C 440 235, 400 270, 320 275 
+                    L 290 275 
+                    L 210 275 
+                    Z"/>
+          </clipPath>
+
+          <!-- Safe Inset Circumference Arches (Radius 228) Inside Rim -->
+          <path id="path-excellence" d="M 72,300 A 228,228 0 0,1 210,80" />
+          <path id="path-community" d="M 390,80 A 228,228 0 0,1 528,300" />
+          <path id="path-leadership" d="M 200,515 A 228,528 0 0,0 400,515" />
+
+          <!-- Full 360-Degree Circular Paths for Generate Random 360° Placement -->
+          <path id="path-circle-360-1" d="M 300,72 A 228,228 0 1,1 299.9,72" />
+          <path id="path-circle-360-2" d="M 300,102 A 198,198 0 1,1 299.9,102" />
+          <path id="path-circle-360-3" d="M 300,132 A 168,168 0 1,1 299.9,132" />
+
+          <!-- Metallic 3D Gradients -->
+          <linearGradient id="aruch-3d-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3b82f6"/>
+            <stop offset="50%" stop-color="#1d4ed8"/>
+            <stop offset="100%" stop-color="#1e3a8a"/>
+          </linearGradient>
+
+          <linearGradient id="aruch-highlight" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#93c5fd" stop-opacity="0.3"/>
+          </linearGradient>
+
+          <!-- Vibrant Colorful Gold Rim Gradient -->
+          <linearGradient id="rim-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#fde047"/>
+            <stop offset="50%" stop-color="#ca8a04"/>
+            <stop offset="100%" stop-color="#854d0e"/>
+          </linearGradient>
+
+          <!-- Dynamic Textures for Structure B Outline (Hexagons, Stripes, Coils, Webs) -->
+          <pattern id="pattern-hexagons" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="scale(0.8)">
+            <path d="M 10 0 L 20 5 L 20 15 L 10 20 L 0 15 L 0 5 Z" fill="none" stroke="currentColor" stroke-width="2" opacity="0.85"/>
+          </pattern>
+          <pattern id="pattern-stripes" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="3.5" opacity="0.85"/>
+          </pattern>
+          <pattern id="pattern-coils" width="16" height="16" patternUnits="userSpaceOnUse">
+            <path d="M 0 8 Q 4 0, 8 8 T 16 8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.85"/>
+          </pattern>
+          <pattern id="pattern-webs" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 0 0 L 20 20 M 20 0 L 0 20 M 10 0 L 10 20 M 0 10 L 20 10" stroke="currentColor" stroke-width="1.5" opacity="0.85"/>
+          </pattern>
+
+          <style>
+            @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Sora:wght@700;800&display=swap');
+            .t-word { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 20px; fill: #ffd700; letter-spacing: 2px; }
+            .star { fill: #ffffff; opacity: 0.95; }
+          </style>
+        </defs>
+
+        <!-- Main Graphic Content Group -->
+        <g id="patch-root">
+          
+          <!-- Default Background: Full Starfield Sky across the entire patch canvas -->
+          <rect id="sky-bg" x="0" y="0" width="600" height="600" fill="#050814"/>
+          <g id="star-field"></g>
+
+          <!-- Completely Locked Upright Anchored Composition Group -->
+          <g id="anchored-composition-group" transform="translate(0, 0) scale(1) rotate(0, 300, 300)">
+            <!-- Clean White Background box behind ARUCH in the top lobe -->
+            <g clip-path="url(#top-lobe-bg-clip)">
+              <rect x="0" y="0" width="600" height="600" fill="#ffffff"/>
+
+              <!-- Solar Rayburst Background inside White Lobe -->
+              <g id="sunburst-rays" transform="translate(305, 195)" opacity="0.12" stroke="#002288" stroke-width="1.5">
+                <line x1="0" y1="0" x2="0" y2="-180" />
+                <line x1="0" y1="0" x2="90" y2="-156" />
+                <line x1="0" y1="0" x2="156" y2="-90" />
+                <line x1="0" y1="0" x2="180" y2="0" />
+                <line x1="0" y1="0" x2="156" y2="90" />
+                <line x1="0" y1="0" x2="90" y2="156" />
+                <line x1="0" y1="0" x2="0" y2="180" />
+                <line x1="0" y1="0" x2="-90" y2="156" />
+                <line x1="0" y1="0" x2="-156" y2="90" />
+                <line x1="0" y1="0" x2="-180" y2="0" />
+                <line x1="0" y1="0" x2="-156" y2="-90" />
+                <line x1="0" y1="0" x2="-90" y2="-156" />
+              </g>
+            </g>
+
+            <!-- Lower Lobe Earth Globe with Refigured Dynamic Internal Continents -->
+            <g id="earth-group" transform="translate(315, 400)">
+              <g id="earth-inner-transform">
+                <circle cx="0" cy="0" r="95" fill="#0b223f"/>
+                <circle cx="0" cy="0" r="95" fill="none" stroke="#38bdf8" stroke-width="2.5" opacity="0.6"/>
+                
+                <g id="earth-continents">
+                  <path d="M -45 -35 Q -20 -60 15 -45 Q 45 -20 50 5 Q 55 30 25 55 Q -5 70 -30 45 Q -50 25 -55 0 Q -55 -15 -45 -35 Z" fill="#15803d" opacity="0.85"/>
+                  <path d="M -20 -15 Q 10 -30 35 -10 Q 45 15 20 30 Q -5 40 -20 15 Q -30 0 -20 -15 Z" fill="#22c55e" opacity="0.9"/>
+                  <path d="M 15 20 Q 45 10 50 35 Q 35 55 15 45 Q 5 30 15 20 Z" fill="#16a34a"/>
+                  <path d="M -60 -60 Q -40 -80 -20 -70 Q -30 -50 -50 -40 Q -65 -50 -60 -60 Z" fill="#e2e8f0" opacity="0.9"/>
+                </g>
+
+                <g stroke="#38bdf8" stroke-width="0.75" fill="none" opacity="0.3">
+                  <ellipse cx="0" cy="0" rx="95" ry="35"/>
+                  <ellipse cx="0" cy="0" rx="95" ry="70"/>
+                  <line x1="0" y1="-95" x2="0" y2="95"/>
+                  <line x1="-95" y1="0" x2="95" y2="0"/>
+                </g>
+
+                <g fill="#ffffff" opacity="0.35">
+                  <path d="M -70 -20 Q -30 -35 10 -25 Q 50 -15 70 -30 Q 75 -25 65 -15 Q 30 -5 -20 -10 Q -65 -5 -70 -20 Z"/>
+                  <path d="M -50 30 Q -10 20 20 35 Q 50 50 65 40 Q 55 55 20 45 Q -20 50 -50 30 Z"/>
+                </g>
+
+                <path d="M 0 -95 A 95 95 0 0 1 0 95 A 50 95 0 0 0 0 -95 Z" fill="#000000" opacity="0.45" pointer-events="none"/>
+              </g>
+            </g>
+
+            <!-- Cohesive Grouped B Structure -->
+            <g id="b-transform-wrapper">
+              <g id="optical-b-group">
+                <path id="b-outline" d="M 210 90 
+                         L 290 90 
+                         C 400 90, 440 130, 440 195 
+                         C 440 235, 400 270, 320 275 
+                         C 395 285, 440 335, 440 405 
+                         C 440 480, 370 510, 280 510 
+                         C 210 510, 210 495, 210 495 
+                         Z" fill="none" stroke="#002288" stroke-width="20" stroke-linejoin="round" stroke-linecap="round"/>
+
+                <g id="optical-miters" stroke="#38bdf8" stroke-width="2.5" fill="none" opacity="0.9">
+                  <path d="M 195 75 L 210 75 L 210 90" />
+                  <circle cx="210" cy="90" r="2" fill="#38bdf8" />
+                  <path d="M 455 75 L 440 75 L 440 90" />
+                  <path d="M 315 260 L 315 290" stroke-dasharray="3 3"/>
+                  <circle cx="315" cy="275" r="4" fill="none" stroke="#38bdf8" stroke-width="1.5"/>
+                  <path d="M 195 525 L 210 525 L 210 510" />
+                  <path d="M 295 525 L 280 525 L 280 510" />
+                  <line x1="450" y1="195" x2="465" y2="195" />
+                  <line x1="450" y1="405" x2="465" y2="405" />
+                </g>
+              </g>
+
+              <rect id="b-stem" x="199" y="90" width="22" height="420" fill="#002288" rx="11" stroke="#ffffff" stroke-width="2"/>
+              <line x1="210" y1="105" x2="210" y2="495" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="6 8" stroke-linecap="round" opacity="0.8"/>
+            </g>
+
+            <!-- Locked-in 3D Extruded ARUCH Heading Group inside the white lobe -->
+            <g id="aruch-3d-group" transform="translate(305, 195) scale(0.9)">
+              <g id="aruch-extrusion" fill="#1e3a8a"></g>
+              <g id="aruch-front-chars" font-family="'Sora', sans-serif" font-weight="800" font-size="44" fill="url(#aruch-3d-grad)" stroke="url(#aruch-highlight)" stroke-width="1.5" style="filter: drop-shadow(0px 3px 2px rgba(0,0,0,0.5));">
+              </g>
+            </g>
+          </g>
+
+          <!-- Comet Arcing Up and Over the Top Outside -->
+          <g id="comet-group" transform="translate(300, 300)">
+            <g id="comet-inner-transform">
+              <path id="comet-tail" d="M -230 130 Q -100 -240 80 -285" fill="none" stroke="url(#comet-grad)" stroke-width="12" stroke-linecap="round"/>
+              <circle cx="-230" cy="130" r="10" fill="#ffffff"/>
+              <circle cx="-230" cy="130" r="4.5" fill="#00ffff"/>
+            </g>
+          </g>
+          <defs>
+            <linearGradient id="comet-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+              <stop offset="60%" stop-color="#60a5fa" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#002288" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Gold Words Group with Independent Dynamic Containers for Full 360° Rotation & Wave Control -->
+          <g id="gold-words-group">
+            <g id="gw-tl-container"><text class="t-word"><textPath id="tp-excellence" href="#path-excellence" startOffset="50%" text-anchor="middle">EXCELLENCE</textPath></text></g>
+            <g id="gw-tr-container"><text class="t-word"><textPath id="tp-community" href="#path-community" startOffset="50%" text-anchor="middle">COMMUNITY</textPath></text></g>
+            <g id="gw-bot-container"><text class="t-word"><textPath id="tp-leadership" href="#path-leadership" startOffset="50%" text-anchor="middle">LEADERSHIP</textPath></text></g>
+          </g>
+
+          <!-- Visible Outer Colorful Gold Rim Framework -->
+          <g id="outer-rim-group" transform="translate(300, 300) scale(1) translate(-300, -300)">
+            <circle cx="300" cy="300" r="294" fill="none" stroke="url(#rim-gradient)" stroke-width="6"/>
+            <circle cx="300" cy="300" r="290" fill="none" stroke="url(#rim-gradient)" stroke-width="2"/>
+          </g>
+
+        </g>
+      </svg>
+    </div>
+  </main>
+
+  <!-- Right-hand panel for 9 generated patch versions layout -->
+  <div class="versions-panel">
+    <div class="section-title">Generated Versions</div>
+    <div class="versions-grid">
+      <div class="version-card" onclick="openModal(0)">
+        <div class="version-thumbnail" id="thumb-0">Patch v1</div>
+        <span class="version-label">Version 1</span>
+      </div>
+      <div class="version-card" onclick="openModal(1)">
+        <div class="version-thumbnail" id="thumb-1">Patch v2</div>
+        <span class="version-label">Version 2</span>
+      </div>
+      <div class="version-card" onclick="openModal(2)">
+        <div class="version-thumbnail" id="thumb-2">Patch v3</div>
+        <span class="version-label">Version 3</span>
+      </div>
+      <div class="version-card" onclick="openModal(3)">
+        <div class="version-thumbnail" id="thumb-3">Patch v4</div>
+        <span class="version-label">Version 4</span>
+      </div>
+      <div class="version-card" onclick="openModal(4)">
+        <div class="version-thumbnail" id="thumb-4">Patch v5</div>
+        <span class="version-label">Version 5</span>
+      </div>
+      <div class="version-card" onclick="openModal(5)">
+        <div class="version-thumbnail" id="thumb-5">Patch v6</div>
+        <span class="version-label">Version 6</span>
+      </div>
+      <div class="version-card" onclick="openModal(6)">
+        <div class="version-thumbnail" id="thumb-6">Patch v7</div>
+        <span class="version-label">Version 7</span>
+      </div>
+      <div class="version-card" onclick="openModal(7)">
+        <div class="version-thumbnail" id="thumb-7">Patch v8</div>
+        <span class="version-label">Version 8</span>
+      </div>
+      <div class="version-card" onclick="openModal(8)">
+        <div class="version-thumbnail" id="thumb-8">Patch v9</div>
+        <span class="version-label">Version 9</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Overlay for Viewing Expanded Variations -->
+  <div id="modal-overlay" onclick="closeModal(event)">
+    <div id="modal-content" onclick="event.stopPropagation()">
+      <button id="modal-close-btn" onclick="closeModal()">Close ✕</button>
+      <h2 id="modal-title" style="font-size: 1rem; text-transform: uppercase; color: #fff;">Version Preview</h2>
+      <div id="modal-preview-box">
+        <!-- Cloned SVG rendered dynamically inside modal -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Store generated version states for the right panel
+    window.generatedVersionsData = [];
+
+    function pseudoRandom(seed) {
+      const x = Math.sin(seed++) * 10000;
+      return x - Math.floor(x);
+    }
+
+    function resetDefaults() {
+      document.getElementById('param-star-density').value = 80;
+      document.getElementById('param-b-scale').value = 1.00;
+      document.getElementById('param-b-x').value = 300;
+      document.getElementById('param-b-y').value = 300;
+      document.getElementById('param-aruch-text').value = 'ARUCH';
+      document.getElementById('param-aruch-depth').value = 6;
+      document.getElementById('param-aruch-scale').value = 0.90;
+      document.getElementById('param-aruch-x').value = 305;
+      document.getElementById('param-aruch-y').value = 195;
+      document.getElementById('param-rays-opacity').value = 0.12;
+      document.getElementById('param-word-top-left').value = 'EXCELLENCE';
+      document.getElementById('param-word-top-right').value = 'COMMUNITY';
+      document.getElementById('param-word-bottom').value = 'LEADERSHIP';
+      document.getElementById('param-rot-tl').value = 0;
+      document.getElementById('param-wave-tl').value = 0;
+      document.getElementById('param-rot-tr').value = 0;
+      document.getElementById('param-wave-tr').value = 0;
+      document.getElementById('param-rot-bot').value = 0;
+      document.getElementById('param-wave-bot').value = 0;
+      document.getElementById('param-earth-scale').value = 1.00;
+      document.getElementById('param-earth-rot').value = 0;
+      document.getElementById('param-earth-x').value = 315;
+      document.getElementById('param-earth-y').value = 400;
+      document.getElementById('param-comet-scale').value = 1.00;
+      document.getElementById('param-comet-rot').value = 0;
+      document.getElementById('param-dark-side').value = '#050814';
+      document.getElementById('param-accent-color').value = '#002288';
+      document.getElementById('param-gold-color').value = '#c5a059';
+      document.getElementById('param-word-color').value = '#ffd700';
+      
+      window.currentShape = 'circle';
+      window.currentConstellation = 0;
+      window.currentTexture = '#002288';
+      window.currentEarthConfig = 0;
+      window.isStackedCircular = false;
+      window.cometFlip = 1;
+      
+      applyVisibleShapeBorder('circle');
+      document.getElementById('b-outline').setAttribute('stroke', '#002288');
+      document.getElementById('b-stem').setAttribute('fill', '#002288');
+      document.getElementById('anchored-composition-group').setAttribute('transform', 'translate(0, 0) scale(1) rotate(0, 300, 300)');
+      
+      updatePatch();
+    }
+
+    function applyVisibleShapeBorder(shapeName) {
+      const rimGroup = document.getElementById('outer-rim-group');
+
+      if (shapeName === 'circle') {
+        rimGroup.innerHTML = `
+          <circle cx="300" cy="300" r="294" fill="none" stroke="url(#rim-gradient)" stroke-width="6"/>
+          <circle cx="300" cy="300" r="290" fill="none" stroke="url(#rim-gradient)" stroke-width="2"/>
+        `;
+      } else if (shapeName === 'square') {
+        rimGroup.innerHTML = `
+          <rect x="25" y="25" width="550" height="550" rx="20" ry="20" fill="none" stroke="url(#rim-gradient)" stroke-width="6"/>
+          <rect x="35" y="35" width="530" height="530" rx="10" ry="10" fill="none" stroke="url(#rim-gradient)" stroke-width="2"/>
+        `;
+      }
+    }
+
+    function generateRandomVariation() {
+      // 1. Alternate between circle and square shape frames
+      const shapes = ['circle', 'square'];
+      window.currentShape = shapes[Math.floor(Math.random() * shapes.length)];
+
+      // 2. Random constellation pattern (Stag, Pegasus, Aries, Astrolabe)
+      window.currentConstellation = Math.floor(Math.random() * 4);
+
+      // 3. Random dark-themed colorway palettes
+      const palettes = [
+        { dark: '#050814', accent: '#002288', gold: '#c5a059', word: '#ffd700' },
+        { dark: '#0a0518', accent: '#581c87', gold: '#f43f5e', word: '#e0e7ff' },
+        { dark: '#041008', accent: '#065f46', gold: '#fbbf24', word: '#a7f3d0' },
+        { dark: '#120404', accent: '#7c2d12', gold: '#f59e0b', word: '#fef3c7' },
+        { dark: '#030712', accent: '#1e293b', gold: '#94a3b8', word: '#f8fafc' }
+      ];
+      const p = palettes[Math.floor(Math.random() * palettes.length)];
+      document.getElementById('param-dark-side').value = p.dark;
+      document.getElementById('param-accent-color').value = p.accent;
+      document.getElementById('param-gold-color').value = p.gold;
+      document.getElementById('param-word-color').value = p.word;
+
+      // 4. Random B outline texture patterns
+      const textures = ['url(#pattern-hexagons)', 'url(#pattern-stripes)', 'url(#pattern-coils)', 'url(#pattern-webs)', p.accent];
+      window.currentTexture = textures[Math.floor(Math.random() * textures.length)];
+
+      // 5. Random Earth continent configurations
+      window.currentEarthConfig = Math.floor(Math.random() * 3);
+
+      // 6. Move the B structure throughout space by shifting position and reducing scale slightly
+      document.getElementById('param-b-x').value = Math.floor(250 + Math.random() * 100);
+      document.getElementById('param-b-y').value = Math.floor(250 + Math.random() * 100);
+      document.getElementById('param-b-scale').value = (0.75 + Math.random() * 0.25).toFixed(2);
+
+      // 7. When Generate is clicked, move the gold words around the 360 circle inside the outline in 3 stacked rows (never upside down)
+      window.isStackedCircular = true;
+      document.getElementById('param-rot-tl.value') || document.getElementById('param-rot-tl').value; // Keep user slider base or randomize around 360 circle smoothly
+      document.getElementById('param-rot-tl').value = Math.floor(Math.random() * 360) - 180;
+      document.getElementById('param-rot-tr').value = Math.floor(Math.random() * 360) - 180;
+      document.getElementById('param-rot-bot').value = Math.floor(Math.random() * 360) - 180;
+      document.getElementById('param-wave-tl').value = Math.floor(Math.random() * 12);
+      document.getElementById('param-wave-tr').value = Math.floor(Math.random() * 12);
+      document.getElementById('param-wave-bot').value = Math.floor(Math.random() * 12);
+
+      // Random mirror flip for comet
+      window.cometFlip = Math.random() > 0.5 ? -1 : 1;
+
+      // Slight random variations for density and angles
+      document.getElementById('param-star-density').value = Math.floor(50 + Math.random() * 60);
+      document.getElementById('param-comet-rot').value = Math.floor(Math.random() * 30) - 15;
+      document.getElementById('param-earth-rot').value = Math.floor(Math.random() * 90) - 45;
+
+      updatePatch();
+      saveToRightPanel();
+    }
+
+    function updatePatch() {
+      const starDensity = parseInt(document.getElementById('param-star-density').value);
+      
+      const bScale = parseFloat(document.getElementById('param-b-scale').value);
+      const bX = parseInt(document.getElementById('param-b-x').value);
+      const bY = parseInt(document.getElementById('param-b-y').value);
+
+      const aruchText = document.getElementById('param-aruch-text').value.trim() || 'ARUCH';
+      const aruchDepth = parseInt(document.getElementById('param-aruch-depth').value);
+      const aruchScale = parseFloat(document.getElementById('param-aruch-scale').value);
+      const aruchX = parseInt(document.getElementById('param-aruch-x').value);
+      const aruchY = parseInt(document.getElementById('param-aruch-y').value);
+
+      const raysOpacity = parseFloat(document.getElementById('param-rays-opacity').value);
+
+      const wordTopLeft = document.getElementById('param-word-top-left').value;
+      const wordTopRight = document.getElementById('param-word-top-right').value;
+      const wordBottom = document.getElementById('param-word-bottom').value;
+
+      const rotTL = parseInt(document.getElementById('param-rot-tl').value);
+      const waveTL = parseInt(document.getElementById('param-wave-tl').value);
+      const rotTR = parseInt(document.getElementById('param-rot-tr').value);
+      const waveTR = parseInt(document.getElementById('param-wave-tr').value);
+      const rotBot = parseInt(document.getElementById('param-rot-bot').value);
+      const waveBot = parseInt(document.getElementById('param-wave-bot').value);
+
+      const earthScale = parseFloat(document.getElementById('param-earth-scale').value);
+      const earthRot = parseInt(document.getElementById('param-earth-rot').value);
+      const earthX = parseInt(document.getElementById('param-earth-x').value);
+      const earthY = parseInt(document.getElementById('param-earth-y').value);
+
+      const cometScale = parseFloat(document.getElementById('param-comet-scale').value);
+      const cometRot = parseInt(document.getElementById('param-comet-rot').value);
+
+      const darkSideColor = document.getElementById('param-dark-side').value;
+      const accentColor = document.getElementById('param-accent-color').value;
+      const goldColor = document.getElementById('param-gold-color').value;
+      const wordColor = document.getElementById('param-word-color').value;
+
+      // Update readouts
+      document.getElementById('val-star-density').innerText = starDensity;
+      document.getElementById('val-b-scale').innerText = bScale.toFixed(2);
+      document.getElementById('val-b-x').innerText = bX;
+      document.getElementById('val-b-y').innerText = bY;
+      document.getElementById('val-aruch-depth').innerText = aruchDepth;
+      document.getElementById('val-aruch-scale').innerText = aruchScale.toFixed(2);
+      document.getElementById('val-aruch-x').innerText = aruchX;
+      document.getElementById('val-aruch-y').innerText = aruchY;
+      document.getElementById('val-rays-opacity').innerText = raysOpacity.toFixed(2);
+
+      document.getElementById('val-rot-tl').innerText = rotTL + '°';
+      document.getElementById('val-wave-tl').innerText = waveTL + 'px';
+      document.getElementById('val-rot-tr').innerText = rotTR + '°';
+      document.getElementById('val-wave-tr').innerText = waveTR + 'px';
+      document.getElementById('val-rot-bot').innerText = rotBot + '°';
+      document.getElementById('val-wave-bot').innerText = waveBot + 'px';
+
+      document.getElementById('val-earth-scale').innerText = earthScale.toFixed(2);
+      document.getElementById('val-earth-rot').innerText = earthRot + '°';
+      document.getElementById('val-earth-x').innerText = earthX;
+      document.getElementById('val-earth-y').innerText = earthY;
+
+      document.getElementById('val-comet-scale').innerText = cometScale.toFixed(2);
+      document.getElementById('val-comet-rot').innerText = cometRot + '°';
+
+      // Apply Colors & Visible Shape Rim
+      document.getElementById('sky-bg').setAttribute('fill', darkSideColor);
+      applyVisibleShapeBorder(window.currentShape || 'circle');
+      
+      // Apply B Outline Stroke Style / Texture
+      const bOutline = document.getElementById('b-outline');
+      const activeTexture = window.currentTexture || accentColor;
+      bOutline.setAttribute('stroke', activeTexture);
+      document.getElementById('b-stem').setAttribute('fill', accentColor);
+      
+      // Apply Transform to Anchored Composition Group
+      const anchoredGroup = document.getElementById('anchored-composition-group');
+      const tx = bX - 300;
+      const ty = bY - 300;
+      anchoredGroup.setAttribute('transform', `translate(${tx}, ${ty}) translate(300, 300) scale(${bScale}) translate(-300, -300)`);
+
+      // Update Gold Words Text Content & Paths based on mode (Stacked vs Standard Arches)
+      const tpEx = document.getElementById('tp-excellence');
+      const tpCom = document.getElementById('tp-community');
+      const tpLead = document.getElementById('tp-leadership');
+
+      if (window.isStackedCircular) {
+        tpEx.setAttribute('href', '#path-row1');
+        tpCom.setAttribute('href', '#path-row2');
+        tpLead.setAttribute('href', '#path-row3');
+      } else {
+        tpEx.setAttribute('href', '#path-excellence');
+        tpCom.setAttribute('href', '#path-community');
+        tpLead.setAttribute('href', '#path-leadership');
+      }
+
+      tpEx.textContent = wordTopLeft;
+      tpCom.textContent = wordTopRight;
+      tpLead.textContent = wordBottom;
+
+      document.querySelectorAll('.t-word').forEach(el => el.setAttribute('fill', wordColor));
+
+      // Apply Individual 360° Rotation & Wave Transforms for each gold word line
+      document.getElementById('gw-tl-container').setAttribute('transform', `translate(300, 300) rotate(${rotTL}) translate(0, ${-waveTL}) translate(-300, -300)`);
+      document.getElementById('gw-tr-container').setAttribute('transform', `translate(300, 300) rotate(${rotTR}) translate(0, ${-waveTR}) translate(-300, -300)`);
+      document.getElementById('gw-bot-container').setAttribute('transform', `translate(300, 300) rotate(${rotBot}) translate(0, ${-waveBot}) translate(-300, -300)`);
+
+      // Update 3D Aruch group position & scale
+      const aruchGroup = document.getElementById('aruch-3d-group');
+      aruchGroup.setAttribute('transform', `translate(${aruchX}, ${aruchY}) scale(${aruchScale})`);
+
+      // Dynamically generate original slanted character layout with extrusion layers
+      const extrusionContainer = document.getElementById('aruch-extrusion');
+      const frontCharsContainer = document.getElementById('aruch-front-chars');
+      extrusionContainer.innerHTML = '';
+      frontCharsContainer.innerHTML = '';
+
+      const chars = aruchText.split('');
+      const defaultOffsets = [
+        { x: -75, baseY: 12 },
+        { x: -42, baseY: 7 },
+        { x: -5, baseY: 2 },
+        { x: 32, baseY: -3 },
+        { x: 70, baseY: -8 }
+      ];
+
+      const charData = chars.map((char, idx) => {
+        if (idx < defaultOffsets.length) {
+          return { char, ...defaultOffsets[idx] };
+        } else {
+          const last = defaultOffsets[defaultOffsets.length - 1];
+          const first = defaultOffsets[0];
+          const stepX = (last.x - first.x) / Math.max(1, chars.length - 1);
+          const stepY = (last.baseY - first.baseY) / Math.max(1, chars.length - 1);
+          return {
+            char,
+            x: first.x + (idx * stepX),
+            baseY: first.baseY + (idx * stepY)
+          };
+        }
+      });
+
+      // Render Extrusion Layers
+      for (let i = aruchDepth; i >= 1; i--) {
+        charData.forEach(d => {
+          const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          txt.setAttribute('font-family', "'Sora', sans-serif");
+          txt.setAttribute('font-weight', '800');
+          txt.setAttribute('font-size', '44');
+          txt.setAttribute('x', d.x);
+          txt.setAttribute('y', d.baseY);
+          txt.setAttribute('fill', accentColor);
+          txt.setAttribute('transform', `translate(${i}, ${i})`);
+          txt.textContent = d.char;
+          extrusionContainer.appendChild(txt);
+        });
+      }
+
+      // Render Front Face Characters
+      charData.forEach(d => {
+        const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        txt.setAttribute('font-family', "'Sora', sans-serif");
+        txt.setAttribute('font-weight', '800');
+        txt.setAttribute('font-size', '44');
+        txt.setAttribute('x', d.x);
+        txt.setAttribute('y', d.baseY);
+        txt.setAttribute('fill', 'url(#aruch-3d-grad)');
+        txt.setAttribute('stroke', 'url(#aruch-highlight)');
+        txt.setAttribute('stroke-width', '1.5');
+        txt.textContent = d.char;
+        frontCharsContainer.appendChild(txt);
+      });
+
+      // Update Sunburst Opacity & Center position
+      const sunburst = document.getElementById('sunburst-rays');
+      sunburst.setAttribute('opacity', raysOpacity);
+      sunburst.setAttribute('transform', `translate(${aruchX}, ${aruchY})`);
+
+      // Refigure internal Earth element continents/layout based on active config index
+      const continentsContainer = document.getElementById('earth-continents');
+      continentsContainer.innerHTML = '';
+      const earthConfigIdx = window.currentEarthConfig !== undefined ? window.currentEarthConfig : 0;
+      
+      if (earthConfigIdx === 0) {
+        continentsContainer.innerHTML = `
+          <path d="M -45 -35 Q -20 -60 15 -45 Q 45 -20 50 5 Q 55 30 25 55 Q -5 70 -30 45 Q -50 25 -55 0 Q -55 -15 -45 -35 Z" fill="#15803d" opacity="0.85"/>
+          <path d="M -20 -15 Q 10 -30 35 -10 Q 45 15 20 30 Q -5 40 -20 15 Q -30 0 -20 -15 Z" fill="#22c55e" opacity="0.9"/>
+          <path d="M 15 20 Q 45 10 50 35 Q 35 55 15 45 Q 5 30 15 20 Z" fill="#16a34a"/>
+          <path d="M -60 -60 Q -40 -80 -20 -70 Q -30 -50 -50 -40 Q -65 -50 -60 -60 Z" fill="#e2e8f0" opacity="0.9"/>
+        `;
+      } else if (earthConfigIdx === 1) {
+        continentsContainer.innerHTML = `
+          <path d="M -55 -25 Q -10 -70 30 -40 Q 60 -10 40 30 Q 10 60 -30 45 Q -60 30 -55 -25 Z" fill="#0284c7" opacity="0.85"/>
+          <path d="M -25 -10 Q 20 -40 45 -15 Q 55 20 25 35 Q -10 40 -25 -10 Z" fill="#38bdf8" opacity="0.9"/>
+          <path d="M -45 20 Q -10 10 20 40 Q 40 60 10 75 Q -20 70 -45 20 Z" fill="#0369a1" opacity="0.8"/>
+        `;
+      } else {
+        continentsContainer.innerHTML = `
+          <path d="M -60 -40 Q -30 -70 10 -50 Q 50 -30 60 10 Q 70 50 30 70 Q -10 80 -40 50 Q -70 20 -60 -40 Z" fill="#b45309" opacity="0.85"/>
+          <path d="M -30 -20 Q 0 -50 35 -30 Q 50 0 30 30 Q 0 50 -30 -20 Z" fill="#d97706" opacity="0.9"/>
+          <path d="M 0 10 Q 30 -10 55 20 Q 40 60 10 50 Q -10 30 0 10 Z" fill="#92400e" opacity="0.8"/>
+        `;
+      }
+
+      // Update Earth transform
+      const earthGroup = document.getElementById('earth-group');
+      earthGroup.setAttribute('transform', `translate(${earthX}, ${earthY})`);
+      document.getElementById('earth-inner-transform').setAttribute('transform', `rotate(${earthRot}) scale(${earthScale})`);
+
+      // Update Comet transform with mirror flip support
+      const cometGroup = document.getElementById('comet-group');
+      const flipVal = window.cometFlip !== undefined ? window.cometFlip : 1;
+      cometGroup.setAttribute('transform', `translate(300, 300) scale(${flipVal}, 1) rotate(${cometRot}) scale(${cometScale})`);
+
+      // Re-generate prominent constellations with connecting lines and glowing nodes
+      const starField = document.getElementById('star-field');
+      starField.innerHTML = '';
+      const constellation = window.currentConstellation !== undefined ? window.currentConstellation : 0;
+      let constCoords = [];
+
+      if (constellation === 0) {
+        constCoords = [
+          [210, 160], [240, 135], [275, 145], [260, 190], [225, 215], [195, 190],
+          [355, 110], [390, 85], [420, 110], [400, 155], [360, 140],
+          [285, 360], [315, 335], [350, 360], [330, 405], [295, 395]
+        ];
+      } else if (constellation === 1) {
+        constCoords = [
+          [185, 260], [215, 225], [255, 235], [280, 280], [235, 315], [195, 290],
+          [410, 225], [445, 195], [475, 220], [450, 270], [410, 260],
+          [305, 105], [340, 85], [370, 110], [345, 140]
+        ];
+      } else if (constellation === 2) {
+        constCoords = [
+          [160, 360], [190, 325], [230, 335], [250, 380], [210, 415],
+          [430, 330], [465, 305], [495, 340], [470, 385], [430, 370],
+          [310, 435], [345, 410], [375, 435], [345, 465]
+        ];
+      } else {
+        constCoords = [
+          [300, 155], [335, 190], [300, 225], [265, 190],
+          [205, 310], [240, 345], [205, 380], [170, 345],
+          [410, 310], [445, 345], [410, 380], [375, 345]
+        ];
+      }
+
+      for (let i = 0; i < constCoords.length - 1; i += 2) {
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute('x1', constCoords[i][0]);
+        line.setAttribute('y1', constCoords[i][1]);
+        line.setAttribute('x2', constCoords[i+1][0]);
+        line.setAttribute('y2', constCoords[i+1][1]);
+        line.setAttribute('stroke', '#38bdf8');
+        line.setAttribute('stroke-width', '1.5');
+        line.setAttribute('opacity', '0.75');
+        starField.appendChild(line);
+      }
+
+      constCoords.forEach(pt => {
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute('cx', pt[0]);
+        circle.setAttribute('cy', pt[1]);
+        circle.setAttribute('r', '4');
+        circle.setAttribute('class', 'star');
+        starField.appendChild(circle);
+      });
+
+      let seed = 456;
+      for (let i = 0; i < starDensity; i++) {
+        const x = 30 + pseudoRandom(seed++) * 540;
+        const y = 30 + pseudoRandom(seed++) * 540;
+        const dx = x - 300;
+        const dy = y - 300;
+        if (Math.hypot(dx, dy) < 280) {
+          const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          circle.setAttribute('cx', x);
+          circle.setAttribute('cy', y);
+          circle.setAttribute('r', 1 + pseudoRandom(seed++) * 1.5);
+          circle.setAttribute('class', 'star');
+          circle.setAttribute('opacity', '0.6');
+          starField.appendChild(circle);
+        }
+      }
+
+      // Sync the Small-Scale Preview Thumbnail
+      const miniContainer = document.getElementById('mini-patch-container');
+      miniContainer.innerHTML = '';
+      const clone = document.getElementById('patch-svg').cloneNode(true);
+      clone.id = 'patch-svg-mini';
+      clone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+      miniContainer.appendChild(clone);
+    }
+
+    // Save and populate the right-hand panel variations with interactive modal preview
+    function saveToRightPanel() {
+      const svgElement = document.getElementById('patch-svg');
+      const svgClone = svgElement.cloneNode(true);
+      svgClone.querySelectorAll('[id]').forEach(el => el.removeAttribute('id'));
+      
+      const index = window.generatedVersionsData.length % 9;
+      window.generatedVersionsData[index] = svgClone.outerHTML;
+
+      const thumbContainer = document.getElementById(`thumb-${index}`);
+      thumbContainer.innerHTML = svgClone.outerHTML;
+      document.querySelector(`#thumb-${index}`).closest('.version-card').querySelector('.version-label').innerText = `Version ${index + 1} (${window.currentShape.toUpperCase()})`;
+    }
+
+    function openModal(index) {
+      if (!window.generatedVersionsData[index]) return;
+      const modal = document.getElementById('modal-overlay');
+      const previewBox = document.getElementById('modal-preview-box');
+      previewBox.innerHTML = window.generatedVersionsData[index];
+      document.getElementById('modal-title').innerText = `Version ${index + 1} Expanded View`;
+      modal.style.display = 'flex';
+    }
+
+    function closeModal(event) {
+      document.getElementById('modal-overlay').style.display = 'none';
+    }
+
+    function exportSVG() {
+      const svg = document.getElementById('patch-svg');
+      const serializer = new XMLSerializer();
+      let source = serializer.serializeToString(svg);
+
+      if(!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)){
+        source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+      }
+
+      const blob = new Blob([source], { type: "image/svg+xml;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `baruch-mission-patch-v121-${Date.now()}.svg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function exportPNG() {
+      const svgElement = document.getElementById('patch-svg');
+      const serializer = new XMLSerializer();
+      const svgString = serializer.serializeToString(svgElement);
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+      const URLObj = window.URL || window.webkitURL || window;
+      const blobURL = URLObj.createObjectURL(svgBlob);
+
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 1200;
+        canvas.height = 1200;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        
+        const pngUrl = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = pngUrl;
+        a.download = `baruch-mission-patch-v121-${Date.now()}.png`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URLObj.revokeObjectURL(blobURL);
+      };
+      img.src = blobURL;
+    }
+
+    function exportPDF() {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: [88.9, 88.9]
+      });
+
+      const svgElement = document.getElementById('patch-svg');
+      const serializer = new XMLSerializer();
+      const svgString = serializer.serializeToString(svgElement);
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+      const URLObj = window.URL || window.webkitURL || window;
+      const blobURL = URLObj.createObjectURL(svgBlob);
+
+      const img = new Image();
+      img.onload = function() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 600 * 2;
+        canvas.height = 600 * 2;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const imgData = canvas.toDataURL('image/png');
+        pdf.addImage(imgData, 'PNG', 0, 0, 88.9, 88.9);
+        pdf.save(`baruch-mission-patch-v121-${Date.now()}.pdf`);
+        URLObj.revokeObjectURL(blobURL);
+      };
+      img.src = blobURL;
+    }
+
+    document.querySelectorAll('input').forEach(input => input.addEventListener('input', updatePatch));
+    updatePatch();
+  </script>
+</body>
+</html>
