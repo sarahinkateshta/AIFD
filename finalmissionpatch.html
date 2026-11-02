@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baruch Mission Patch - Space Exploration & Identity Portfolio</title>
+    <!-- Tailwind CSS for modern utility-first styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        space: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        spaceBlack: '#050B14',
+                        spaceNavy: '#0A1628',
+                        spaceCard: '#10223A',
+                        goldAccent: '#FACC15',
+                        goldDark: '#CA8A04',
+                        starlight: '#93C5FD'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom starfield background effect */
+        body {
+            background-color: #050B14;
+            background-image: 
+                radial-gradient(white 1px, transparent 0),
+                radial-gradient(rgba(250, 204, 21, 0.4) 1px, transparent 0);
+            background-size: 50px 50px, 80px 80px;
+            background-position: 0 0, 25px 25px;
+        }
+
+        /* Subtle glowing border for cards */
+        .glow-card {
+            background: linear-gradient(135deg, rgba(16, 34, 58, 0.8) 0%, rgba(10, 22, 40, 0.9) 100%);
+            border: 1px solid rgba(250, 204, 21, 0.2);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+        .glow-card:hover {
+            border-color: rgba(250, 204, 21, 0.5);
+            box-shadow: 0 15px 40px -10px rgba(250, 204, 21, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050B14;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e3a8a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #CA8A04;
+        }
+    </style>
+</head>
+<body class="text-slate-100 font-sans antialiased min-h-screen selection:bg-yellow-500 selection:text-black">
+
+    <!-- Header / Navigation Bar -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-spaceBlack/80 border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-yellow-500 to-blue-600 flex items-center justify-center font-space font-bold text-black text-lg shadow-lg">
+                    B
+                </div>
+                <div>
+                    <span class="font-space font-bold text-lg tracking-wider bg-gradient-to-r from-white via-slate-200 to-yellow-400 bg-clip-text text-transparent">BARUCH SPACE</span>
+                    <span class="block text-xs text-yellow-400 font-medium tracking-widest uppercase">Mission Patch Project</span>
+                </div>
+            </div>
+            <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
+                <a href="#patch-showcase" class="hover:text-yellow-400 transition-colors">Final Patch</a>
+                <a href="#representation" class="hover:text-yellow-400 transition-colors">Representation</a>
+                <a href="#symbols" class="hover:text-yellow-400 transition-colors">Symbols & Imagery</a>
+                <a href="#scientific-research" class="hover:text-yellow-400 transition-colors">Space & Science</a>
+                <a href="#ai-disclosure" class="hover:text-yellow-400 transition-colors">AI Disclosure</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 space-y-24">
+
+        <!-- Hero Section & Final Patch Showcase -->
+        <section id="patch-showcase" class="text-center space-y-10">
+            <div class="space-y-4 max-w-3xl mx-auto">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs font-semibold tracking-wider uppercase mb-2">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    
+                </div>
+                <h1 class="text-4xl sm:text-6xl font-space font-bold tracking-tight text-white">
+                    Final <span class="bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-500 bg-clip-text text-transparent">Patch</span>
+                </h1>
+            </div>
+
+            <!-- Image Showcase Card -->
+            <div class="relative max-w-lg mx-auto glow-card p-6 rounded-3xl group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-yellow-500 to-blue-600 rounded-3xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                <div class="relative bg-spaceNavy p-4 rounded-2xl border border-slate-700/50 flex flex-col items-center">
+                    <div class="w-full overflow-hidden rounded-xl shadow-2xl bg-black/40 flex items-center justify-center p-2">
+                        <img src="finalpatch.png" alt="Baruch Final Mission Patch" class="w-full h-auto max-h-[450px] object-contain transform group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x600/0A1628/FACC15?text=Baruch+Final+Patch'">
+                    </div>
+                    <div class="mt-4 flex items-center justify-between w-full px-2 text-xs font-space text-yellow-400 uppercase tracking-widest">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Q&A Sections Container -->
+        <div class="space-y-16">
+
+            <!-- Section 1: Representation -->
+            <section id="representation" class="glow-card p-8 md:p-10 rounded-3xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mt-8 -mr-8 w-40 h-40 bg-yellow-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="flex items-start space-x-4 mb-6">
+                    <span class="flex-shrink-0 w-10 h-10 rounded-xl bg-yellow-500/20 text-yellow-400 flex items-center justify-center font-space font-bold text-lg border border-yellow-500/30">01</span>
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-space font-bold text-white">What does your patch represent?</h2>
+                        <div class="h-1 w-20 bg-yellow-500 rounded-full mt-2"></div>
+                    </div>
+                </div>
+                <div class="text-slate-300 leading-relaxed space-y-4 text-base sm:text-lg pl-0 sm:pl-14">
+                    <p>
+                        The patch represents Baruch’s commitment to helping college students embrace their curiosity, pursue their ambitions, and reach great heights through their education. Baruch holds excellence, community, and success to the highest standards. The college is invested in each and every one of its students.
+                    </p>
+                    <p>
+                        Individuals who attend Baruch will become stronger, wiser, and more successful with the help of Baruch professors, mentors, and peers. This patch symbolizes Baruch’s integrity and commitment to keeping this promise and ensuring that future generations of students continue to invest in their education and achieve success in their future endeavors.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Section 2: Symbols & Imagery -->
+            <section id="symbols" class="glow-card p-8 md:p-10 rounded-3xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mt-8 -mr-8 w-40 h-40 bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="flex items-start space-x-4 mb-6">
+                    <span class="flex-shrink-0 w-10 h-10 rounded-xl bg-yellow-500/20 text-yellow-400 flex items-center justify-center font-space font-bold text-lg border border-yellow-500/30">02</span>
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-space font-bold text-white">What symbols or imagery did you choose, and why?</h2>
+                        <div class="h-1 w-20 bg-yellow-500 rounded-full mt-2"></div>
+                    </div>
+                </div>
+                <div class="text-slate-300 leading-relaxed space-y-4 text-base sm:text-lg pl-0 sm:pl-14">
+                    <p>
+                        I chose to honor Baruch by making the letter <strong class="text-white font-semibold">B</strong> the primary focus of the patch. Just like any other brand or company, this B was designed to make a statement and become the defining symbol of the Baruch patch.
+                    </p>
+                    <p>
+                        The sky and stars symbolize infinity and endless possibilities. The Earth on the lower lobe of the B ties into the space theme while also connecting to Baruch, as its students come from all parts of the world and have diverse backgrounds.
+                    </p>
+                    <p>
+                        The gold words <strong class="text-yellow-400">"Excellence,"</strong> <strong class="text-yellow-400">"Community,"</strong> and <strong class="text-yellow-400">"Leadership"</strong> define Baruch’s identity and represent the values students should gain from their experience at the college.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Section 3: Scientific Research & Space Discovery -->
+            <section id="scientific-research" class="glow-card p-8 md:p-10 rounded-3xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mt-8 -mr-8 w-40 h-40 bg-yellow-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="flex items-start space-x-4 mb-6">
+                    <span class="flex-shrink-0 w-10 h-10 rounded-xl bg-yellow-500/20 text-yellow-400 flex items-center justify-center font-space font-bold text-lg border border-yellow-500/30">03</span>
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-space font-bold text-white">How does the design reflect Baruch’s participation in scientific research and discovery in space?</h2>
+                        <div class="h-1 w-20 bg-yellow-500 rounded-full mt-2"></div>
+                    </div>
+                </div>
+                <div class="text-slate-300 leading-relaxed space-y-4 text-base sm:text-lg pl-0 sm:pl-14">
+                    <p>
+                        This design reflects Baruch’s participation in scientific research and discovery in space because it demonstrates the college’s desire to empower its students and provide them with opportunities that extend beyond their education.
+                    </p>
+                    <p>
+                        Baruch encourages us to take risks, be proud of our accomplishments, and learn from those around us. Similarly, space exploration is extraordinary and has a significant impact on our future. Those fortunate enough to have the opportunity to explore space are future leaders, ambitious individuals, and lifelong learners who are constantly growing and developing within their fields.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Section 4: A.I. Disclosure -->
+            <section id="ai-disclosure" class="glow-card p-8 md:p-10 rounded-3xl relative overflow-hidden border-yellow-500/40">
+                <div class="absolute top-0 right-0 -mt-8 -mr-8 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="flex items-start space-x-4 mb-6">
+                    <span class="flex-shrink-0 w-10 h-10 rounded-xl bg-yellow-500/20 text-yellow-400 flex items-center justify-center font-space font-bold text-lg border border-yellow-500/30">04</span>
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-space font-bold text-white">A.I. Disclosure for Final Design</h2>
+                        <div class="h-1 w-20 bg-yellow-500 rounded-full mt-2"></div>
+                    </div>
+                </div>
+                <div class="text-slate-300 leading-relaxed space-y-4 text-base sm:text-lg pl-0 sm:pl-14">
+                    <p class="p-4 rounded-xl bg-spaceNavy/80 border border-slate-700/60 text-slate-200">
+                        Yes, AI tools were used during the development of this design. Specifically, Google Gemini was used to construct the generative tool for the mission patch. All elements of the webpage, including the design execution and HTML code, were created using this AI platform.
+                    </p>
+                </div>
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-spaceNavy border-t border-slate-800 mt-20 py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 text-sm text-slate-400">
+            <div class="flex items-center space-x-2">
+                <span class="font-space font-bold text-white">Baruch Mission Patch</span>
+            </div>
+            <div class="flex space-x-6">
+                <a href="#patch-showcase" class="hover:text-yellow-400 transition-colors">Back to Top</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for interactive smooth scrolling enhancement or dynamic elements -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("Baruch Mission Patch Portfolio loaded successfully.");
+        });
+    </script>
+</body>
+</html>
