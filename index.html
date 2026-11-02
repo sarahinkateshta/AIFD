@@ -1,71 +1,579 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>A.I. FOR DESIGNERS | Sarah Inkateshta</title>
-<style>
-:root{--bg:#ff1a75;--text:#fff;--accent:#cce6ff}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
-body:before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(320px circle at var(--x,50%) var(--y,50%),rgba(204,230,255,.22),transparent 60%);z-index:1}
-.bg{position:fixed;inset:0;overflow:hidden;z-index:0}
-.shape{position:absolute;border-radius:50%;background:rgba(204,230,255,.18);animation:float linear infinite}
-.shape:nth-child(even){background:rgba(255,255,255,.12)}
-@keyframes float{from{transform:translateY(120vh) rotate(0)}to{transform:translateY(-130vh) rotate(360deg)}}
-.hero{position:relative;height:75vh;min-height:520px;overflow:hidden}
-.hero img{width:100%;height:100%;object-fit:cover;display:block}
-.overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,26,117,.15),rgba(255,26,117,.65));display:flex;align-items:end}
-.heroContent{width:min(1200px,92%);margin:0 auto;padding:0 0 50px}
-.heroContent h1{font-size:clamp(3.5rem,8vw,7rem);line-height:.9;text-transform:uppercase;text-shadow:0 4px 20px rgba(0,0,0,.25)}
-.wrap{position:relative;z-index:2;width:min(1000px,92%);margin:auto;padding:60px 0}
-.sectionTitle{font-size:clamp(2rem,4vw,3rem);margin-bottom:24px}
-.work{display:flex;flex-direction:column;gap:18px}
-.work a{display:block;padding:22px 28px;border-radius:999px;background:var(--accent);color:var(--bg);text-decoration:none;font-weight:800;border:3px solid var(--accent);transition:.25s}
-.work a:hover{background:var(--bg);color:var(--accent);transform:translateX(10px)}
-.meta{margin-top:14px;font-size:1.1rem}
-.meta a{color:var(--accent)}
-@media(max-width:768px){.hero{height:55vh;min-height:420px}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A.I. FOR DESIGNERS | Sarah Inkateshta (ART 3041)</title>
+    <!-- Tailwind CSS for utility classes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        portfolioBg: '#ff1a75',
+                        portfolioAccent: '#cce6ff',
+                    },
+                    fontFamily: {
+                        sans: ['Arial', 'sans-serif'],
+                        mono: ['Courier New', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for UI icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti for interactive celebration effects -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg: #ff1a75;
+            --text: #ffffff;
+            --accent: #cce6ff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+        /* Spotlight mouse tracker */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(400px circle at var(--x, 50%) var(--y, 50%), rgba(204, 230, 255, 0.22), transparent 70%);
+            z-index: 1;
+        }
+        /* Background floating shapes */
+        .bg-shapes {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(204, 230, 255, 0.15);
+            animation: float linear infinite;
+        }
+        @keyframes float {
+            from { transform: translateY(120vh) rotate(0deg); }
+            to { transform: translateY(-130vh) rotate(360deg); }
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+    </style>
 </head>
-<body>
-<div class="bg" id="bg"></div>
-<section class="hero">
-<img src="hero.png" alt="Hero Image">
-<div class="overlay">
-<div class="heroContent">
-<h1>A.I. FOR<br>DESIGNERS</h1>
-<div class="meta">Sarah Inkateshta<br>ART 3041 · Fall 2026<br><a href="mailto:sarah.inkateshta76@login.cuny.edu">sarah.inkateshta76@login.cuny.edu</a></div>
-</div>
-</div>
-</section>
-<main class="wrap">
-<h2 class="sectionTitle">Work</h2>
-<div class="work">
-<a href="chair.html">01 Custom Instructions</a>
-<a href="handoff.md">02 A Style Guide for Your AI</a>
-<a href="design-a.html">03 Design a ___</a>
-<a href="commute.html">04 Commute Story</a>
-<a href="promotionalposters.html">05 Become a Crea(i)tive Director</a>
-<a href="#">06 Experimental AI Interface</a>
-<a href="poster.html">07 Poster Generator</a>
-<a href="posterlinks.html">08 Additional Poster References</a>
-<a href="livedata.html">09 Live Data Stream</a>
-<a href="variabletype.html">10 Variable Type Poster</a>
-<a href="symbols.html">11 Symbols by Hand</a>
-<a href="missiontool.html">12 Mission Patch Tool</a>
-<a href="missiontool2.html">13 Mission Patch Tool 2.0</a>
-<a href="#">14</a>
-<a href="#">15 </a>
-<a href="#">16 </a>
-<a href="#">17 </a>
-<a href="#">18 </a>
-<a href="#">19 </a>
-<a href="#">20 </a>
-</div>
-</main>
-<script>
-document.addEventListener('mousemove',e=>{document.body.style.setProperty('--x',e.clientX+'px');document.body.style.setProperty('--y',e.clientY+'px')});const bg=document.getElementById('bg');for(let i=0;i<35;i++){const s=document.createElement('div');s.className='shape';const z=20+Math.random()*130;s.style.width=z+'px';s.style.height=z+'px';s.style.left=Math.random()*100+'vw';s.style.animationDuration=(18+Math.random()*18)+'s';s.style.animationDelay=(-Math.random()*20)+'s';bg.appendChild(s)}
-</script>
+<body class="relative min-h-screen selection:bg-portfolioAccent selection:text-portfolioBg">
+
+    <!-- Background Shapes -->
+    <div class="bg-shapes" id="bg"></div>
+
+    <!-- Top Kinetic Ticker Bar -->
+    <div class="relative z-30 bg-black/30 backdrop-blur-md border-b border-white/10 text-xs font-mono py-2.5 overflow-hidden whitespace-nowrap">
+        <div class="inline-block animate-[marquee_25s_linear_infinite] px-4 font-bold tracking-widest text-portfolioAccent">
+            ✦ ART 3041: A.I. FOR DESIGNERS &nbsp;&bull;&nbsp; SARAH INKATESHTA &nbsp;&bull;&nbsp; FALL 2026 &nbsp;&bull;&nbsp; 20 CURATED DELIVERABLES &nbsp;&bull;&nbsp;
+        </div>
+    </div>
+
+    <!-- FULL-WIDTH HERO BANNER -->
+    <section class="relative w-full h-[65vh] min-h-[450px] overflow-hidden shadow-2xl border-b border-white/15">
+        <img src="hero.png" alt="Sarah Inkateshta Hero Image" class="w-full h-full object-cover block" onerror="this.src='https://placehold.co/1600x900/ff1a75/cce6ff?text=A.I.+for+Designers'">
+        <div class="absolute inset-0 bg-gradient-to-t from-portfolioBg via-portfolioBg/50 to-transparent flex items-end">
+            <div class="w-full max-w-4xl mx-auto p-6 sm:p-10 lg:p-12 pb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+                <div>
+                    <span class="inline-block px-3.5 py-1.5 rounded-full bg-portfolioAccent text-portfolioBg font-mono text-xs font-extrabold uppercase shadow-md mb-4">
+                        CUNY Fall '26
+                    </span>
+                    <h1 class="text-[clamp(3rem,7vw,6rem)] font-extrabold leading-[0.9] uppercase tracking-tighter drop-shadow-lg">
+                        A.I. FOR<br><span class="text-portfolioAccent">DESIGNERS</span>
+                    </h1>
+                </div>
+                <button onclick="triggerConfetti()" class="w-12 h-12 rounded-full bg-white/20 hover:bg-white/40 backdrop-blur-md flex items-center justify-center transition-all text-portfolioAccent shadow-xl cursor-pointer shrink-0" title="Celebrate Vibe">
+                    <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Vertical Stack Layout Container -->
+    <div class="relative z-20 max-w-4xl mx-auto flex flex-col p-6 sm:p-10 lg:p-16 pt-8">
+
+        <!-- Metadata Card -->
+        <div class="bg-gradient-to-br from-portfolioBg via-portfolioBg to-black/30 p-6 sm:p-8 rounded-3xl border border-white/15 shadow-xl mb-12 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+            <div class="space-y-1 font-sans">
+                <p class="font-bold text-lg text-white">Sarah Inkateshta</p>
+                <p class="text-portfolioAccent font-mono text-xs">ART 3041 · Fall 2026</p>
+                <a href="mailto:sarah.inkateshta76@login.cuny.edu" class="block font-mono text-xs underline decoration-portfolioAccent underline-offset-4 hover:text-white transition-colors truncate">
+                    sarah.inkateshta76@login.cuny.edu
+                </a>
+            </div>
+            <div class="text-xs font-mono opacity-80 flex sm:flex-col items-center sm:items-end justify-between gap-2 pt-4 sm:pt-0 border-t sm:border-t-0 border-white/10">
+                <span>Total Deliverables: 20</span>
+                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Live Status</span>
+            </div>
+        </div>
+
+        <!-- MAIN WORKS SECTION: Vertical Stacked Cards -->
+        <main class="w-full flex-grow">
+            
+            <!-- Search & Category Filtering Bar -->
+            <div class="mb-10 space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight">Assignments</h2>
+                        <p class="text-xs font-mono text-portfolioAccent mt-1">Explore assignments 01 through 20 below</p>
+                    </div>
+
+                    <!-- Live Search Input -->
+                    <div class="relative w-full sm:w-72">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-portfolioBg/70 text-xs"></i>
+                        <input type="text" id="searchInput" onkeyup="filterWorks()" placeholder="Search project..." class="w-full pl-10 pr-4 py-2.5 rounded-full bg-portfolioAccent text-portfolioBg placeholder-portfolioBg/70 font-bold text-xs focus:outline-none focus:ring-4 focus:ring-white/40 shadow-md transition-all">
+                    </div>
+                </div>
+
+                <!-- Category Filter Pills -->
+                <div class="flex flex-wrap gap-2 pt-2">
+                    <button onclick="filterCategory('all', this)" class="filter-btn active-tab px-4 py-1.5 rounded-full bg-white text-portfolioBg font-extrabold text-xs shadow-md transition-all cursor-pointer">All (20)</button>
+                    <button onclick="filterCategory('tools', this)" class="filter-btn px-4 py-1.5 rounded-full bg-black/20 hover:bg-white/30 text-white font-bold text-xs transition-all cursor-pointer">Tools & Patch</button>
+                    <button onclick="filterCategory('posters', this)" class="filter-btn px-4 py-1.5 rounded-full bg-black/20 hover:bg-white/30 text-white font-bold text-xs transition-all cursor-pointer">Posters & Type</button>
+                    <button onclick="filterCategory('guides', this)" class="filter-btn px-4 py-1.5 rounded-full bg-black/20 hover:bg-white/30 text-white font-bold text-xs transition-all cursor-pointer">Guides & Stories</button>
+                </div>
+            </div>
+
+            <!-- Vertical Stacked Works List -->
+            <div id="worksList" class="flex flex-col gap-4">
+                
+                <!-- 01 -->
+                <div onclick="openDrawer('01', 'Custom Instructions', 'chair.html', 'Setting up foundational custom instructions for AI design workflows.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="01 Custom Instructions" data-cat="guides">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">01</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-70">Guide</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight">Custom Instructions</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 02 -->
+                <div onclick="openDrawer('02', 'A Style Guide for Your AI', 'handoff.md', 'Comprehensive documentation establishing visual and tonal parameters for AI models.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="02 A Style Guide for Your AI" data-cat="guides">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">02</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-70">Markdown Doc</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight">A Style Guide for Your AI</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 03 -->
+                <div onclick="openDrawer('03', 'Design a ___', 'design-a.html', 'Exploratory generative design prompt series focusing on novel artifact creation.', 'tools')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="03 Design a ___" data-cat="tools">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">03</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-70">Generative Lab</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight">Design a ___</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 04 -->
+                <div onclick="openDrawer('04', 'Commute Story', 'commute.html', 'Narrative journey mapping daily transit through AI-assisted storyboard imagery.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="04 Commute Story" data-cat="guides">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">04</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-70">Story Narrative</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight">Commute Story</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 05 -->
+                <div onclick="openDrawer('05', 'Become a Crea(i)tive Director', 'promotionalposters.html', 'Directing AI image generation pipelines for high-impact promotional campaign posters.', 'posters')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="05 Become a Crea(i)tive Director" data-cat="posters">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">05</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-70">Campaign Art Direction</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight">Become a Crea(i)tive Director</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 06 -->
+                <div onclick="openDrawer('06', 'Experimental AI Interface', '#', 'Prototyping experimental multimodal interaction paradigms. [Coming Soon]', 'tools')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent/80 text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="06 Experimental AI Interface" data-cat="tools">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">06</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-70">Prototype</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight">Experimental AI Interface</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-flask text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 07 -->
+                <div onclick="openDrawer('07', 'Poster Generator', 'poster.html', 'Custom web tool for automated procedural poster layout generation.', 'posters')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="07 Poster Generator" data-cat="posters">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">07</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-70">Web Tool</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight">Poster Generator</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 08 -->
+                <div onclick="openDrawer('08', 'Additional Poster References', 'posterlinks.html', 'Curated moodboards and design references for poster aesthetics.', 'posters')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="08 Additional Poster References" data-cat="posters">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">08</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-70">Reference Library</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight">Additional Poster References</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 09 -->
+                <div onclick="openDrawer('09', 'Live Data Stream', 'livedata.html', 'Dynamic visualization incorporating real-time feeds into design parameters.', 'tools')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="09 Live Data Stream" data-cat="tools">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">09</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-70">Data Viz</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight">Live Data Stream</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 10 -->
+                <div onclick="openDrawer('10', 'Variable Type Poster', 'variabletype.html', 'Algorithmic typographic exploration leveraging variable font axes.', 'posters')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="10 Variable Type Poster" data-cat="posters">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">10</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-70">Typography</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight">Variable Type Poster</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 11 -->
+                <div onclick="openDrawer('11', 'Symbols by Hand', 'symbols.html', 'Bridging physical hand-drawn icons with digital AI vector refinement.', 'tools')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="11 Symbols by Hand" data-cat="tools">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">11</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-70">Iconography</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight">Symbols by Hand</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 12 -->
+                <div onclick="openDrawer('12', 'Mission Patch Tool', 'missiontool.html', 'First iteration of the interactive mission patch designer app.', 'tools')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="12 Mission Patch Tool" data-cat="tools">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">12</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-70">App v1.0</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight">Mission Patch Tool</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 13 -->
+                <div onclick="openDrawer('13', 'Mission Patch Tool 2.0', 'missiontool2.html', 'Enhanced version with modular badge components and vector export.', 'tools')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="13 Mission Patch Tool 2.0" data-cat="tools">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">13</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-70">App v2.0</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight">Mission Patch Tool 2.0</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 14 -->
+                <div onclick="openDrawer('14', 'Version 3 Mission Patch Tool', 'missiontoolfinal.html', 'Refined feature-complete mission patch creator interface.', 'tools')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="14 Version 3 Mission Patch Tool" data-cat="tools">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">14</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-70">App v3.0</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight">Version 3 Mission Patch Tool</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 15 -->
+                <div onclick="openDrawer('15', 'Final Patch & Artist Statement', 'finalmissionpatch.html', 'The culminating insignia and comprehensive conceptual artist statement.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="15 Final Patch & Artist Statement" data-cat="guides">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">15</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-70">Culminating Project</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight">Final Patch & Artist Statement</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 16 -->
+                <div onclick="openDrawer('16', 'Coming Soon', '#', 'Future coursework deliverable slot.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent/30 text-portfolioAccent font-extrabold cursor-pointer border-2 border-dashed border-portfolioAccent/50 hover:bg-portfolioAccent hover:text-portfolioBg transition-all shadow-xl flex items-center justify-between" data-title="16 Coming Soon" data-cat="guides">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">16</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-60">Reserved</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight italic opacity-80">Coming Soon</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioAccent/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-hourglass text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 17 -->
+                <div onclick="openDrawer('17', 'Coming Soon', '#', 'Future coursework deliverable slot.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent/30 text-portfolioAccent font-extrabold cursor-pointer border-2 border-dashed border-portfolioAccent/50 hover:bg-portfolioAccent hover:text-portfolioBg transition-all shadow-xl flex items-center justify-between" data-title="17 Coming Soon" data-cat="guides">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">17</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-60">Reserved</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight italic opacity-80">Coming Soon</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioAccent/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-hourglass text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 18 -->
+                <div onclick="openDrawer('18', 'Coming Soon', '#', 'Future coursework deliverable slot.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent/30 text-portfolioAccent font-extrabold cursor-pointer border-2 border-dashed border-portfolioAccent/50 hover:bg-portfolioAccent hover:text-portfolioBg transition-all shadow-xl flex items-center justify-between" data-title="18 Coming Soon" data-cat="guides">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">18</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-60">Reserved</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight italic opacity-80">Coming Soon</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioAccent/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-hourglass text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 19 -->
+                <div onclick="openDrawer('19', 'Coming Soon', '#', 'Future coursework deliverable slot.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent/30 text-portfolioAccent font-extrabold cursor-pointer border-2 border-dashed border-portfolioAccent/50 hover:bg-portfolioAccent hover:text-portfolioBg transition-all shadow-xl flex items-center justify-between" data-title="19 Coming Soon" data-cat="guides">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">19</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-60">Reserved</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight italic opacity-80">Coming Soon</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioAccent/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-hourglass text-sm"></i>
+                    </div>
+                </div>
+
+                <!-- 20 -->
+                <div onclick="openDrawer('20', 'Coming Soon', '#', 'Future coursework deliverable slot.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent/30 text-portfolioAccent font-extrabold cursor-pointer border-2 border-dashed border-portfolioAccent/50 hover:bg-portfolioAccent hover:text-portfolioBg transition-all shadow-xl flex items-center justify-between" data-title="20 Coming Soon" data-cat="guides">
+                    <div class="flex items-center gap-4 sm:gap-6">
+                        <span class="text-xs font-mono opacity-60 w-6">20</span>
+                        <div>
+                            <div class="text-xs font-mono opacity-60">Reserved</div>
+                            <div class="text-lg sm:text-xl font-bold tracking-tight italic opacity-80">Coming Soon</div>
+                        </div>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-portfolioAccent/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
+                        <i class="fa-solid fa-hourglass text-sm"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Empty Search State -->
+            <div id="noResults" class="hidden text-center py-16 text-portfolioAccent font-bold text-lg">
+                No matching deliverables found. Try another search query!
+            </div>
+
+            <!-- Footer Note -->
+            <footer class="mt-16 pt-8 border-t border-white/15 text-center text-xs font-mono opacity-75">
+                <p>© 2026 Sarah Inkateshta • ART 3041 A.I. for Designers</p>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Interactive Project Drawer Modal -->
+    <div id="projectDrawer" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div id="drawerContent" class="w-full sm:max-w-xl bg-portfolioAccent text-portfolioBg rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 shadow-2xl transform translate-y-full sm:scale-95 transition-all duration-300">
+            <div class="flex items-center justify-between mb-4">
+                <span id="drawerNum" class="px-3 py-1 rounded-full bg-portfolioBg text-portfolioAccent font-mono text-xs font-extrabold">01</span>
+                <button onclick="closeDrawer()" class="w-8 h-8 rounded-full bg-portfolioBg/10 hover:bg-portfolioBg/20 flex items-center justify-center transition-colors text-portfolioBg font-bold cursor-pointer">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <h3 id="drawerTitle" class="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight mb-3">Project Title</h3>
+            <p id="drawerDesc" class="text-sm sm:text-base font-sans opacity-90 leading-relaxed mb-8">Project description goes here...</p>
+
+            <div class="flex flex-col sm:flex-row items-center gap-3">
+                <a id="drawerLink" href="#" class="w-full text-center py-3.5 px-6 rounded-2xl bg-portfolioBg text-portfolioAccent font-extrabold hover:opacity-90 transition-opacity shadow-lg flex items-center justify-center gap-2">
+                    <span>Launch Deliverable</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <button onclick="closeDrawer()" class="w-full sm:w-auto py-3.5 px-6 rounded-2xl bg-portfolioBg/10 text-portfolioBg font-bold hover:bg-portfolioBg/20 transition-colors cursor-pointer">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        // --- 1. Mouse Spotlight Tracker ---
+        document.addEventListener('mousemove', e => {
+            document.body.style.setProperty('--x', e.clientX + 'px');
+            document.body.style.setProperty('--y', e.clientY + 'px');
+        });
+
+        // --- 2. Floating Background Shapes Generator ---
+        const bg = document.getElementById('bg');
+        for (let i = 0; i < 30; i++) {
+            const s = document.createElement('div');
+            s.className = 'shape';
+            const size = 30 + Math.random() * 100;
+            s.style.width = size + 'px';
+            s.style.height = size + 'px';
+            s.style.left = Math.random() * 100 + 'vw';
+            s.style.animationDuration = (20 + Math.random() * 20) + 's';
+            s.style.animationDelay = (-Math.random() * 20) + 's';
+            bg.appendChild(s);
+        }
+
+        // --- 3. Live Search Filtering ---
+        function filterWorks() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.project-card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const title = card.getAttribute('data-title').toLowerCase();
+                if (title.includes(query)) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const noResults = document.getElementById('noResults');
+            if (visibleCount === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }
+
+        // --- 4. Category Tab Filtering ---
+        function filterCategory(cat, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                b.className = "filter-btn px-4 py-1.5 rounded-full bg-black/20 hover:bg-white/30 text-white font-bold text-xs transition-all cursor-pointer";
+            });
+            btn.className = "filter-btn active-tab px-4 py-1.5 rounded-full bg-white text-portfolioBg font-extrabold text-xs shadow-md transition-all cursor-pointer";
+
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-cat');
+                if (cat === 'all' || cardCat === cat) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            document.getElementById('searchInput').value = '';
+            document.getElementById('noResults').classList.add('hidden');
+        }
+
+        // --- 5. Project Drawer Modal Logic ---
+        function openDrawer(num, title, link, desc, cat) {
+            document.getElementById('drawerNum').textContent = `Item ${num} · ${cat.toUpperCase()}`;
+            document.getElementById('drawerTitle').textContent = title;
+            document.getElementById('drawerDesc').textContent = desc;
+            document.getElementById('drawerLink').href = link;
+
+            const drawer = document.getElementById('projectDrawer');
+            const content = document.getElementById('drawerContent');
+
+            drawer.classList.remove('opacity-0', 'pointer-events-none');
+            content.classList.remove('translate-y-full', 'sm:scale-95');
+        }
+
+        function closeDrawer() {
+            const drawer = document.getElementById('projectDrawer');
+            const content = document.getElementById('drawerContent');
+
+            drawer.classList.add('opacity-0', 'pointer-events-none');
+            content.classList.add('translate-y-full', 'sm:scale-95');
+        }
+
+        document.getElementById('projectDrawer').addEventListener('click', (e) => {
+            if (e.target.id === 'projectDrawer') {
+                closeDrawer();
+            }
+        });
+
+        // --- 6. Confetti Easter Egg ---
+        function triggerConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff1a75', '#cce6ff', '#ffffff', '#ff80bf']
+            });
+        }
+    </script>
 </body>
 </html>
