@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Director Pt. 1: Style Guide — Wrapped in Lola</title>
+    <!-- Google Fonts: Kavoon & Raleway -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kavoon&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 
+          CLEAN, EDITORIAL, & HIGH-FASHION MINIMALIST
+          - Impeccable whitespace, fine lines, and sophisticated neutral framing
+          - High-impact color swatches paired with clean typography
+        */
+        :root {
+            --burgundy: #440E03;
+            --forest-green: #0A3701;
+            --crimson: #BD0600;
+            --pure-black: #000000;
+            --pure-white: #FFFFFF;
+            --linen-bg: #F4F2EE;
+            --border-fine: #DCD8D0;
+            --text-muted: #7A7570;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: var(--linen-bg);
+            color: var(--pure-black);
+            line-height: 1.8;
+            font-weight: 300;
+            padding: 80px 20px;
+        }
+
+        /* EDITORIAL SPREAD CONTAINER */
+        .editorial-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--pure-white);
+            border: 1px solid var(--border-fine);
+            padding: 80px 100px;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.04);
+        }
+
+        /* SPREAD HEADER */
+        header.editorial-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 1px solid var(--border-fine);
+            padding-bottom: 40px;
+            margin-bottom: 80px;
+        }
+
+        .header-title-block h1 {
+            font-family: 'Kavoon', cursive;
+            font-size: 3.5rem;
+            color: var(--burgundy);
+            font-weight: 400;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+            margin-top: 10px;
+        }
+
+        .header-kicker {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .header-meta {
+            text-align: right;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* EDITORIAL SECTIONS (MAGAZINE STYLE) */
+        .editorial-section {
+            margin-bottom: 90px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 60px;
+            align-items: start;
+            border-bottom: 1px solid var(--border-fine);
+            padding-bottom: 70px;
+        }
+
+        .editorial-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section-sidebar h2 {
+            font-family: 'Kavoon', cursive;
+            font-size: 2rem;
+            color: var(--burgundy);
+            font-weight: 400;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-num {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--crimson);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .editorial-body {
+            font-size: 1.05rem;
+            color: #222;
+            font-weight: 300;
+            letter-spacing: 0.2px;
+        }
+
+        .brief-paragraph {
+            text-align: justify;
+            line-height: 2.2;
+        }
+
+        /* MOODBOARD EDITORIAL FRAME */
+        .editorial-moodboard {
+            width: 100%;
+        }
+
+        .editorial-moodboard img {
+            width: 100%;
+            max-height: 650px;
+            object-fit: cover;
+            border: 1px solid var(--border-fine);
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .image-caption {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-align: right;
+        }
+
+        /* CLEAN COLOR PALETTE GRID */
+        .editorial-color-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        .color-card {
+            border: 1px solid var(--border-fine);
+            padding: 12px;
+            background-color: var(--pure-white);
+        }
+
+        .color-box {
+            height: 90px;
+            border: 1px solid var(--border-fine);
+            margin-bottom: 12px;
+        }
+
+        .color-card h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: var(--pure-black);
+            margin-bottom: 4px;
+        }
+
+        .color-card span {
+            font-size: 0.7rem;
+            font-family: monospace;
+            color: var(--text-muted);
+        }
+
+        /* TYPOGRAPHY SPECIMEN */
+        .editorial-type-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .type-specimen-box {
+            border: 1px solid var(--border-fine);
+            padding: 40px;
+            background-color: var(--linen-bg);
+        }
+
+        .specimen-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .specimen-kavoon {
+            font-family: 'Kavoon', cursive;
+            font-size: 2.8rem;
+            color: var(--burgundy);
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+
+        .specimen-raleway {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 900;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--pure-black);
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        .specimen-note {
+            font-size: 0.85rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* LOGOMARK & TAG SECTION */
+        .editorial-tag-display {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .tag-image-frame {
+            border: 1px solid var(--border-fine);
+            padding: 20px;
+            background-color: var(--linen-bg);
+            text-align: center;
+        }
+
+        .tag-image-frame img {
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid var(--border-fine);
+            margin-bottom: 12px;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 900px) {
+            .editorial-container {
+                padding: 40px 20px;
+            }
+            .editorial-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            header.editorial-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .header-meta {
+                text-align: left;
+            }
+            .editorial-color-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .editorial-type-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="editorial-container">
+
+        <!-- SPREAD HEADER -->
+        <header class="editorial-header">
+            <div class="header-title-block">
+                <div class="header-kicker">Creative Director Pt. 1: Style Guide</div>
+                <h1>Wrapped in Lola</h1>
+            </div>
+            <div class="header-meta">
+                Lola Blankets<br>Winter 2027 Collection
+            </div>
+        </header>
+
+        <!-- SECTION 01: BRIEF -->
+        <section class="editorial-section">
+            <div class="section-sidebar">
+                <div class="sidebar-num">Exhibit 01</div>
+                <h2>Campaign Vision & Brief</h2>
+            </div>
+            <div class="editorial-body">
+                <p class="brief-paragraph">
+                    Lola Blankets introduces its inaugural line of scarves for the Winter 2027 collection, designed as a unisex offering for all ages. Crafted with comfort, style, and luxury in mind, these pieces serve as the cornerstone of your winter essentials kit, delivering effortless, grab-and-go fashion. The collection features trend-forward seasonal palettes—including plum, cream, and forest green—alongside distinct patterns such as polka dot, deer print, and cheetah, all rendered in the authentic faux fur aesthetic favored by today's trendsetters. Utilizing signature Lola Blankets fabric to deliver one-of-a-kind items, the brand spearheads an initiative to transition at-home comfort into the urban outdoor environment with this premier scarf release.
+                </p>
+            </div>
+        </section>
+
+        <!-- SECTION 02: MOODBOARD -->
+        <section class="editorial-section">
+            <div class="section-sidebar">
+                <div class="sidebar-num">Exhibit 02</div>
+                <h2>Campaign Moodboard</h2>
+            </div>
+            <div class="editorial-body">
+                <div class="editorial-moodboard">
+                    <img src="lolamoodboard.png" alt="Wrapped in Lola Campaign Moodboard Collage">
+                    <div class="image-caption">Plate 01 — Visual Direction & Textural Study</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 03: COLOR PALETTE -->
+        <section class="editorial-section">
+            <div class="section-sidebar">
+                <div class="sidebar-num">Exhibit 03</div>
+                <h2>Color Palette</h2>
+            </div>
+            <div class="editorial-body">
+                <div class="editorial-color-grid">
+                    <div class="color-card">
+                        <div class="color-box" style="background-color: #440E03;"></div>
+                        <h4>Burgundy</h4>
+                        <span>#440E03</span>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-box" style="background-color: #0A3701;"></div>
+                        <h4>Forest Green</h4>
+                        <span>#0A3701</span>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-box" style="background-color: #BD0600;"></div>
+                        <h4>Crimson</h4>
+                        <span>#BD0600</span>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-box" style="background-color: #000000;"></div>
+                        <h4>Pure Black</h4>
+                        <span>#000000</span>
+                    </div>
+                    <div class="color-card">
+                        <div class="color-box" style="background-color: #FFFFFF; border: 1px solid #ccc;"></div>
+                        <h4>Pure White</h4>
+                        <span>#FFFFFF</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 04: TYPOGRAPHY -->
+        <section class="editorial-section">
+            <div class="section-sidebar">
+                <div class="sidebar-num">Exhibit 04</div>
+                <h2>Typography</h2>
+            </div>
+            <div class="editorial-body">
+                <div class="editorial-type-grid">
+                    <div class="type-specimen-box">
+                        <div class="specimen-tag">Display Typeface</div>
+                        <div class="specimen-kavoon">Kavoon</div>
+                        <div class="specimen-note">Organic, plush, and tactile forms mirroring signature faux fur volume.</div>
+                    </div>
+                    <div class="type-specimen-box">
+                        <div class="specimen-tag">Editorial Typeface</div>
+                        <div class="specimen-raleway">Raleway</div>
+                        <div class="specimen-note">Clean, high-fashion geometric precision spanning weights 100 to 900.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 05: LOGOMARK & TAG -->
+        <section class="editorial-section">
+            <div class="section-sidebar">
+                <div class="sidebar-num">Exhibit 05</div>
+                <h2>Logomark & Tag</h2>
+            </div>
+            <div class="editorial-body">
+                <div class="editorial-tag-display">
+                    <div class="tag-image-frame">
+                        <img src="lolatag.jpg" alt="Wrapped in Lola Brand Tag Design">
+                        <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted);">Woven Satin Garment Tag Design</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
