@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wrapped in Lola — Winter 27 Campaign</title>
+    <!-- Google Fonts: Kavoon & Raleway -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kavoon&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --burgundy: #440E03;
+            --pure-black: #000000;
+            --pure-white: #FFFFFF;
+            --linen-bg: #F4F2EE;
+            --border-fine: #DCD8D0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: var(--linen-bg);
+            color: var(--pure-black);
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* NAVIGATION BAR */
+        nav.site-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background-color: var(--pure-white);
+            border-bottom: 1px solid var(--border-fine);
+        }
+
+        /* CUSTOM LOGO STYLING IN NAVIGATION */
+        .nav-logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-logo-img {
+            height: 100px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 600;
+            color: var(--pure-black);
+        }
+
+        /* REDUCED WEBSITE HERO SECTION CONTAINER */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            height: 600px;
+            margin: 40px auto 0 auto;
+            border: 1px solid var(--border-fine);
+            background-color: var(--pure-black);
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.06);
+        }
+
+        /* SHARP, CONSTANT LOOPING VIDEO */
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateZ(0);
+            min-width: 100%;
+            min-height: 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            image-rendering: -webkit-optimize-contrast;
+        }
+
+        /* SUBTLE EDITORIAL GRADIENT OVERLAY */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.5) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* LOWER CONTENT SPREAD */
+        .website-content {
+            max-width: 1200px;
+            margin: 40px auto 80px auto;
+            background-color: var(--pure-white);
+            border: 1px solid var(--border-fine);
+            padding: 80px 100px;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.04);
+        }
+
+        .content-header h2 {
+            font-family: 'Kavoon', cursive;
+            font-size: 2.5rem;
+            color: var(--burgundy);
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .content-body p {
+            font-size: 1.05rem;
+            line-height: 2.2;
+            color: #333;
+            font-weight: 300;
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 900px) {
+            .hero-section {
+                height: 400px;
+                margin: 20px 10px 0 10px;
+                width: calc(100% - 20px);
+            }
+            .website-content {
+                padding: 40px 20px;
+                margin: 20px 10px;
+            }
+            nav.site-nav {
+                padding: 20px;
+            }
+            .nav-logo-img {
+                height: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="site-nav">
+        <div class="nav-logo-container">
+            <!-- Replace 'logo.png' with your saved logo filename if different -->
+            <img src="lolaimage1.JPG" alt="Wrapped in Lola Logo" class="nav-logo-img">
+        </div>
+        <div class="nav-links">
+            <span>Winter 27</span>
+            <span>Campaign</span>
+            <span>Lookbook</span>
+        </div>
+    </nav>
+
+    <!-- REDUCED HERO SECTION CONTAINER -->
+    <section class="hero-section">
+        <!-- Pure video loop scaled perfectly to website hero dimensions -->
+        <video class="hero-video" autoplay muted loop playsinline preload="auto">
+            <source src="lolaherovideo.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-overlay"></div>
+    </section>
+
+</body>
+</html>
