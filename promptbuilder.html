@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wrapped in Lola — Pinterest-Style AI Campaign Prompt Builder</title>
+    <!-- Google Fonts: Kavoon & Raleway -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kavoon&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --burgundy: #440E03;
+            --forest-green: #0A3701;
+            --crimson: #BD0600;
+            --pure-black: #111111;
+            --pure-white: #FFFFFF;
+            --linen-bg: #F7F5F0;
+            --card-bg: #FFFFFF;
+            --border-soft: #E8E4DD;
+            --text-muted: #7A7570;
+            --gold: #D4AF37;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: var(--linen-bg);
+            color: var(--pure-black);
+            line-height: 1.6;
+            font-weight: 400;
+            padding: 50px 20px;
+        }
+
+        .pinterest-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* PINTEREST HEADER */
+        header.pinterest-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 30px 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-soft);
+        }
+
+        .header-title-block h1 {
+            font-family: 'Kavoon', cursive;
+            font-size: 2.2rem;
+            color: var(--burgundy);
+            font-weight: 400;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+            margin-top: 5px;
+        }
+
+        .header-kicker {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--crimson);
+            font-weight: 700;
+        }
+
+        .header-logo-img {
+            max-height: 60px;
+            object-fit: contain;
+        }
+
+        /* MASONRY / GRID LAYOUT */
+        .pinterest-masonry {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        /* PINTEREST CARD COMPONENT */
+        .p-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-soft);
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.02);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .p-card:hover {
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.05);
+        }
+
+        .p-card.full-width {
+            grid-column: span 2;
+        }
+
+        .card-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-family: 'Kavoon', cursive;
+            font-size: 1.25rem;
+            color: var(--burgundy);
+            font-weight: 400;
+        }
+
+        /* RANDOMIZE PIN BUTTON */
+        .pin-random-btn {
+            background-color: var(--linen-bg);
+            color: var(--burgundy);
+            border: 1px solid var(--border-soft);
+            padding: 8px 14px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .pin-random-btn:hover {
+            background-color: var(--burgundy);
+            color: var(--pure-white);
+            border-color: var(--burgundy);
+        }
+
+        label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--burgundy);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .input-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1px solid var(--border-soft);
+            background: var(--linen-bg);
+            color: var(--pure-black);
+            font-family: 'Raleway', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23440E03' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        input[type="text"] {
+            background-image: none;
+            padding-right: 16px;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--burgundy);
+            background-color: var(--card-bg);
+            box-shadow: 0 0 0 3px rgba(68, 14, 3, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        /* GENERATE PIN BUTTON */
+        button.generate-pin-btn {
+            background-color: var(--forest-green);
+            color: var(--pure-white);
+            border: none;
+            padding: 18px 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 25px rgba(10, 55, 1, 0.2);
+        }
+
+        button.generate-pin-btn:hover {
+            background-color: #062201;
+        }
+
+        /* OUTPUT PINTEREST CARD */
+        .output-pin-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-soft);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            margin-top: 30px;
+        }
+
+        .output-pin-card h3 {
+            font-family: 'Kavoon', cursive;
+            font-size: 1.4rem;
+            color: var(--burgundy);
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.88rem;
+            color: #222;
+            line-height: 1.7;
+            background: var(--linen-bg);
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border-soft);
+            margin-bottom: 20px;
+        }
+
+        .save-pin-btn {
+            background-color: var(--burgundy);
+            color: var(--pure-white);
+            border: none;
+            padding: 14px 28px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            box-shadow: 0 6px 20px rgba(68, 14, 3, 0.2);
+        }
+
+        .save-pin-btn:hover {
+            background-color: #270801;
+        }
+
+        @media (max-width: 850px) {
+            .pinterest-masonry {
+                grid-template-columns: 1fr;
+            }
+            .p-card.full-width {
+                grid-column: span 1;
+            }
+            header.pinterest-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="pinterest-wrapper">
+
+        <!-- HEADER -->
+        <header class="pinterest-header">
+            <div class="header-title-block">
+                <div class="header-kicker">Winter 2027 Visual Board</div>
+                <h1>Wrapped in Lola</h1>
+            </div>
+            <div>
+                <img src="lolaimage1.jpg" alt="Wrapped in Lola Logo" class="header-logo-img">
+            </div>
+        </header>
+
+        <!-- MASONRY ENGINE CARDS -->
+        <div class="pinterest-masonry">
+
+            <!-- CARD 01: CONCEPT & COLOR -->
+            <div class="p-card">
+                <div class="card-header-flex">
+                    <h2 class="card-title">01. Mood & Color</h2>
+                    <button class="pin-random-btn" onclick="randomizeSelections()">🎲 Mix Pin</button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="imageType">Image Concept & Style</label>
+                    <div class="input-hint">Select a fun, distinctive creative narrative.</div>
+                    <select id="imageType" onchange="toggleContextOptions()">
+                        <option value="Through-Glass Cafe Voyeur Shot">Through-the-Glass Café Voyeur Shot (Warm interior looking out to snow)</option>
+                        <option value="Playful Motion Blur Action Shot">Playful Motion Blur Action Shot (Energetic movement and swirling scarf)</option>
+                        <option value="High-Contrast Noir Urban Silhouette">High-Contrast Noir Urban Silhouette (Dramatic shadows & rim light)</option>
+                        <option value="Overhead Aerial Crowd Spotting">Overhead Aerial Crowd Spotting (Bird's-eye view in bustling avenue)</option>
+                        <option value="Puddle Reflection Symmetry Shot">Puddle Reflection Symmetry Shot (Poetic water reflection angle)</option>
+                        <option value="Macro Texture Weave Focus">Macro Texture Weave Close-Up (Ultra-detailed faux-fur focus)</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="margin-top: 18px;">
+                    <label for="patternColor">Scarf Color & Pattern</label>
+                    <div class="input-hint">The hero plush faux-fur fabric variant.</div>
+                    <select id="patternColor">
+                        <option value="plum plush faux-fur scarf">Plum (Solid Faux Fur)</option>
+                        <option value="cream plush faux-fur scarf">Cream (Solid Faux Fur)</option>
+                        <option value="forest green plush faux-fur scarf">Forest Green (Solid Faux Fur)</option>
+                        <option value="polka dot plush faux-fur scarf">Polka Dot Pattern Faux Fur</option>
+                        <option value="deer print plush faux-fur scarf">Deer Print Pattern Faux Fur</option>
+                        <option value="cheetah print plush faux-fur scarf">Cheetah Print Pattern Faux Fur</option>
+                        <option value="luxury multi-color scarf bundle">Multi-Color Scarf Bundle Set</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- CARD 02: MUSE & STYLING -->
+            <div class="p-card">
+                <div class="card-header-flex">
+                    <h2 class="card-title">02. Muse & Wardrobe</h2>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subjectType">Subject Demographic</label>
+                    <div class="input-hint">Who is showcasing the piece in the frame.</div>
+                    <select id="subjectType">
+                        <option value="a stylish young woman">Stylish Young Woman</option>
+                        <option value="a dapper and fashionable man">Dapper Fashionable Man</option>
+                        <option value="a sophisticated older adult with timeless elegance">Sophisticated Older Adult / Senior</option>
+                        <option value="a chic and playful child">Chic Child / Youth</option>
+                        <option value="an ultra-chic street-style fashion muse">Candid Street-Style Fashion Muse</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="margin-top: 18px;">
+                    <label for="outfitStyle">Garment Styling & Era</label>
+                    <div class="input-hint">The apparel layered alongside the scarf.</div>
+                    <select id="outfitStyle">
+                        <option value="quiet luxury old money apparel with cashmere knitwear and tailored wool coats">Quiet Luxury / Old Money</option>
+                        <option value="streetwear and urban edgy outfit with chunky boots and layered outerwear">Gen Z Streetwear & Edgy</option>
+                        <option value="business casual and office chic attire with sharp blazers">Business Casual / Office Chic</option>
+                        <option value="minimalist basic everyday apparel with clean neutral layers">Minimalist Basic Everyday</option>
+                        <option value="fancy and glamorous evening attire with high-fashion tailoring">Fancy & Glamorous Evening</option>
+                        <option value="90s retro minimalist fashion with vintage denim and leather jacket">90s Retro Minimalist</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- CARD 03: MOODBOARD-INSPIRED POSE & SETTING -->
+            <div class="p-card">
+                <div class="card-header-flex">
+                    <h2 class="card-title">03. Pose & Location</h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="poseType">Moodboard-Inspired Pose & Expression</label>
+                    <div class="input-hint">Directly inspired by the Lola Winter campaign moodboard.</div>
+                    <select id="poseType">
+                        <option value="wearing the oversized plush faux-fur scarf pulled up as a cozy hood framing the face, looking softly into camera">The Hooded Cozy Wrap & Direct Gaze</option>
+                        <option value="draping the voluminous faux-fur scarf across chest and shoulders with arms crossed confidently">The Oversized Drape & Arm Cross</option>
+                        <option value="holding a takeaway coffee cup while walking with long scarf flowing over wool coat">The Coffee-Cup Handheld Urban Stride</option>
+                        <option value="walking down snowy avenue with scarf tossed backward over one shoulder, looking back over shoulder with sunglasses">The Over-the-Shoulder Avenue Glance</option>
+                        <option value="laughing joyfully with head tilted back as winter snow falls">Joyful Mid-Laugh Snowfall Stride</option>
+                        <option value="adjusting the plush faux-fur scarf around the neck with both leather-gloved hands">Leather-Gloved Hands Adjusting Scarf</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="locationGroup" style="margin-top: 18px;">
+                    <label for="nycLocation">NYC Urban Setting</label>
+                    <div class="input-hint">The iconic New York City backdrop.</div>
+                    <select id="nycLocation">
+                        <option value="Central Park snowy pathways and historic stone bridges">Central Park (Snowy Paths & Bridges)</option>
+                        <option value="Winter Village at Bryant Park holiday booths and ice skating rink">Winter Village at Bryant Park</option>
+                        <option value="the scenic waterfront piers overlooking the river">The Waterfront Piers</option>
+                        <option value="a bustling NYC subway train interior with silver handrails and commuters">NYC Subway Train Interior</option>
+                        <option value="the backseat interior of a classic NYC Yellow Taxi looking out onto rainy avenue traffic">NYC Yellow Taxi Interior Look</option>
+                        <option value="a chic brick-walled SoHo street poster gallery wall and cobblestone sidewalk">SoHo Street Poster & Wallscape</option>
+                        <option value="a cozy neighborhood Starbucks exterior with frosted window glass">Starbucks Neighborhood Café</option>
+                        <option value="vibrant Times Square amid glowing neon signs and rainy asphalt reflections">Times Square Neon & Rain</option>
+                        <option value="The Edge high-rise glass observation deck overlooking the skyline">The Edge (Skyline Balcony)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- CARD 04: MOODBOARD-INSPIRED CAMERA, LIGHTING & FORMAT -->
+            <div class="p-card">
+                <div class="card-header-flex">
+                    <h2 class="card-title">04. Camera & Output</h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="angle">Moodboard-Inspired Camera Angle</label>
+                    <div class="input-hint">Perspective defining the shot composition from moodboard plates.</div>
+                    <select id="angle">
+                        <option value="tight intimate close-up face framing portrait focusing on tactile texture">Tight Close-Up Face Framing Portrait</option>
+                        <option value="dynamic low-angle street chic shot looking slightly upward for a towering fashion presence">Low-Angle Street Chic Perspective</option>
+                        <option value="mid-length sidewalk street lookbook framing capturing outfit from head to boots">Mid-Length Sidewalk Lookbook Framing</option>
+                        <option value="artistic Dutch-angle tilt with blurred foreground elements">Artistic Dutch-Angle Tilt</option>
+                        <option value="aerial bird's-eye perspective looking straight down from a high balcony">Aerial Bird's-Eye Balcony Perspective</option>
+                        <option value="wide cinematic environmental framing capturing full urban winter atmosphere">Wide Cinematic Environmental Framing</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="margin-top: 18px;">
+                    <label for="timeOfDay">Time of Day & Atmosphere</label>
+                    <div class="input-hint">Lighting tone and temporal mood.</div>
+                    <select id="timeOfDay">
+                        <option value="blushing dawn and early morning blue hour with crisp frost and cool pastel tones">Blushing Dawn / Morning Blue Hour</option>
+                        <option value="bright crisp midday winter sun casting sharp, clean architectural shadows">Bright Crisp Midday Winter Sun</option>
+                        <option value="warm afternoon golden hour sunset casting long honey-gold rays">Warm Golden Hour Sunset</option>
+                        <option value="moody evening twilight and deep blue hour with glowing city lights">Moody Evening Twilight / Blue Hour</option>
+                        <option value="neon-lit midnight city with vibrant electric color reflections on wet pavement">Neon-Lit Midnight City</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="margin-top: 18px;">
+                    <label for="adPlacement">Ad Placement & Aspect Ratio</label>
+                    <div class="input-hint">Proportions (--ar) for your target media format.</div>
+                    <select id="adPlacement" onchange="generatePrompt()">
+                        <option value="Billboard (Aspect Ratio 16:9, ultra-wide high-resolution cinematic format)" data-ar="16:9">Billboard (16:9 Ultra-Wide)</option>
+                        <option value="Instagram Ad (Aspect Ratio 1:1, square editorial composition)" data-ar="1:1">Instagram Ad (1:1 Square)</option>
+                        <option value="Instagram Reel / Story (Aspect Ratio 9:16, vertical full-screen mobile frame)" data-ar="9:16">Instagram Reel (9:16 Vertical)</option>
+                        <option value="NYC Subway Poster (Aspect Ratio 4:5, vertical portrait poster format)" data-ar="4:5">NYC Subway Poster (4:5 Vertical)</option>
+                        <option value="SoHo Street Wallscape Poster (Aspect Ratio 2:3, vertical outdoor wheatpaste poster format)" data-ar="2:3">SoHo Street Wallscape Poster (2:3)</option>
+                        <option value="Magazine Ad (Aspect Ratio 3:4, high-fashion editorial print layout)" data-ar="3:4">Magazine Ad (3:4 Print Layout)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- CARD 05: CUSTOM DETAILS (FULL WIDTH) -->
+            <div class="p-card full-width">
+                <div class="card-header-flex">
+                    <h2 class="card-title">05. Custom Details & Props</h2>
+                </div>
+                <div class="form-group">
+                    <label for="customDetail">Additional Accessories / Styling Notes</label>
+                    <div class="input-hint">Type any extra details like sunglasses, falling snowflakes, or specific props.</div>
+                    <input type="text" id="customDetail" placeholder="e.g., wearing sunglasses, holding a vintage leather handbag, winter snowflakes falling">
+                </div>
+                <div style="margin-top: 24px;">
+                    <button class="generate-pin-btn" onclick="generatePrompt()">Generate On-Brand Campaign Prompt</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- OUTPUT PINTEREST CARD -->
+        <div class="output-pin-card">
+            <h3>Generated AI Image Prompt (Production Ready)</h3>
+            <pre id="promptOutput">High-fashion Winter 2027 editorial campaign photograph for Lola Blankets titled 'Wrapped in Lola'. Subject: A stylish young woman wearing the oversized plush faux-fur scarf pulled up as a cozy hood framing the face, looking softly into camera, styled in quiet luxury old money apparel with cashmere knitwear and tailored wool coats. Setting: Through-the-glass café voyeur shot looking out from a warm interior to Central Park snowy pathways and historic stone bridges. Lighting & Atmosphere: Blushing dawn and early morning blue hour with crisp frost and cool pastel tones. Camera: Shot with tight intimate close-up face framing portrait focusing on tactile texture, natural film grain, luxurious volume. Output format optimized for Billboard (Aspect Ratio 16:9, ultra-wide high-resolution cinematic format). --ar 16:9 --style raw --v 6.0</pre>
+            <button class="save-pin-btn" onclick="copyPrompt()">Save / Copy Prompt to Clipboard</button>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleContextOptions() {
+            const imageType = document.getElementById('imageType').value;
+            const locationGroup = document.getElementById('locationGroup');
+            
+            if (imageType.includes('Macro Texture')) {
+                locationGroup.style.display = 'none';
+                document.getElementById('angle').value = 'tight intimate close-up face framing portrait focusing on tactile texture';
+                document.getElementById('adPlacement').value = 'Instagram Ad (Aspect Ratio 1:1, square editorial composition)';
+            } else {
+                locationGroup.style.display = 'block';
+            }
+            generatePrompt();
+        }
+
+        function randomizeSelections() {
+            const selects = document.querySelectorAll('select');
+            selects.forEach(select => {
+                const options = select.options;
+                if (options.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * options.length);
+                    select.selectedIndex = randomIndex;
+                }
+            });
+            toggleContextOptions();
+            generatePrompt();
+        }
+
+        function generatePrompt() {
+            const imageType = document.getElementById('imageType').value;
+            const patternColor = document.getElementById('patternColor').value;
+            const subjectType = document.getElementById('subjectType').value;
+            const outfitStyle = document.getElementById('outfitStyle').value;
+            const poseType = document.getElementById('poseType').value;
+            const nycLocation = document.getElementById('nycLocation').value;
+            const angle = document.getElementById('angle').value;
+            const timeOfDay = document.getElementById('timeOfDay').value;
+            
+            const adPlacementSelect = document.getElementById('adPlacement');
+            const adPlacement = adPlacementSelect.value;
+            const selectedOption = adPlacementSelect.options[adPlacementSelect.selectedIndex];
+            const aspectR = selectedOption ? selectedOption.getAttribute('data-ar') : '16:9';
+            
+            const customDetail = document.getElementById('customDetail').value;
+
+            let coreSubject = "";
+            let aestheticStyle = "";
+
+            if (imageType.includes('Through-Glass')) {
+                coreSubject = `High-fashion Winter 2027 voyeuristic editorial photograph titled 'Wrapped in Lola' for Lola Blankets. Shot from inside a cozy cafe looking outward through frost-kissed glass, featuring ${subjectType} ${poseType}, dressed in ${outfitStyle}, wearing a ${patternColor} at ${nycLocation}.`;
+                aestheticStyle = `Cinematic voyeuristic framing, shot with ${angle}, under ${timeOfDay}, atmospheric condensation on glass, natural 35mm film grain, luxurious winter fashion mood.`;
+            } else if (imageType.includes('Motion Blur')) {
+                coreSubject = `High-fashion dynamic motion action shot titled 'Wrapped in Lola' for Lola Blankets. Featuring ${subjectType} ${poseType}, wearing a ${patternColor} with ${outfitStyle} at ${nycLocation}.`;
+                aestheticStyle = `Dynamic motion blur background with sharp subject focus, shot with ${angle}, illuminated by ${timeOfDay}, high-energy fashion editorial look.`;
+            } else if (imageType.includes('Noir Urban')) {
+                coreSubject = `High-contrast cinematic noir fashion photograph titled 'Wrapped in Lola' for Lola Blankets. Featuring ${subjectType} ${poseType}, wearing a ${patternColor} with ${outfitStyle} at ${nycLocation}.`;
+                aestheticStyle = `Dramatic noir silhouette lighting, deep shadows and crisp rim highlights, shot with ${angle}, set during ${timeOfDay}, moody high-end editorial aesthetic.`;
+            } else if (imageType.includes('Overhead Aerial')) {
+                coreSubject = `Striking aerial overhead campaign shot titled 'Wrapped in Lola' for Lola Blankets. ${angle} at ${nycLocation}, featuring ${subjectType} ${poseType}, wearing a ${patternColor} with ${outfitStyle}.`;
+                aestheticStyle = `Cinematic aerial perspective, striking high-contrast geometric framing, illuminated by ${timeOfDay}, luxurious winter fashion mood.`;
+            } else if (imageType.includes('Puddle Reflection')) {
+                coreSubject = `Poetic artistic campaign photograph titled 'Wrapped in Lola' for Lola Blankets featuring ${subjectType} ${poseType}, wearing a ${patternColor} with ${outfitStyle} at ${nycLocation}.`;
+                aestheticStyle = `Symmetrical mirror-like puddle reflection on wet pavement, shot with ${angle}, under ${timeOfDay}, surreal high-fashion artistic mood.`;
+            } else {
+                coreSubject = `Macro luxury close-up editorial photograph of a ${patternColor} worn by ${subjectType}, focusing on the tactile faux-fur weave and quality garment styling.`;
+                aestheticStyle = `High-end fashion editorial macro shot, shallow depth of field with beautiful bokeh, illuminated by ${timeOfDay}, pristine texture rendering.`;
+            }
+
+            const customText = customDetail ? ` Additional details: ${customDetail}.` : "";
+            const finalPrompt = `High-fashion Winter 2027 campaign for Lola Blankets. Subject: ${coreSubject}${customText} Camera & Lighting: Shot with ${angle}, ${timeOfDay}, ${aestheticStyle}. Output format required: Optimized for ${adPlacement}. --ar ${aspectR} --style raw --v 6.0`;
+
+            document.getElementById('promptOutput').textContent = finalPrompt;
+        }
+
+        function copyPrompt() {
+            const text = document.getElementById('promptOutput').textContent;
+            navigator.clipboard.writeText(text);
+            const btn = document.querySelector('.save-pin-btn');
+            const originalText = btn.textContent;
+            btn.textContent = 'Saved to Pin Board!';
+            btn.style.backgroundColor = '#0A3701';
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.backgroundColor = '#440E03';
+            }, 2000);
+        }
+
+        // Initialize view on load
+        toggleContextOptions();
+    </script>
+</body>
+</html>
