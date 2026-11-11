@@ -80,7 +80,7 @@
     <!-- Top Kinetic Ticker Bar -->
     <div class="relative z-30 bg-black/30 backdrop-blur-md border-b border-white/10 text-xs font-mono py-2.5 overflow-hidden whitespace-nowrap">
         <div class="inline-block animate-[marquee_25s_linear_infinite] px-4 font-bold tracking-widest text-portfolioAccent">
-            ✦ ART 3041: A.I. FOR DESIGNERS &nbsp;&bull;&nbsp; SARAH INKATESHTA &nbsp;&bull;&nbsp; FALL 2026 &nbsp;&bull;&nbsp; 20 CURATED DELIVERABLES &nbsp;&bull;&nbsp;
+            ✦ ART 3041: A.I. FOR DESIGNERS &nbsp;&bull;&nbsp; SARAH INKATESHTA &nbsp;&bull;&nbsp; FALL 2026 &nbsp;&bull;&nbsp; CURATED DELIVERABLES &nbsp;&bull;&nbsp;
         </div>
     </div>
 
@@ -88,7 +88,7 @@
     <section class="relative w-full h-[65vh] min-h-[450px] overflow-hidden shadow-2xl border-b border-white/15">
         <img src="hero.png" alt="Sarah Inkateshta Hero Image" class="w-full h-full object-cover block" onerror="this.src='https://placehold.co/1600x900/ff1a75/cce6ff?text=A.I.+for+Designers'">
         <div class="absolute inset-0 bg-gradient-to-t from-portfolioBg via-portfolioBg/50 to-transparent flex items-end">
-            <div class="w-full max-w-4xl mx-auto p-6 sm:p-10 lg:p-12 pb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+            <div class="w-full max-w-5xl mx-auto p-6 sm:p-10 lg:p-12 pb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
                 <div>
                     <span class="inline-block px-3.5 py-1.5 rounded-full bg-portfolioAccent text-portfolioBg font-mono text-xs font-extrabold uppercase shadow-md mb-4">
                         CUNY Fall '26
@@ -104,8 +104,8 @@
         </div>
     </section>
 
-    <!-- Main Vertical Stack Layout Container -->
-    <div class="relative z-20 max-w-4xl mx-auto flex flex-col p-6 sm:p-10 lg:p-16 pt-8">
+    <!-- Main Container -->
+    <div class="relative z-20 max-w-5xl mx-auto flex flex-col p-6 sm:p-10 lg:p-16 pt-8">
 
         <!-- Metadata Card -->
         <div class="bg-gradient-to-br from-portfolioBg via-portfolioBg to-black/30 p-6 sm:p-8 rounded-3xl border border-white/15 shadow-xl mb-12 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
@@ -117,12 +117,12 @@
                 </a>
             </div>
             <div class="text-xs font-mono opacity-80 flex sm:flex-col items-center sm:items-end justify-between gap-2 pt-4 sm:pt-0 border-t sm:border-t-0 border-white/10">
-                <span>Total Deliverables: 20</span>
+                <span>Total Deliverables: 18</span>
                 <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Live Status</span>
             </div>
         </div>
 
-        <!-- MAIN WORKS SECTION: Vertical Stacked Cards -->
+        <!-- MAIN WORKS SECTION -->
         <main class="w-full flex-grow">
             
             <!-- Search & Category Filtering Bar -->
@@ -130,7 +130,7 @@
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                         <h2 class="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight">Assignments</h2>
-                        <p class="text-xs font-mono text-portfolioAccent mt-1">Explore assignments 01 through 20 below</p>
+                        <p class="text-xs font-mono text-portfolioAccent mt-1">Explore structured portfolio sections below</p>
                     </div>
 
                     <!-- Live Search Input -->
@@ -142,293 +142,287 @@
 
                 <!-- Category Filter Pills -->
                 <div class="flex flex-wrap gap-2 pt-2">
-                    <button onclick="filterCategory('all', this)" class="filter-btn active-tab px-4 py-1.5 rounded-full bg-white text-portfolioBg font-extrabold text-xs shadow-md transition-all cursor-pointer">All (20)</button>
+                    <button onclick="filterCategory('all', this)" class="filter-btn active-tab px-4 py-1.5 rounded-full bg-white text-portfolioBg font-extrabold text-xs shadow-md transition-all cursor-pointer">All (18)</button>
                     <button onclick="filterCategory('tools', this)" class="filter-btn px-4 py-1.5 rounded-full bg-black/20 hover:bg-white/30 text-white font-bold text-xs transition-all cursor-pointer">Tools & Patch</button>
                     <button onclick="filterCategory('posters', this)" class="filter-btn px-4 py-1.5 rounded-full bg-black/20 hover:bg-white/30 text-white font-bold text-xs transition-all cursor-pointer">Posters & Type</button>
                     <button onclick="filterCategory('guides', this)" class="filter-btn px-4 py-1.5 rounded-full bg-black/20 hover:bg-white/30 text-white font-bold text-xs transition-all cursor-pointer">Guides & Stories</button>
                 </div>
             </div>
 
-            <!-- Vertical Stacked Works List -->
-            <div id="worksList" class="flex flex-col gap-4">
+            <!-- Grouped & Coordinated Multi-Column Layout -->
+            <div id="worksList" class="space-y-12">
                 
-                <!-- 01 -->
-                <div onclick="openDrawer('01', 'Custom Instructions', 'chair.html', 'Setting up foundational custom instructions for AI design workflows.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="01 Custom Instructions" data-cat="guides">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">01</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">Guide</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Custom Instructions</div>
-                        </div>
+                <!-- SECTION 1: Assignments 01 - 06 -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3 border-b border-white/20 pb-2">
+                        <span class="px-3 py-1 rounded-full bg-black/30 font-mono text-xs text-portfolioAccent font-bold">Block 01</span>
+                        <h3 class="font-extrabold uppercase tracking-wider text-sm sm:text-base">Foundations & Narratives (01–06)</h3>
                     </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- 01 -->
+                        <div onclick="openDrawer('01', 'Custom Instructions', 'chair.html', 'Setting up foundational custom instructions for AI design workflows.', 'guides')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="01 Custom Instructions" data-cat="guides">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">01</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">Guide</div>
+                                    <div class="text-base font-bold tracking-tight">Custom Instructions</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
+                        </div>
+
+                        <!-- 02 -->
+                        <div onclick="openDrawer('02', 'A Style Guide for Your AI', 'handoff.md', 'Comprehensive documentation establishing visual and tonal parameters for AI models.', 'guides')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="02 A Style Guide for Your AI" data-cat="guides">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">02</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">Markdown Doc</div>
+                                    <div class="text-base font-bold tracking-tight">A Style Guide for Your AI</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
+                        </div>
+
+                        <!-- 03 -->
+                        <div onclick="openDrawer('03', 'Design a ___', 'design-a.html', 'Exploratory generative design prompt series focusing on novel artifact creation.', 'tools')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="03 Design a ___" data-cat="tools">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">03</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">Generative Lab</div>
+                                    <div class="text-base font-bold tracking-tight">Design a ___</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
+                        </div>
+
+                        <!-- 04 -->
+                        <div onclick="openDrawer('04', 'Commute Story', 'commute.html', 'Narrative journey mapping daily transit through AI-assisted storyboard imagery.', 'guides')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="04 Commute Story" data-cat="guides">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">04</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">Story Narrative</div>
+                                    <div class="text-base font-bold tracking-tight">Commute Story</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
+                        </div>
+
+                        <!-- 05 -->
+                        <div onclick="openDrawer('05', 'Become a Crea(i)tive Director', 'promotionalposters.html', 'Directing AI image generation pipelines for high-impact promotional campaign posters.', 'posters')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between sm:col-span-2" data-title="05 Become a Crea(i)tive Director" data-cat="posters">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">05</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">Campaign Art Direction</div>
+                                    <div class="text-base font-bold tracking-tight">Become a Crea(i)tive Director</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 02 -->
-                <div onclick="openDrawer('02', 'A Style Guide for Your AI', 'handoff.md', 'Comprehensive documentation establishing visual and tonal parameters for AI models.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="02 A Style Guide for Your AI" data-cat="guides">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">02</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">Markdown Doc</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">A Style Guide for Your AI</div>
-                        </div>
+                <!-- SECTION 2: Assignments 07 - 11 -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3 border-b border-white/20 pb-2">
+                        <span class="px-3 py-1 rounded-full bg-black/30 font-mono text-xs text-portfolioAccent font-bold">Block 02</span>
+                        <h3 class="font-extrabold uppercase tracking-wider text-sm sm:text-base">Posters & Systems (07–11)</h3>
                     </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- 07 -->
+                        <div onclick="openDrawer('07', 'Poster Generator', 'poster.html', 'Custom web tool for automated procedural poster layout generation.', 'posters')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="07 Poster Generator" data-cat="posters">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">07</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">Web Tool</div>
+                                    <div class="text-base font-bold tracking-tight">Poster Generator</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
+                        </div>
+
+                        <!-- 08 -->
+                        <div onclick="openDrawer('08', 'Additional Poster References', 'posterlinks.html', 'Curated moodboards and design references for poster aesthetics.', 'posters')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="08 Additional Poster References" data-cat="posters">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">08</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">Reference Library</div>
+                                    <div class="text-base font-bold tracking-tight">Additional Poster References</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
+                        </div>
+
+                        <!-- 09 -->
+                        <div onclick="openDrawer('09', 'Live Data Stream', 'livedata.html', 'Dynamic visualization incorporating real-time feeds into design parameters.', 'tools')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="09 Live Data Stream" data-cat="tools">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">09</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">Data Viz</div>
+                                    <div class="text-base font-bold tracking-tight">Live Data Stream</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
+                        </div>
+
+                        <!-- 10 -->
+                        <div onclick="openDrawer('10', 'Variable Type Poster', 'variabletype.html', 'Algorithmic typographic exploration leveraging variable font axes.', 'posters')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="10 Variable Type Poster" data-cat="posters">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">10</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">Typography</div>
+                                    <div class="text-base font-bold tracking-tight">Variable Type Poster</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
+                        </div>
+
+                        <!-- 11 -->
+                        <div onclick="openDrawer('11', 'Symbols by Hand', 'symbols.html', 'Bridging physical hand-drawn icons with digital AI vector refinement.', 'tools')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between sm:col-span-2" data-title="11 Symbols by Hand" data-cat="tools">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">11</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">Iconography</div>
+                                    <div class="text-base font-bold tracking-tight">Symbols by Hand</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 03 -->
-                <div onclick="openDrawer('03', 'Design a ___', 'design-a.html', 'Exploratory generative design prompt series focusing on novel artifact creation.', 'tools')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="03 Design a ___" data-cat="tools">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">03</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">Generative Lab</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Design a ___</div>
-                        </div>
+                <!-- SECTION 3: Assignments 12 - 15 -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3 border-b border-white/20 pb-2">
+                        <span class="px-3 py-1 rounded-full bg-black/30 font-mono text-xs text-portfolioAccent font-bold">Block 03</span>
+                        <h3 class="font-extrabold uppercase tracking-wider text-sm sm:text-base">Mission Patch Series (12–15)</h3>
                     </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- 12 -->
+                        <div onclick="openDrawer('12', 'Mission Patch Tool', 'missiontool.html', 'First iteration of the interactive mission patch designer app.', 'tools')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="12 Mission Patch Tool" data-cat="tools">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">12</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">App v1.0</div>
+                                    <div class="text-base font-bold tracking-tight">Mission Patch Tool</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
+                        </div>
+
+                        <!-- 13 -->
+                        <div onclick="openDrawer('13', 'Mission Patch Tool 2.0', 'missiontool2.html', 'Enhanced version with modular badge components and vector export.', 'tools')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="13 Mission Patch Tool 2.0" data-cat="tools">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">13</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">App v2.0</div>
+                                    <div class="text-base font-bold tracking-tight">Mission Patch Tool 2.0</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
+                        </div>
+
+                        <!-- 14 -->
+                        <div onclick="openDrawer('14', 'Version 3 Mission Patch Tool', 'missiontoolfinal.html', 'Refined feature-complete mission patch creator interface.', 'tools')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="14 Version 3 Mission Patch Tool" data-cat="tools">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">14</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">App v3.0</div>
+                                    <div class="text-base font-bold tracking-tight">Version 3 Mission Patch Tool</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
+                        </div>
+
+                        <!-- 15 -->
+                        <div onclick="openDrawer('15', 'Final Patch & Artist Statement', 'finalmissionpatch.html', 'The culminating insignia and comprehensive conceptual artist statement.', 'guides')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="15 Final Patch & Artist Statement" data-cat="guides">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">15</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">Culminating Project</div>
+                                    <div class="text-base font-bold tracking-tight">Final Patch & Artist Statement</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 04 -->
-                <div onclick="openDrawer('04', 'Commute Story', 'commute.html', 'Narrative journey mapping daily transit through AI-assisted storyboard imagery.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="04 Commute Story" data-cat="guides">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">04</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">Story Narrative</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Commute Story</div>
+                <!-- SECTION 4: Assignments 16 - 18 (Including New Prompt Builder Tool) -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3 border-b border-white/20 pb-2">
+                        <span class="px-3 py-1 rounded-full bg-black/30 font-mono text-xs text-portfolioAccent font-bold">Block 04</span>
+                        <h3 class="font-extrabold uppercase tracking-wider text-sm sm:text-base">Creative Director Campaigns (16–18)</h3>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- 16 -->
+                        <div onclick="openDrawer('16', 'Creative Director Pt. 1: Style Guide', 'cdcreativedirector.html', 'Creative director campaign art direction style guide deliverable.', 'posters')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="16 Creative Director Pt. 1: Style Guide" data-cat="posters">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">16</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">Creative Director</div>
+                                    <div class="text-base font-bold tracking-tight">Creative Director Pt. 1: Style Guide</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </div>
-                </div>
 
-                <!-- 05 -->
-                <div onclick="openDrawer('05', 'Become a Crea(i)tive Director', 'promotionalposters.html', 'Directing AI image generation pipelines for high-impact promotional campaign posters.', 'posters')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="05 Become a Crea(i)tive Director" data-cat="posters">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">05</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">Campaign Art Direction</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Become a Crea(i)tive Director</div>
+                        <!-- 17 -->
+                        <div onclick="openDrawer('17', 'Creative Director Pt. 2: Logo + Dynamic Hero', 'cd2.html', 'Dynamic hero image generator tool and visual campaign for the Winter collection.', 'posters')" class="project-card group p-5 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="17 Creative Director Pt. 2: Logo + Dynamic Hero" data-cat="posters">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-60 w-6">17</span>
+                                <div>
+                                    <div class="text-xs font-mono opacity-70">Creative Director</div>
+                                    <div class="text-base font-bold tracking-tight">Creative Director Pt. 2: Logo + Dynamic Hero</div>
+                                </div>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </div>
-                </div>
 
-                <!-- 06 -->
-                <div onclick="openDrawer('06', 'Experimental AI Interface', '#', 'Prototyping experimental multimodal interaction paradigms. [Coming Soon]', 'tools')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent/80 text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="06 Experimental AI Interface" data-cat="tools">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">06</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">Prototype</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Experimental AI Interface</div>
+                        <!-- 18 (NEW: Prompt Builder Tool) -->
+                        <div onclick="openDrawer('18', 'Creative Director Pt. 3: Prompt Builder Tool', 'promptbuilder.html', 'Interactive AI prompt builder tool and campaign asset generator for Winter collections.', 'tools')" class="project-card group p-5 rounded-3xl bg-white text-portfolioBg font-extrabold cursor-pointer border-2 border-white hover:bg-portfolioAccent transition-all shadow-2xl flex items-center justify-between sm:col-span-2 ring-4 ring-portfolioAccent/40" data-title="18 Creative Director Pt. 3: Prompt Builder Tool" data-cat="tools">
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-mono opacity-70 w-6">18</span>
+                                <div>
+                                    <div class="text-xs font-mono text-portfolioBg/80 font-bold flex items-center gap-1.5"><i class="fa-solid fa-sparkles"></i> New Tool Deliverable</div>
+                                    <div class="text-lg font-extrabold tracking-tight">Creative Director Pt. 3: Prompt Builder Tool</div>
+                                </div>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-portfolioBg text-portfolioAccent flex items-center justify-center transition-all shrink-0">
+                                <i class="fa-solid fa-arrow-right text-sm"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-flask text-sm"></i>
-                    </div>
-                </div>
-
-                <!-- 07 -->
-                <div onclick="openDrawer('07', 'Poster Generator', 'poster.html', 'Custom web tool for automated procedural poster layout generation.', 'posters')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="07 Poster Generator" data-cat="posters">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">07</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">Web Tool</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Poster Generator</div>
-                        </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </div>
-                </div>
-
-                <!-- 08 -->
-                <div onclick="openDrawer('08', 'Additional Poster References', 'posterlinks.html', 'Curated moodboards and design references for poster aesthetics.', 'posters')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="08 Additional Poster References" data-cat="posters">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">08</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">Reference Library</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Additional Poster References</div>
-                        </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </div>
-                </div>
-
-                <!-- 09 -->
-                <div onclick="openDrawer('09', 'Live Data Stream', 'livedata.html', 'Dynamic visualization incorporating real-time feeds into design parameters.', 'tools')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="09 Live Data Stream" data-cat="tools">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">09</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">Data Viz</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Live Data Stream</div>
-                        </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </div>
-                </div>
-
-                <!-- 10 -->
-                <div onclick="openDrawer('10', 'Variable Type Poster', 'variabletype.html', 'Algorithmic typographic exploration leveraging variable font axes.', 'posters')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="10 Variable Type Poster" data-cat="posters">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">10</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">Typography</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Variable Type Poster</div>
-                        </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </div>
-                </div>
-
-                <!-- 11 -->
-                <div onclick="openDrawer('11', 'Symbols by Hand', 'symbols.html', 'Bridging physical hand-drawn icons with digital AI vector refinement.', 'tools')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="11 Symbols by Hand" data-cat="tools">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">11</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">Iconography</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Symbols by Hand</div>
-                        </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </div>
-                </div>
-
-                <!-- 12 -->
-                <div onclick="openDrawer('12', 'Mission Patch Tool', 'missiontool.html', 'First iteration of the interactive mission patch designer app.', 'tools')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="12 Mission Patch Tool" data-cat="tools">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">12</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">App v1.0</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Mission Patch Tool</div>
-                        </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </div>
-                </div>
-
-                <!-- 13 -->
-                <div onclick="openDrawer('13', 'Mission Patch Tool 2.0', 'missiontool2.html', 'Enhanced version with modular badge components and vector export.', 'tools')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="13 Mission Patch Tool 2.0" data-cat="tools">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">13</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">App v2.0</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Mission Patch Tool 2.0</div>
-                        </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </div>
-                </div>
-
-                <!-- 14 -->
-                <div onclick="openDrawer('14', 'Version 3 Mission Patch Tool', 'missiontoolfinal.html', 'Refined feature-complete mission patch creator interface.', 'tools')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="14 Version 3 Mission Patch Tool" data-cat="tools">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">14</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">App v3.0</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Version 3 Mission Patch Tool</div>
-                        </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </div>
-                </div>
-
-                <!-- 15 -->
-                <div onclick="openDrawer('15', 'Final Patch & Artist Statement', 'finalmissionpatch.html', 'The culminating insignia and comprehensive conceptual artist statement.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="15 Final Patch & Artist Statement" data-cat="guides">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">15</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">Culminating Project</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Final Patch & Artist Statement</div>
-                        </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </div>
-                </div>
-
-                <!-- 16 -->
-                <div onclick="openDrawer('16', 'Creative Director Pt. 1: Style Guide', 'cdcreativedirector.html', 'Creative director campaign art direction style guide deliverable.', 'posters')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="16 Creative Director Pt. 1: Style Guide" data-cat="posters">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">16</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">Creative Director</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Creative Director Pt. 1: Style Guide</div>
-                        </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </div>
-                </div>
-
-                <!-- 17 (Connected to cd2.html) -->
-                <div onclick="openDrawer('17', 'Creative Director Pt. 2: Logo + Dynamic Hero', 'cd2.html', 'Dynamic hero image generator tool and visual campaign for the Winter collection.', 'posters')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent text-portfolioBg font-extrabold cursor-pointer border-2 border-portfolioAccent hover:bg-white transition-all shadow-xl flex items-center justify-between" data-title="17 Creative Director Pt. 2: Logo + Dynamic Hero" data-cat="posters">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">17</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-70">Creative Director</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight">Creative Director Pt. 2: Logo + Dynamic Hero</div>
-                        </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioBg/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-                    </div>
-                </div>
-
-                <!-- 18 -->
-                <div onclick="openDrawer('18', 'Coming Soon', '#', 'Future coursework deliverable slot.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent/30 text-portfolioAccent font-extrabold cursor-pointer border-2 border-dashed border-portfolioAccent/50 hover:bg-portfolioAccent hover:text-portfolioBg transition-all shadow-xl flex items-center justify-between" data-title="18 Coming Soon" data-cat="guides">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">18</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-60">Reserved</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight italic opacity-80">Coming Soon</div>
-                        </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioAccent/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-hourglass text-sm"></i>
-                    </div>
-                </div>
-
-                <!-- 19 -->
-                <div onclick="openDrawer('19', 'Coming Soon', '#', 'Future coursework deliverable slot.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent/30 text-portfolioAccent font-extrabold cursor-pointer border-2 border-dashed border-portfolioAccent/50 hover:bg-portfolioAccent hover:text-portfolioBg transition-all shadow-xl flex items-center justify-between" data-title="19 Coming Soon" data-cat="guides">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">19</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-60">Reserved</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight italic opacity-80">Coming Soon</div>
-                        </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioAccent/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-hourglass text-sm"></i>
-                    </div>
-                </div>
-
-                <!-- 20 -->
-                <div onclick="openDrawer('20', 'Coming Soon', '#', 'Future coursework deliverable slot.', 'guides')" class="project-card group p-5 sm:p-6 rounded-3xl bg-portfolioAccent/30 text-portfolioAccent font-extrabold cursor-pointer border-2 border-dashed border-portfolioAccent/50 hover:bg-portfolioAccent hover:text-portfolioBg transition-all shadow-xl flex items-center justify-between" data-title="20 Coming Soon" data-cat="guides">
-                    <div class="flex items-center gap-4 sm:gap-6">
-                        <span class="text-xs font-mono opacity-60 w-6">20</span>
-                        <div>
-                            <div class="text-xs font-mono opacity-60">Reserved</div>
-                            <div class="text-lg sm:text-xl font-bold tracking-tight italic opacity-80">Coming Soon</div>
-                        </div>
-                    </div>
-                    <div class="w-10 h-10 rounded-full bg-portfolioAccent/10 group-hover:bg-portfolioBg group-hover:text-portfolioAccent flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-hourglass text-sm"></i>
                     </div>
                 </div>
 
