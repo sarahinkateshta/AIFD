@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lola Blankets | Urban Campaign Gallery</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lola: {
+                            cream: '#FBF9F5',
+                            sand: '#EFECE6',
+                            taupe: '#D4CEC3',
+                            dark: '#1A1A1A',
+                            accent: '#8A7355',
+                            charcoal: '#2C2C2C'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FBF9F5;
+            color: #1A1A1A;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-[#FBF9F5] text-[#1A1A1A] antialiased selection:bg-[#8A7355] selection:text-white">
+
+    <!-- Hero Header -->
+    <header class="py-16 md:py-24 px-6 text-center max-w-4xl mx-auto">
+        <span class="text-xs font-semibold uppercase tracking-[0.3em] text-[#8A7355] mb-4 block">Fall / Winter Outdoor Campaign</span>
+        <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl font-normal tracking-tight text-[#1A1A1A] mb-6 leading-tight">
+            Wrapped in Lola.
+        </h1>
+        <p class="text-sm md:text-base text-[#2C2C2C]/80 max-w-2xl mx-auto font-light leading-relaxed">
+            Explore our metropolitan takeover across New York City—bringing ultimate tactile warmth, luxurious faux-fur textures, and effortless chic style to the bustling urban landscape.
+        </p>
+    </header>
+
+    <!-- Gallery Grid Section -->
+    <main id="gallery" class="max-w-7xl mx-auto px-6 pb-28">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+
+            <!-- Item 1 -->
+            <div class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#EFECE6] flex flex-col" onclick="openLightbox(0)">
+                <div class="relative overflow-hidden w-full aspect-[4/5] bg-[#EFECE6]">
+                    <img src="lolaad1.jpg" alt="Street box poster" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad1.jpg'">
+                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-4 py-2 bg-white/90 text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-md backdrop-blur-sm">View Mockup</span>
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow justify-between">
+                    <div>
+                        <h3 class="font-serif text-xl text-[#1A1A1A] mb-2">Street box poster</h3>
+                    </div>
+                    <p class="text-xs text-[#2C2C2C]/70 font-light leading-relaxed">
+                        An immersive street-level box takeover featuring raw metropolitan textures and high-end fashion warmth.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#EFECE6] flex flex-col" onclick="openLightbox(1)">
+                <div class="relative overflow-hidden w-full aspect-[4/5] bg-[#EFECE6]">
+                    <img src="lolaad2.jpg" alt="Winter snow billboard" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad2.jpg'">
+                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-4 py-2 bg-white/90 text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-md backdrop-blur-sm">View Mockup</span>
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow justify-between">
+                    <div>
+                        <h3 class="font-serif text-xl text-[#1A1A1A] mb-2">Winter snow billboard</h3>
+                    </div>
+                    <p class="text-xs text-[#2C2C2C]/70 font-light leading-relaxed">
+                        Towering over snowy New York City streets, commanding attention with luxurious faux-fur layering.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#EFECE6] flex flex-col" onclick="openLightbox(2)">
+                <div class="relative overflow-hidden w-full aspect-[4/5] bg-[#EFECE6]">
+                    <img src="lolaad3.jpg" alt="Paste-up poster worker" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad3.jpg'">
+                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-4 py-2 bg-white/90 text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-md backdrop-blur-sm">View Mockup</span>
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow justify-between">
+                    <div>
+                        <h3 class="font-serif text-xl text-[#1A1A1A] mb-2">Paste-up poster worker</h3>
+                    </div>
+                    <p class="text-xs text-[#2C2C2C]/70 font-light leading-relaxed">
+                        Authentic street wheatpaste campaign showcasing sophisticated winter outerwear against industrial backdrops.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#EFECE6] flex flex-col" onclick="openLightbox(3)">
+                <div class="relative overflow-hidden w-full aspect-[4/5] bg-[#EFECE6]">
+                    <img src="lolaad4.jpg" alt="Taxi top ad" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad4.jpg'">
+                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-4 py-2 bg-white/90 text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-md backdrop-blur-sm">View Mockup</span>
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow justify-between">
+                    <div>
+                        <h3 class="font-serif text-xl text-[#1A1A1A] mb-2">Taxi top ad</h3>
+                    </div>
+                    <p class="text-xs text-[#2C2C2C]/70 font-light leading-relaxed">
+                        Carried across Manhattan on iconic yellow cabs, highlighting the rich emerald green luxe faux-fur scarf.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#EFECE6] flex flex-col md:col-span-2 lg:col-span-1" onclick="openLightbox(4)">
+                <div class="relative overflow-hidden w-full aspect-[4/5] bg-[#EFECE6]">
+                    <img src="lolaad5.jpg" alt="Subway entrance station ad" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad5.jpg'">
+                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-4 py-2 bg-white/90 text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-md backdrop-blur-sm">View Mockup</span>
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow justify-between">
+                    <div>
+                        <h3 class="font-serif text-xl text-[#1A1A1A] mb-2">Subway entrance station ad</h3>
+                    </div>
+                    <p class="text-xs text-[#2C2C2C]/70 font-light leading-relaxed">
+                        High-impact transit station screen placement capturing commuters in the heart of the financial district.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#1A1A1A] text-[#FBF9F5] py-16 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 border-b border-white/10 pb-12">
+            <div class="font-serif text-2xl tracking-wider">LOLA BLANKETS</div>
+            <div class="flex space-x-8 text-xs uppercase tracking-widest text-[#D4CEC3]">
+                <a href="https://lolablankets.com/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Store</a>
+                <a href="#gallery" class="hover:text-white transition-colors">Gallery</a>
+                <a href="https://lolablankets.com/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Collection</a>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-[#D4CEC3]/60">
+            <p>&copy; 2026 Lola Blankets. All rights reserved.</p>
+            <p class="mt-4 md:mt-0">Crafted with luxury aesthetic and responsive precision.</p>
+        </div>
+    </footer>
+
+    <!-- Fullscreen Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 hidden items-center justify-center p-4 md:p-8 backdrop-blur-md opacity-0 transition-opacity duration-300">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white/80 hover:text-white text-3xl p-3 focus:outline-none z-10">&times;</button>
+        <button onclick="prevImage(event)" class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white text-3xl md:text-5xl p-3 focus:outline-none z-10 transition-colors">&#8249;</button>
+        <button onclick="nextImage(event)" class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white text-3xl md:text-5xl p-3 focus:outline-none z-10 transition-colors">&#8250;</button>
+
+        <div class="relative max-w-5xl max-h-[90vh] flex flex-col items-center justify-center fade-in" onclick="event.stopPropagation()">
+            <img id="lightbox-img" src="" alt="" class="max-h-[75vh] max-w-full object-contain rounded-lg shadow-2xl mb-4">
+            <div class="text-center">
+                <h3 id="lightbox-title" class="font-serif text-xl md:text-2xl text-white mb-2"></h3>
+                <p id="lightbox-desc" class="text-xs text-[#D4CEC3]/80 font-light max-w-md mx-auto"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Lightbox -->
+    <script>
+        const galleryData = [
+            { src: 'lolaad1.jpg', title: 'Street box poster', desc: 'An immersive street-level box takeover featuring raw metropolitan textures and high-end fashion warmth.' },
+            { src: 'lolaad2.jpg', title: 'Winter snow billboard', desc: 'Towering over snowy New York City streets, commanding attention with luxurious faux-fur layering.' },
+            { src: 'lolaad3.jpg', title: 'Paste-up poster worker', desc: 'Authentic street wheatpaste campaign showcasing sophisticated winter outerwear against industrial backdrops.' },
+            { src: 'lolaad4.jpg', title: 'Taxi top ad', desc: 'Carried across Manhattan on iconic yellow cabs, highlighting the rich emerald green luxe faux-fur scarf.' },
+            { src: 'lolaad5.jpg', title: 'Subway entrance station ad', desc: 'High-impact transit station screen placement capturing commuters in the heart of the financial district.' }
+        ];
+
+        let currentIndex = 0;
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxDesc = document.getElementById('lightbox-desc');
+
+        function openLightbox(index) {
+            currentIndex = index;
+            updateLightboxContent();
+            lightbox.classList.remove('hidden');
+            setTimeout(() => lightbox.classList.remove('opacity-0'), 10);
+            document.body.style.overflow = 'hidden
