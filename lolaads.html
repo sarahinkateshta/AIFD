@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lola Blankets | Urban Campaign Gallery</title>
+    <title>Lola Blankets | Gallery</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -50,7 +50,7 @@
     <header class="py-16 md:py-24 px-6 text-center max-w-4xl mx-auto">
         <span class="text-xs font-semibold uppercase tracking-[0.3em] text-[#8A7355] mb-4 block">Fall / Winter Outdoor Campaign</span>
         <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl font-normal tracking-tight text-[#1A1A1A] mb-6 leading-tight">
-            Wrapped in Lola.
+            Wrapped in Lola
         </h1>
         <p class="text-sm md:text-base text-[#2C2C2C]/80 max-w-2xl mx-auto font-light leading-relaxed">
             Explore our metropolitan takeover across New York City—bringing ultimate tactile warmth, luxurious faux-fur textures, and effortless chic style to the bustling urban landscape.
@@ -118,7 +118,7 @@
             <!-- Item 4 -->
             <div class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#EFECE6] flex flex-col" onclick="openLightbox(3)">
                 <div class="relative overflow-hidden w-full aspect-[4/5] bg-[#EFECE6]">
-                    <img src="lolaad4.jpg" alt="Taxi top ad" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad4.jpg'">
+                    <img src="lolaad4.webp" alt="Taxi top ad" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad4.webp'">
                     <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <span class="px-4 py-2 bg-white/90 text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-md backdrop-blur-sm">View Mockup</span>
                     </div>
@@ -171,16 +171,16 @@
     </footer>
 
     <!-- Fullscreen Lightbox Modal -->
-    <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 hidden items-center justify-center p-4 md:p-8 backdrop-blur-md opacity-0 transition-opacity duration-300">
+    <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 hidden flex items-center justify-center p-4 md:p-8 backdrop-blur-md opacity-0 transition-opacity duration-300">
         <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white/80 hover:text-white text-3xl p-3 focus:outline-none z-10">&times;</button>
         <button onclick="prevImage(event)" class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white text-3xl md:text-5xl p-3 focus:outline-none z-10 transition-colors">&#8249;</button>
         <button onclick="nextImage(event)" class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white text-3xl md:text-5xl p-3 focus:outline-none z-10 transition-colors">&#8250;</button>
 
-        <div class="relative max-w-5xl max-h-[90vh] flex flex-col items-center justify-center fade-in" onclick="event.stopPropagation()">
-            <img id="lightbox-img" src="" alt="" class="max-h-[75vh] max-w-full object-contain rounded-lg shadow-2xl mb-4">
-            <div class="text-center">
-                <h3 id="lightbox-title" class="font-serif text-xl md:text-2xl text-white mb-2"></h3>
-                <p id="lightbox-desc" class="text-xs text-[#D4CEC3]/80 font-light max-w-md mx-auto"></p>
+        <div class="relative max-w-5xl max-h-[90vh] w-full flex flex-col items-center justify-center text-center fade-in m-auto" onclick="event.stopPropagation()">
+            <img id="lightbox-img" src="" alt="" class="max-h-[70vh] max-w-full object-contain rounded-lg shadow-2xl mb-4 mx-auto">
+            <div class="text-center w-full flex flex-col items-center justify-center">
+                <h3 id="lightbox-title" class="font-serif text-xl md:text-2xl text-white mb-2 text-center"></h3>
+                <p id="lightbox-desc" class="text-xs text-[#D4CEC3]/80 font-light max-w-md mx-auto text-center"></p>
             </div>
         </div>
     </div>
@@ -191,7 +191,7 @@
             { src: 'lolaad1.jpg', title: 'Street box poster', desc: 'An immersive street-level box takeover featuring raw metropolitan textures and high-end fashion warmth.' },
             { src: 'lolaad2.jpg', title: 'Winter snow billboard', desc: 'Towering over snowy New York City streets, commanding attention with luxurious faux-fur layering.' },
             { src: 'lolaad3.jpg', title: 'Paste-up poster worker', desc: 'Authentic street wheatpaste campaign showcasing sophisticated winter outerwear against industrial backdrops.' },
-            { src: 'lolaad4.jpg', title: 'Taxi top ad', desc: 'Carried across Manhattan on iconic yellow cabs, highlighting the rich emerald green luxe faux-fur scarf.' },
+            { src: 'lolaad4.webp', title: 'Taxi top ad', desc: 'Carried across Manhattan on iconic yellow cabs, highlighting the rich emerald green luxe faux-fur scarf.' },
             { src: 'lolaad5.jpg', title: 'Subway entrance station ad', desc: 'High-impact transit station screen placement capturing commuters in the heart of the financial district.' }
         ];
 
@@ -206,4 +206,51 @@
             updateLightboxContent();
             lightbox.classList.remove('hidden');
             setTimeout(() => lightbox.classList.remove('opacity-0'), 10);
-            document.body.style.overflow = 'hidden
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('opacity-0');
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        function updateLightboxContent() {
+            const item = galleryData[currentIndex];
+            lightboxImg.src = item.src;
+            lightboxImg.alt = item.title;
+            lightboxTitle.textContent = item.title;
+            lightboxDesc.textContent = item.desc;
+        }
+
+        function prevImage(e) {
+            e.stopPropagation();
+            currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length;
+            updateLightboxContent();
+        }
+
+        function nextImage(e) {
+            e.stopPropagation();
+            currentIndex = (currentIndex + 1) % galleryData.length;
+            updateLightboxContent();
+        }
+
+        lightbox.addEventListener('click', closeLightbox);
+
+        document.addEventListener('keydown', function(e) {
+            if (lightbox.classList.contains('hidden')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') {
+                currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length;
+                updateLightboxContent();
+            }
+            if (e.key === 'ArrowRight') {
+                currentIndex = (currentIndex + 1) % galleryData.length;
+                updateLightboxContent();
+            }
+        });
+    </script>
+</body>
+</html>
