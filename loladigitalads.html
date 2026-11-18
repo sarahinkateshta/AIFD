@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lola Blankets | Campaign Showcase</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lola: {
+                            cream: '#FBF9F5',
+                            sand: '#EFECE6',
+                            taupe: '#D4CEC3',
+                            dark: '#1A1A1A',
+                            accent: '#8A7355',
+                            charcoal: '#2C2C2C'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FBF9F5;
+            color: #1A1A1A;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-[#FBF9F5] text-[#1A1A1A] antialiased selection:bg-[#8A7355] selection:text-white">
+
+    <!-- Hero Header -->
+    <header class="py-16 md:py-24 px-6 text-center max-w-4xl mx-auto">
+        <span class="text-xs font-semibold uppercase tracking-[0.3em] text-[#8A7355] mb-4 block">Winter Campaign Showcase</span>
+        <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl font-normal tracking-tight text-[#1A1A1A] mb-6 leading-tight">
+            Wrapped in Lola.
+        </h1>
+    </header>
+
+    <!-- Campaign Gallery Section (Original + Mockup fully visible with object-contain) -->
+    <main id="gallery" class="max-w-6xl mx-auto px-6 pb-28 space-y-16">
+
+        <!-- Row 1 -->
+        <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-[#EFECE6] flex flex-col">
+            <div class="mb-8 text-center max-w-2xl mx-auto">
+                <h3 class="font-serif text-3xl text-[#1A1A1A] mb-3">Digital Campaign Series 1</h3>
+                <p class="text-sm text-[#2C2C2C]/70 font-light leading-relaxed">
+                    Original editorial capture paired with the campaign mockup image.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Original Asset -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md flex items-center justify-center p-4">
+                    <img src="loladigital1.png" alt="loladigital1.png" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=loladigital1.png'">
+                    <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Original Asset</div>
+                    <button onclick="openLightbox('loladigital1.png', 'Campaign Series 1 - Original', 'Original digital campaign asset 1.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm">Preview Larger</span>
+                    </button>
+                </div>
+                <!-- Mockup Asset -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md flex items-center justify-center p-4">
+                    <img src="loladigital1n.png" alt="loladigital1n.png" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=loladigital1n.png'">
+                    <div class="absolute bottom-4 left-4 bg-[#8A7355] text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Campaign Mockup</div>
+                    <button onclick="openLightbox('loladigital1n.png', 'Campaign Series 1 - Mockup', 'Framed mockup presentation 1.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm">Preview Larger</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-[#EFECE6] flex flex-col">
+            <div class="mb-8 text-center max-w-2xl mx-auto">
+                <h3 class="font-serif text-3xl text-[#1A1A1A] mb-3">Digital Campaign Series 2</h3>
+                <p class="text-sm text-[#2C2C2C]/70 font-light leading-relaxed">
+                    Original editorial capture paired with the campaign mockup image.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Original Asset -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md flex items-center justify-center p-4">
+                    <img src="loladigital2.png" alt="loladigital2.png" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=loladigital2.png'">
+                    <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Original Asset</div>
+                    <button onclick="openLightbox('loladigital2.png', 'Campaign Series 2 - Original', 'Original digital campaign asset 2.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm">Preview Larger</span>
+                    </button>
+                </div>
+                <!-- Mockup Asset -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md flex items-center justify-center p-4">
+                    <img src="loladigital2n.png" alt="loladigital2n.png" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=loladigital2n.png'">
+                    <div class="absolute bottom-4 left-4 bg-[#8A7355] text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Campaign Mockup</div>
+                    <button onclick="openLightbox('loladigital2n.png', 'Campaign Series 2 - Mockup', 'Framed mockup presentation 2.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm">Preview Larger</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-[#EFECE6] flex flex-col">
+            <div class="mb-8 text-center max-w-2xl mx-auto">
+                <h3 class="font-serif text-3xl text-[#1A1A1A] mb-3">Digital Campaign Series 3</h3>
+                <p class="text-sm text-[#2C2C2C]/70 font-light leading-relaxed">
+                    Original editorial capture paired with the campaign mockup image.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Original Asset -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md flex items-center justify-center p-4">
+                    <img src="loladigital3.png" alt="loladigital3.png" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=loladigital3.png'">
+                    <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Original Asset</div>
+                    <button onclick="openLightbox('loladigital3.png', 'Campaign Series 3 - Original', 'Original digital campaign asset 3.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm">Preview Larger</span>
+                    </button>
+                </div>
+                <!-- Mockup Asset -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md flex items-center justify-center p-4">
+                    <img src="loladigital3n.png" alt="loladigital3n.png" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=loladigital3n.png'">
+                    <div class="absolute bottom-4 left-4 bg-[#8A7355] text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Campaign Mockup</div>
+                    <button onclick="openLightbox('loladigital3n.png', 'Campaign Series 3 - Mockup', 'Framed mockup presentation 3.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm">Preview Larger</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 4 -->
+        <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-[#EFECE6] flex flex-col">
+            <div class="mb-8 text-center max-w-2xl mx-auto">
+                <h3 class="font-serif text-3xl text-[#1A1A1A] mb-3">Digital Campaign Series 4</h3>
+                <p class="text-sm text-[#2C2C2C]/70 font-light leading-relaxed">
+                    Original editorial capture paired with the campaign mockup image.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Original Asset -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md flex items-center justify-center p-4">
+                    <img src="loladigital4.png" alt="loladigital4.png" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=loladigital4.png'">
+                    <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Original Asset</div>
+                    <button onclick="openLightbox('loladigital4.png', 'Campaign Series 4 - Original', 'Original digital campaign asset 4.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm">Preview Larger</span>
+                    </button>
+                </div>
+                <!-- Mockup Asset -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md flex items-center justify-center p-4">
+                    <img src="loladigital4n.png" alt="loladigital4n.png" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=loladigital4n.png'">
+                    <div class="absolute bottom-4 left-4 bg-[#8A7355] text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Campaign Mockup</div>
+                    <button onclick="openLightbox('loladigital4n.png', 'Campaign Series 4 - Mockup', 'Framed mockup presentation 4.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm">Preview Larger</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 5 -->
+        <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-[#EFECE6] flex flex-col">
+            <div class="mb-8 text-center max-w-2xl mx-auto">
+                <h3 class="font-serif text-3xl text-[#1A1A1A] mb-3">Digital Campaign Series 5</h3>
+                <p class="text-sm text-[#2C2C2C]/70 font-light leading-relaxed">
+                    Original editorial capture paired with the campaign mockup image.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Original Asset -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md flex items-center justify-center p-4">
+                    <img src="loladigital5.png" alt="loladigital5.png" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=loladigital5.png'">
+                    <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Original Asset</div>
+                    <button onclick="openLightbox('loladigital5.png', 'Campaign Series 5 - Original', 'Original digital campaign asset 5.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm">Preview Larger</span>
+                    </button>
+                </div>
+                <!-- Mockup Asset -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md flex items-center justify-center p-4">
+                    <img src="loladigital5n.png" alt="loladigital5n.png" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=loladigital5n.png'">
+                    <div class="absolute bottom-4 left-4 bg-[#8A7355] text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Campaign Mockup</div>
+                    <button onclick="openLightbox('loladigital5n.png', 'Campaign Series 5 - Mockup', 'Framed mockup presentation 5.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm">Preview Larger</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#1A1A1A] text-[#FBF9F5] py-16 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 border-b border-white/10 pb-12">
+            <div class="font-serif text-2xl tracking-wider">LOLA BLANKETS</div>
+            <div class="flex space-x-8 text-xs uppercase tracking-widest text-[#D4CEC3]">
+                <a href="https://lolablankets.com/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Store</a>
+                <a href="#gallery" class="hover:text-white transition-colors">Gallery</a>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-[#D4CEC3]/60">
+            <p>&copy; 2026 Lola Blankets. All rights reserved.</p>
+            <p class="mt-4 md:mt-0">Crafted with luxury aesthetic and responsive precision.</p>
+        </div>
+    </footer>
+
+    <!-- Fullscreen Lightbox Modal -->
+    <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 hidden flex items-center justify-center p-4 md:p-8 backdrop-blur-md opacity-0 transition-opacity duration-300" onclick="closeLightbox()">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white/80 hover:text-white text-3xl p-3 focus:outline-none z-10">&times;</button>
+        <div class="relative max-w-6xl max-h-[92vh] w-full flex flex-col items-center justify-center text-center fade-in m-auto" onclick="event.stopPropagation()">
+            <img id="lightbox-img" src="" alt="" class="max-h-[72vh] max-w-full object-contain rounded-xl shadow-2xl mb-4 mx-auto">
+            <div class="text-center w-full flex flex-col items-center justify-center">
+                <h3 id="lightbox-title" class="font-serif text-xl md:text-2xl text-white mb-2 text-center"></h3>
+                <p id="lightbox-desc" class="text-xs text-[#D4CEC3]/80 font-light max-w-md mx-auto text-center"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Lightbox -->
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxDesc = document.getElementById('lightbox-desc');
+
+        function openLightbox(src, title, desc) {
+            lightboxImg.src = src;
+            lightboxImg.alt = title;
+            lightboxTitle.textContent = title;
+            lightboxDesc.textContent = desc;
+            lightbox.classList.remove('hidden');
+            setTimeout(() => lightbox.classList.remove('opacity-0'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.add('opacity-0');
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (lightbox.classList.contains('hidden')) return;
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
+</body>
+</html>
