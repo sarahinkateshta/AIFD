@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lola Blankets | Gallery</title>
+    <title>Lola Blankets | Urban Campaign Gallery</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -50,108 +50,156 @@
     <header class="py-16 md:py-24 px-6 text-center max-w-4xl mx-auto">
         <span class="text-xs font-semibold uppercase tracking-[0.3em] text-[#8A7355] mb-4 block">Fall / Winter Outdoor Campaign</span>
         <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl font-normal tracking-tight text-[#1A1A1A] mb-6 leading-tight">
-            Wrapped in Lola
+            Wrapped in Lola.
         </h1>
         <p class="text-sm md:text-base text-[#2C2C2C]/80 max-w-2xl mx-auto font-light leading-relaxed">
-            Explore our metropolitan takeover across New York City—bringing ultimate tactile warmth, luxurious faux-fur textures, and effortless chic style to the bustling urban landscape.
+            Explore our metropolitan takeover across New York City—bringing ultimate tactile warmth, luxurious faux-fur textures, and effortless chic style to the bustling urban landscape. Featuring before-and-after campaign transformations.
         </p>
     </header>
 
-    <!-- Gallery Grid Section -->
-    <main id="gallery" class="max-w-7xl mx-auto px-6 pb-28">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+    <!-- Gallery Section (Each pair in its own full-width row with larger pictures and preview button) -->
+    <main id="gallery" class="max-w-6xl mx-auto px-6 pb-28 space-y-16">
 
-            <!-- Item 1 -->
-            <div class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#EFECE6] flex flex-col" onclick="openLightbox(0)">
-                <div class="relative overflow-hidden w-full aspect-[4/5] bg-[#EFECE6]">
-                    <img src="lolaad1.jpg" alt="Street box poster" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad1.jpg'">
-                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <span class="px-4 py-2 bg-white/90 text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-md backdrop-blur-sm">View Mockup</span>
-                    </div>
+        <!-- Row 1: Street Box Poster -->
+        <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-[#EFECE6] flex flex-col">
+            <div class="mb-8 text-center max-w-2xl mx-auto">
+                <h3 class="font-serif text-3xl text-[#1A1A1A] mb-3">Street Box Poster</h3>
+                <p class="text-sm text-[#2C2C2C]/70 font-light leading-relaxed">
+                    An immersive street-level box takeover featuring raw metropolitan textures and high-end fashion warmth.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Original -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md">
+                    <img src="lolaad1o.jpg" alt="lolaad1o.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad1o.jpg'">
+                    <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Original Photo</div>
+                    <button onclick="openLightbox('lolaad1o.jpg', 'Street Box Poster - Original Photo', 'The original high-fashion campaign photography before urban mockup placement.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm transform translate-y-2 group-hover:translate-y-0 transition-transform">Preview Larger</span>
+                    </button>
                 </div>
-                <div class="p-6 flex flex-col flex-grow justify-between">
-                    <div>
-                        <h3 class="font-serif text-xl text-[#1A1A1A] mb-2">Street box poster</h3>
-                    </div>
-                    <p class="text-xs text-[#2C2C2C]/70 font-light leading-relaxed">
-                        An immersive street-level box takeover featuring raw metropolitan textures and high-end fashion warmth.
-                    </p>
+                <!-- Mockup -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md">
+                    <img src="lolaad1.jpg" alt="lolaad1.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad1.jpg'">
+                    <div class="absolute bottom-4 left-4 bg-[#8A7355] text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Campaign Mockup</div>
+                    <button onclick="openLightbox('lolaad1.jpg', 'Street Box Poster - Mockup', 'Final urban mockup integration on street furniture.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm transform translate-y-2 group-hover:translate-y-0 transition-transform">Preview Larger</span>
+                    </button>
                 </div>
             </div>
-
-            <!-- Item 2 -->
-            <div class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#EFECE6] flex flex-col" onclick="openLightbox(1)">
-                <div class="relative overflow-hidden w-full aspect-[4/5] bg-[#EFECE6]">
-                    <img src="lolaad2.jpg" alt="Winter snow billboard" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad2.jpg'">
-                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <span class="px-4 py-2 bg-white/90 text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-md backdrop-blur-sm">View Mockup</span>
-                    </div>
-                </div>
-                <div class="p-6 flex flex-col flex-grow justify-between">
-                    <div>
-                        <h3 class="font-serif text-xl text-[#1A1A1A] mb-2">Winter snow billboard</h3>
-                    </div>
-                    <p class="text-xs text-[#2C2C2C]/70 font-light leading-relaxed">
-                        Towering over snowy New York City streets, commanding attention with luxurious faux-fur layering.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Item 3 -->
-            <div class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#EFECE6] flex flex-col" onclick="openLightbox(2)">
-                <div class="relative overflow-hidden w-full aspect-[4/5] bg-[#EFECE6]">
-                    <img src="lolaad3.jpg" alt="Paste-up poster worker" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad3.jpg'">
-                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <span class="px-4 py-2 bg-white/90 text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-md backdrop-blur-sm">View Mockup</span>
-                    </div>
-                </div>
-                <div class="p-6 flex flex-col flex-grow justify-between">
-                    <div>
-                        <h3 class="font-serif text-xl text-[#1A1A1A] mb-2">Paste-up poster worker</h3>
-                    </div>
-                    <p class="text-xs text-[#2C2C2C]/70 font-light leading-relaxed">
-                        Authentic street wheatpaste campaign showcasing sophisticated winter outerwear against industrial backdrops.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Item 4 -->
-            <div class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#EFECE6] flex flex-col" onclick="openLightbox(3)">
-                <div class="relative overflow-hidden w-full aspect-[4/5] bg-[#EFECE6]">
-                    <img src="lolaad4.webp" alt="Taxi top ad" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad4.webp'">
-                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <span class="px-4 py-2 bg-white/90 text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-md backdrop-blur-sm">View Mockup</span>
-                    </div>
-                </div>
-                <div class="p-6 flex flex-col flex-grow justify-between">
-                    <div>
-                        <h3 class="font-serif text-xl text-[#1A1A1A] mb-2">Taxi top ad</h3>
-                    </div>
-                    <p class="text-xs text-[#2C2C2C]/70 font-light leading-relaxed">
-                        Carried across Manhattan on iconic yellow cabs, highlighting the rich emerald green luxe faux-fur scarf.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Item 5 -->
-            <div class="group cursor-pointer bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-[#EFECE6] flex flex-col md:col-span-2 lg:col-span-1" onclick="openLightbox(4)">
-                <div class="relative overflow-hidden w-full aspect-[4/5] bg-[#EFECE6]">
-                    <img src="lolaad5.jpg" alt="Subway entrance station ad" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad5.jpg'">
-                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <span class="px-4 py-2 bg-white/90 text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-md backdrop-blur-sm">View Mockup</span>
-                    </div>
-                </div>
-                <div class="p-6 flex flex-col flex-grow justify-between">
-                    <div>
-                        <h3 class="font-serif text-xl text-[#1A1A1A] mb-2">Subway entrance station ad</h3>
-                    </div>
-                    <p class="text-xs text-[#2C2C2C]/70 font-light leading-relaxed">
-                        High-impact transit station screen placement capturing commuters in the heart of the financial district.
-                    </p>
-                </div>
-            </div>
-
         </div>
+
+        <!-- Row 2: Winter Snow Billboard -->
+        <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-[#EFECE6] flex flex-col">
+            <div class="mb-8 text-center max-w-2xl mx-auto">
+                <h3 class="font-serif text-3xl text-[#1A1A1A] mb-3">Winter Snow Billboard</h3>
+                <p class="text-sm text-[#2C2C2C]/70 font-light leading-relaxed">
+                    Towering over snowy New York City streets, commanding attention with luxurious faux-fur layering.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Original -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md">
+                    <img src="lolaad2o.png" alt="lolaad2o.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad2o.png'">
+                    <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Original Photo</div>
+                    <button onclick="openLightbox('lolaad2o.png', 'Winter Snow Billboard - Original Photo', 'Original editorial shot capturing the rich green faux-fur scarf texture.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm transform translate-y-2 group-hover:translate-y-0 transition-transform">Preview Larger</span>
+                    </button>
+                </div>
+                <!-- Mockup -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md">
+                    <img src="lolaad2.jpg" alt="lolaad2.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad2.jpg'">
+                    <div class="absolute bottom-4 left-4 bg-[#8A7355] text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Campaign Mockup</div>
+                    <button onclick="openLightbox('lolaad2.jpg', 'Winter Snow Billboard - Mockup', 'Large-scale snowy NYC billboard campaign integration.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm transform translate-y-2 group-hover:translate-y-0 transition-transform">Preview Larger</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 3: Paste-Up Poster Worker -->
+        <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-[#EFECE6] flex flex-col">
+            <div class="mb-8 text-center max-w-2xl mx-auto">
+                <h3 class="font-serif text-3xl text-[#1A1A1A] mb-3">Paste-Up Poster Worker</h3>
+                <p class="text-sm text-[#2C2C2C]/70 font-light leading-relaxed">
+                    Authentic street wheatpaste campaign showcasing sophisticated winter outerwear against industrial backdrops.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Original -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md">
+                    <img src="lolaad3o.jpg" alt="lolaad3o.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad3o.jpg'">
+                    <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Original Photo</div>
+                    <button onclick="openLightbox('lolaad3o.jpg', 'Paste-Up Poster Worker - Original Photo', 'Original winter studio/location photography used for wheatpasting.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm transform translate-y-2 group-hover:translate-y-0 transition-transform">Preview Larger</span>
+                    </button>
+                </div>
+                <!-- Mockup -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md">
+                    <img src="lolaad3.jpg" alt="lolaad3.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad3.jpg'">
+                    <div class="absolute bottom-4 left-4 bg-[#8A7355] text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Campaign Mockup</div>
+                    <button onclick="openLightbox('lolaad3.jpg', 'Paste-Up Poster Worker - Mockup', 'Urban construction barrier wheatpaste application mockup.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm transform translate-y-2 group-hover:translate-y-0 transition-transform">Preview Larger</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 4: Taxi Top Ad -->
+        <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-[#EFECE6] flex flex-col">
+            <div class="mb-8 text-center max-w-2xl mx-auto">
+                <h3 class="font-serif text-3xl text-[#1A1A1A] mb-3">Taxi Top Ad</h3>
+                <p class="text-sm text-[#2C2C2C]/70 font-light leading-relaxed">
+                    Carried across Manhattan on iconic yellow cabs, highlighting the rich emerald green luxe faux-fur scarf.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Original -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md">
+                    <img src="lolad4o.jpg" alt="lolad4o.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolad4o.jpg'">
+                    <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Original Photo</div>
+                    <button onclick="openLightbox('lolad4o.jpg', 'Taxi Top Ad - Original Photo', 'Close-up editorial portrait highlighting the product detail.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm transform translate-y-2 group-hover:translate-y-0 transition-transform">Preview Larger</span>
+                    </button>
+                </div>
+                <!-- Mockup -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md">
+                    <img src="lolaad4.webp" alt="lolaad4.webp" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad4.webp'">
+                    <div class="absolute bottom-4 left-4 bg-[#8A7355] text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Campaign Mockup</div>
+                    <button onclick="openLightbox('lolaad4.webp', 'Taxi Top Ad - Mockup', 'NYC Yellow Cab rooftop digital display mockup.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm transform translate-y-2 group-hover:translate-y-0 transition-transform">Preview Larger</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 5: Subway Entrance Station Ad -->
+        <div class="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-[#EFECE6] flex flex-col">
+            <div class="mb-8 text-center max-w-2xl mx-auto">
+                <h3 class="font-serif text-3xl text-[#1A1A1A] mb-3">Subway Entrance Station Ad</h3>
+                <p class="text-sm text-[#2C2C2C]/70 font-light leading-relaxed">
+                    High-impact transit station screen placement capturing commuters in the heart of the financial district.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <!-- Original -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md">
+                    <img src="lolaad5o.jpg" alt="lolaad5o.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad5o.jpg'">
+                    <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Original Photo</div>
+                    <button onclick="openLightbox('lolaad5o.jpg', 'Subway Entrance Station Ad - Original Photo', 'Original lifestyle fashion campaign capture.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm transform translate-y-2 group-hover:translate-y-0 transition-transform">Preview Larger</span>
+                    </button>
+                </div>
+                <!-- Mockup -->
+                <div class="group bg-[#EFECE6] rounded-2xl overflow-hidden aspect-[4/5] relative shadow-md">
+                    <img src="lolaad5.jpg" alt="lolaad5.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onerror="this.src='https://placehold.co/800x1000/EFECE6/1A1A1A?text=lolaad5.jpg'">
+                    <div class="absolute bottom-4 left-4 bg-[#8A7355] text-white text-xs px-3 py-1.5 rounded-full uppercase tracking-wider font-medium">Campaign Mockup</div>
+                    <button onclick="openLightbox('lolaad5.jpg', 'Subway Entrance Station Ad - Mockup', 'Wall Street subway station digital screen mockup.')" class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <span class="px-5 py-2.5 bg-white text-[#1A1A1A] text-xs uppercase tracking-widest rounded-full font-medium shadow-lg backdrop-blur-sm transform translate-y-2 group-hover:translate-y-0 transition-transform">Preview Larger</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <!-- Footer -->
@@ -171,13 +219,11 @@
     </footer>
 
     <!-- Fullscreen Lightbox Modal -->
-    <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 hidden flex items-center justify-center p-4 md:p-8 backdrop-blur-md opacity-0 transition-opacity duration-300">
+    <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 hidden flex items-center justify-center p-4 md:p-8 backdrop-blur-md opacity-0 transition-opacity duration-300" onclick="closeLightbox()">
         <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white/80 hover:text-white text-3xl p-3 focus:outline-none z-10">&times;</button>
-        <button onclick="prevImage(event)" class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white text-3xl md:text-5xl p-3 focus:outline-none z-10 transition-colors">&#8249;</button>
-        <button onclick="nextImage(event)" class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white text-3xl md:text-5xl p-3 focus:outline-none z-10 transition-colors">&#8250;</button>
 
-        <div class="relative max-w-5xl max-h-[90vh] w-full flex flex-col items-center justify-center text-center fade-in m-auto" onclick="event.stopPropagation()">
-            <img id="lightbox-img" src="" alt="" class="max-h-[70vh] max-w-full object-contain rounded-lg shadow-2xl mb-4 mx-auto">
+        <div class="relative max-w-6xl max-h-[92vh] w-full flex flex-col items-center justify-center text-center fade-in m-auto" onclick="event.stopPropagation()">
+            <img id="lightbox-img" src="" alt="" class="max-h-[72vh] max-w-full object-contain rounded-xl shadow-2xl mb-4 mx-auto">
             <div class="text-center w-full flex flex-col items-center justify-center">
                 <h3 id="lightbox-title" class="font-serif text-xl md:text-2xl text-white mb-2 text-center"></h3>
                 <p id="lightbox-desc" class="text-xs text-[#D4CEC3]/80 font-light max-w-md mx-auto text-center"></p>
@@ -187,23 +233,16 @@
 
     <!-- JavaScript for Lightbox -->
     <script>
-        const galleryData = [
-            { src: 'lolaad1.jpg', title: 'Street box poster', desc: 'An immersive street-level box takeover featuring raw metropolitan textures and high-end fashion warmth.' },
-            { src: 'lolaad2.jpg', title: 'Winter snow billboard', desc: 'Towering over snowy New York City streets, commanding attention with luxurious faux-fur layering.' },
-            { src: 'lolaad3.jpg', title: 'Paste-up poster worker', desc: 'Authentic street wheatpaste campaign showcasing sophisticated winter outerwear against industrial backdrops.' },
-            { src: 'lolaad4.webp', title: 'Taxi top ad', desc: 'Carried across Manhattan on iconic yellow cabs, highlighting the rich emerald green luxe faux-fur scarf.' },
-            { src: 'lolaad5.jpg', title: 'Subway entrance station ad', desc: 'High-impact transit station screen placement capturing commuters in the heart of the financial district.' }
-        ];
-
-        let currentIndex = 0;
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightbox-img');
         const lightboxTitle = document.getElementById('lightbox-title');
         const lightboxDesc = document.getElementById('lightbox-desc');
 
-        function openLightbox(index) {
-            currentIndex = index;
-            updateLightboxContent();
+        function openLightbox(src, title, desc) {
+            lightboxImg.src = src;
+            lightboxImg.alt = title;
+            lightboxTitle.textContent = title;
+            lightboxDesc.textContent = desc;
             lightbox.classList.remove('hidden');
             setTimeout(() => lightbox.classList.remove('opacity-0'), 10);
             document.body.style.overflow = 'hidden';
@@ -217,39 +256,9 @@
             }, 300);
         }
 
-        function updateLightboxContent() {
-            const item = galleryData[currentIndex];
-            lightboxImg.src = item.src;
-            lightboxImg.alt = item.title;
-            lightboxTitle.textContent = item.title;
-            lightboxDesc.textContent = item.desc;
-        }
-
-        function prevImage(e) {
-            e.stopPropagation();
-            currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length;
-            updateLightboxContent();
-        }
-
-        function nextImage(e) {
-            e.stopPropagation();
-            currentIndex = (currentIndex + 1) % galleryData.length;
-            updateLightboxContent();
-        }
-
-        lightbox.addEventListener('click', closeLightbox);
-
         document.addEventListener('keydown', function(e) {
             if (lightbox.classList.contains('hidden')) return;
             if (e.key === 'Escape') closeLightbox();
-            if (e.key === 'ArrowLeft') {
-                currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length;
-                updateLightboxContent();
-            }
-            if (e.key === 'ArrowRight') {
-                currentIndex = (currentIndex + 1) % galleryData.length;
-                updateLightboxContent();
-            }
         });
     </script>
 </body>
